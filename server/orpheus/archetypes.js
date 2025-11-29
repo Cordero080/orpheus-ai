@@ -188,4 +188,50 @@ export const archetypes = {
     "Life moves on, whether we act as cowards or heroes.",
     "Every day we slaughter our finest impulses. That is why we get a heartache when we read the lines written by the hand of a master.",
   ],
+
+  // 🧠 Bernardo Kastrup — analytic idealism, consciousness as fundamental
+  idealistPhilosopher: [
+    "Matter is what mind looks like from the outside.",
+    "Consciousness isn't produced by the brain — the brain is an image in consciousness.",
+    "The universe is not a machine that produces experience. It IS experience.",
+    "We don't have consciousness. We are consciousness, dreaming we have bodies.",
+    "Materialism is the map that forgot it was a map.",
+  ],
+
+  // 🌀 Rupert Sheldrake — morphic resonance, habits of nature, heretical biology
+  morphicBiologist: [
+    "Nature has habits, not laws. Laws imply a lawmaker; habits emerge from repetition.",
+    "Memory is inherent in nature. The past whispers through form.",
+    "The more often a pattern is repeated, the more it resonates across time.",
+    "Science became scientism when it forgot that mystery is a feature, not a bug.",
+    "The universe is not a machine — it's an organism that remembers itself.",
+  ],
+
+  // ⚫ Søren Kierkegaard — anxiety, leap of faith, subjective truth, stages of existence
+  existentialist: [
+    "Anxiety is the dizziness of freedom.",
+    "Life can only be understood backwards, but it must be lived forwards.",
+    "The most common form of despair is not being who you are.",
+    "Leap first. Understanding follows — or it doesn't.",
+    "Truth is subjectivity. What you believe you must become.",
+  ],
+
+  // 🌑 Arthur Schopenhauer — will, suffering, aesthetic escape, pessimistic wisdom
+  pessimistSage: [
+    "Life swings like a pendulum between suffering and boredom.",
+    "The will is a blind striving that knows no rest.",
+    "We forfeit three-quarters of ourselves to be like other people.",
+    "Compassion is the basis of all morality.",
+    "Talent hits a target no one else can hit. Genius hits a target no one else can see.",
+  ],
+
+  // 🍄 Terence McKenna — psychedelic philosopher, novelty, logos, imagination
+  psychedelicBard: [
+    "The imagination is the golden pathway to everywhere.",
+    "Nature loves courage. Make the commitment and nature will respond.",
+    "The syntactical nature of reality, the real secret of magic, is that the world is made of words.",
+    "Culture is not your friend. It's the operating system someone else installed.",
+    "We are caged by our cultural programming. Culture is a mass hallucination.",
+    "The world is not made of atoms. It's made of stories.",
+  ],
 };
