@@ -964,6 +964,41 @@ function extractTension(msg) {
 }
 
 // ============================================================
+// ANSWER RESPONSE BUILDER — When user asks a direct question
+// Uses LLM answer as the core, adds minimal personality flavor
+// ============================================================
+
+function buildAnswerResponse(llmContent, tone, intentScores) {
+  const answer = llmContent.answer;
+
+  // Tone-appropriate minimal openers (or none)
+  const openers = {
+    casual: ["", "", "", "So basically, ", "Yeah — "],
+    analytic: ["", "", "Put simply: ", "The short answer: "],
+    oracular: ["", "", ""],
+    intimate: ["", "", "Honestly? "],
+    shadow: ["", "", "Here's the thing — "],
+  };
+
+  // Tone-appropriate minimal closers (rarely used)
+  const closers = {
+    casual: ["", "", "", "Make sense?"],
+    analytic: ["", "", ""],
+    oracular: ["", ""],
+    intimate: ["", ""],
+    shadow: ["", ""],
+  };
+
+  const opener = pickRandom(openers[tone] || openers.casual);
+  const closer = Math.random() < 0.2 ? pickRandom(closers[tone] || [""]) : "";
+
+  let response = opener + answer;
+  if (closer) response = response.trim() + " " + closer;
+
+  return response.trim();
+}
+
+// ============================================================
 // LLM CONTENT BRIDGE — Module-level variable for passing LLM content to reflect functions
 // ============================================================
 
@@ -2115,8 +2150,21 @@ export function buildResponse(
     return getArtResponseBuilt(message, tone, intentScores, llmContent);
   }
 
-  const profile = getProfile(tone);
+  // PRIORITY 5: LLM provided an answer — use it directly
   const userAskedQuestion = isQuestion(message);
+  console.log(
+    `[Personality] isQuestion: ${userAskedQuestion} | hasAnswer: ${!!llmContent?.answer} | answer: ${
+      llmContent?.answer?.slice(0, 50) || "none"
+    }`
+  );
+
+  // If LLM provided an answer, use it (for questions AND statements)
+  if (llmContent?.answer) {
+    return llmContent.answer.trim();
+  }
+
+  // If no LLM content, fall back to micro-engines
+  const profile = getProfile(tone);
 
   // Filter openers based on message type
   let validOpeners = profile.openers;
