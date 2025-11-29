@@ -545,7 +545,10 @@ export function filterBlacklistedContent(memory, response) {
   let filtered = response;
   for (const item of memory.phraseBlacklist) {
     // Case-insensitive replacement
-    const regex = new RegExp(item.phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi");
+    const regex = new RegExp(
+      item.phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
+      "gi"
+    );
     filtered = filtered.replace(regex, "");
   }
 
@@ -596,8 +599,8 @@ export function getTopicWeight(topic, memory) {
   }
 
   // Struggle-related topics get boosted
-  const relatedStruggle = memory.struggles.some(
-    (s) => s.description.toLowerCase().includes(topic.toLowerCase())
+  const relatedStruggle = memory.struggles.some((s) =>
+    s.description.toLowerCase().includes(topic.toLowerCase())
   );
   if (relatedStruggle) {
     weight *= 1.5;
