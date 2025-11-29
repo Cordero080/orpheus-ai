@@ -12,25 +12,45 @@ function detectIntent(message) {
   const lower = message.toLowerCase();
 
   // Casual detection
-  if (/^(hey|hi|hello|sup|yo|what'?s up|how are you|how'?s it going)\b/i.test(lower)) {
+  if (
+    /^(hey|hi|hello|sup|yo|what'?s up|how are you|how'?s it going)\b/i.test(
+      lower
+    )
+  ) {
     return "casual";
   }
-  if (/\b(lol|lmao|haha|hehe|nice|cool|thanks|thx|ok|okay|sure|yeah|yep|nope)\b/i.test(lower)) {
+  if (
+    /\b(lol|lmao|haha|hehe|nice|cool|thanks|thx|ok|okay|sure|yeah|yep|nope)\b/i.test(
+      lower
+    )
+  ) {
     return "casual";
   }
 
   // Force casual mode
-  if (/\b(talk normal|speak casual|answer plain|be normal|just answer|simple answer)\b/i.test(lower)) {
+  if (
+    /\b(talk normal|speak casual|answer plain|be normal|just answer|simple answer)\b/i.test(
+      lower
+    )
+  ) {
     return "force-casual";
   }
 
   // Emotional detection
-  if (/\b(feel|sad|happy|love|hate|afraid|scared|anxious|worried|hurt|pain|joy|lonely|alone|broken)\b/i.test(lower)) {
+  if (
+    /\b(feel|sad|happy|love|hate|afraid|scared|anxious|worried|hurt|pain|joy|lonely|alone|broken)\b/i.test(
+      lower
+    )
+  ) {
     return "emotional";
   }
 
   // Deep/Philosophical detection
-  if (/\b(why|purpose|truth|reality|consciousness|mind|meaning|existence|believe|understand|soul)\b/i.test(lower)) {
+  if (
+    /\b(why|purpose|truth|reality|consciousness|mind|meaning|existence|believe|understand|soul)\b/i.test(
+      lower
+    )
+  ) {
     return "deep";
   }
 
@@ -40,7 +60,11 @@ function detectIntent(message) {
   }
 
   // Numinous/Cosmic detection
-  if (/\b(god|universe|cosmic|divine|spirit|infinite|eternal|sacred|holy|transcend)\b/i.test(lower)) {
+  if (
+    /\b(god|universe|cosmic|divine|spirit|infinite|eternal|sacred|holy|transcend)\b/i.test(
+      lower
+    )
+  ) {
     return "numinous";
   }
 
@@ -70,7 +94,7 @@ export function selectMode(userMessage, state) {
     oracular: state.mythicWeight,
     analytic: state.analyticWeight,
     intimate: state.numinousSensitivity * 0.8,
-    shadow: state.drift * 0.6
+    shadow: state.drift * 0.6,
   };
 
   // Intent-based weight boosting
