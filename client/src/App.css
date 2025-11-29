@@ -224,7 +224,7 @@
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  margin-left: 280px; /* Account for sidebar */
+  margin-left: 200px; /* Account for minimal sidebar */
   font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
   overflow: hidden;
   display: flex;
@@ -239,7 +239,7 @@
 
 /* When sidebar is collapsed */
 .app-layout:has(.sidebar.collapsed) .app-container {
-  margin-left: 70px;
+  margin-left: 20px;
 }
 
 /* ============================================

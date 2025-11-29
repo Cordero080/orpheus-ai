@@ -1,6 +1,6 @@
 /* ============================================
    SIDEBAR — Conversation History
-   Dark holographic glassmorphism style
+   Minimal futuristic style
    ============================================ */
 
 .sidebar {
@@ -8,159 +8,196 @@
   left: 0;
   top: 0;
   height: 100vh;
-  width: 260px;
+  width: 200px;
   
-  /* Dark holographic glassmorphism */
-  background: rgba(5, 5, 15, 0.8);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  /* Ultra minimal dark */
+  background: rgba(3, 3, 8, 0.95);
   
-  /* Right edge glow border */
-  border-right: 1px solid rgba(0, 212, 255, 0.2);
-  box-shadow: 
-    inset -1px 0 0 rgba(138, 43, 226, 0.1),
-    4px 0 30px rgba(0, 0, 0, 0.5);
+  /* Subtle edge line */
+  border-right: 1px solid rgba(255, 255, 255, 0.03);
   
   display: flex;
   flex-direction: column;
-  padding: 20px 0;
+  padding: 24px 12px;
   z-index: 100;
   
-  transition: width 0.3s ease, transform 0.3s ease;
+  transition: width 0.3s ease, opacity 0.3s ease;
 }
 
 .sidebar.collapsed {
-  width: 50px;
+  width: 0;
+  padding: 0;
+  opacity: 0;
+  pointer-events: none;
 }
 
-/* Toggle button */
+/* Toggle button - minimal dot */
 .sidebar-toggle {
   position: absolute;
-  right: -12px;
+  right: -20px;
   top: 50%;
   transform: translateY(-50%);
   
-  width: 24px;
-  height: 48px;
+  width: 8px;
+  height: 40px;
   
-  background: rgba(10, 10, 25, 0.9);
-  border: 1px solid rgba(0, 212, 255, 0.3);
-  border-radius: 0 8px 8px 0;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 4px;
   
-  color: rgba(0, 212, 255, 0.8);
-  font-size: 10px;
   cursor: pointer;
-  
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  
   transition: all 0.2s ease;
 }
 
 .sidebar-toggle:hover {
-  background: rgba(0, 212, 255, 0.1);
-  border-color: rgba(0, 212, 255, 0.5);
-  color: #00d4ff;
+  background: rgba(0, 212, 255, 0.3);
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
 }
 
-/* New chat button */
+.toggle-icon {
+  display: none;
+}
+
+/* New chat button - hexagonal stadium shape */
 .new-chat-btn {
-  margin: 0 16px 20px;
-  padding: 12px 16px;
+  margin: 0 0 24px;
+  padding: 12px 24px;
   
-  background: linear-gradient(135deg, rgba(138, 43, 226, 0.3), rgba(0, 212, 255, 0.2));
-  border: 1px solid rgba(0, 212, 255, 0.3);
-  border-radius: 8px;
+  background: rgba(0, 212, 255, 0.08);
+  border: none;
   
-  color: #e0f7ff;
+  /* Hexagonal stadium - beveled pill */
+  clip-path: polygon(
+    15px 0%, 
+    calc(100% - 15px) 0%,
+    100% 50%,
+    calc(100% - 15px) 100%,
+    15px 100%,
+    0% 50%
+  );
+  
+  color: rgba(0, 240, 255, 0.9);
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.85rem;
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
   
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  gap: 8px;
   cursor: pointer;
   
-  transition: all 0.2s ease;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+/* Border glow effect */
+.new-chat-btn::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 212, 255, 0.4),
+    rgba(138, 43, 226, 0.3),
+    rgba(0, 212, 255, 0.4)
+  );
+  clip-path: polygon(
+    15px 0%, 
+    calc(100% - 15px) 0%,
+    100% 50%,
+    calc(100% - 15px) 100%,
+    15px 100%,
+    0% 50%
+  );
+  z-index: -1;
 }
 
 .new-chat-btn:hover {
-  background: linear-gradient(135deg, rgba(138, 43, 226, 0.5), rgba(0, 212, 255, 0.3));
-  border-color: rgba(0, 212, 255, 0.6);
-  box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+  background: rgba(0, 212, 255, 0.18);
+  color: #00f0ff;
+  box-shadow: 
+    0 0 25px rgba(0, 212, 255, 0.25);
+}
+
+.new-chat-btn:hover::before {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 212, 255, 0.6),
+    rgba(138, 43, 226, 0.5),
+    rgba(0, 212, 255, 0.6)
+  );
 }
 
 .plus-icon {
-  font-size: 1.2rem;
-  color: #00d4ff;
+  font-size: 0.9rem;
+  font-weight: 300;
+  color: #00f0ff;
 }
 
 /* Conversation list */
 .conversation-list {
   flex: 1;
   overflow-y: auto;
-  padding: 0 8px;
+  padding: 0;
   
-  scrollbar-width: thin;
-  scrollbar-color: rgba(138, 43, 226, 0.3) transparent;
+  scrollbar-width: none;
+}
+
+.conversation-list::-webkit-scrollbar {
+  display: none;
 }
 
 .list-header {
-  padding: 8px 12px;
-  font-size: 0.7rem;
+  padding: 4px 0 12px;
+  font-size: 0.55rem;
   text-transform: uppercase;
-  letter-spacing: 2px;
-  color: rgba(138, 43, 226, 0.7);
+  letter-spacing: 3px;
+  color: rgba(255, 255, 255, 0.2);
   font-family: 'JetBrains Mono', monospace;
 }
 
 .empty-state {
-  padding: 20px 12px;
-  color: rgba(255, 255, 255, 0.3);
-  font-size: 0.8rem;
-  font-style: italic;
+  padding: 20px 0;
+  color: rgba(255, 255, 255, 0.15);
+  font-size: 0.7rem;
   text-align: center;
 }
 
-/* Conversation item */
+/* Conversation item - minimal */
 .conversation-item {
   width: 100%;
-  padding: 12px;
-  margin-bottom: 4px;
+  padding: 8px 0;
   
   background: transparent;
-  border: 1px solid transparent;
-  border-radius: 6px;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.02);
   
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.4);
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   text-align: left;
   
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   cursor: pointer;
   
   transition: all 0.2s ease;
 }
 
 .conversation-item:hover {
-  background: rgba(0, 212, 255, 0.05);
-  border-color: rgba(0, 212, 255, 0.1);
-  color: #fff;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .conversation-item.active {
-  background: rgba(138, 43, 226, 0.15);
-  border-color: rgba(138, 43, 226, 0.3);
-  color: #e8e0ff;
+  color: #00f0ff;
 }
 
 .conv-icon {
-  font-size: 0.9rem;
-  opacity: 0.7;
+  font-size: 0.6rem;
+  opacity: 0.5;
 }
 
 .conv-title {
@@ -171,6 +208,6 @@
 }
 
 .conv-date {
-  font-size: 0.65rem;
-  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.5rem;
+  color: rgba(255, 255, 255, 0.15);
 }

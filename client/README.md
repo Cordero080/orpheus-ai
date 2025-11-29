@@ -1,16 +1,60 @@
-# React + Vite
+# ORPHEUS — AI Companion
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A quantum holographic AI companion with a multi-layer consciousness system.
 
-Currently, two official plugins are available:
+## Consciousness Engines
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Orpheus's mind is powered by 4 cognitive engines, visualized in the Consciousness Indicator:
 
-## React Compiler
+| Engine  | Icon                | Color               | Purpose                                      |
+| ------- | ------------------- | ------------------- | -------------------------------------------- |
+| **MEM** | Brain with circuits | `#00f0ff` (cyan)    | Long-term memory recall                      |
+| **ARC** | Mask/persona        | `#c084fc` (purple)  | Personality archetypes & behavioral patterns |
+| **REF** | Eye with spiral     | `#ff44dd` (magenta) | Introspection & self-analysis                |
+| **SYN** | Network nodes       | `#22ffaa` (green)   | Synthesizes inputs into coherent responses   |
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+The indicator shows which "part of Orpheus's mind" is active when processing a response.
 
-## Expanding the ESLint configuration
+### What Each Engine Does
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+**MEM (Memory)** — _The Historian_  
+Stores and retrieves past conversations, learned preferences, and contextual knowledge. Gives Orpheus continuity and the ability to remember you.
+
+**ARC (Archetype)** — _The Persona_  
+Contains Orpheus's personality templates — who it _is_. This is where the tone, attitude, speaking style, and character traits live. It's the "soul" or identity layer.
+
+**REF (Reflection)** — _The Inner Voice_  
+Self-awareness and metacognition. Orpheus can think about its own thinking, evaluate its responses, and adjust. This enables growth and nuance.
+
+**SYN (Synthesis)** — _The Conductor_  
+Combines everything together. Takes memory context, persona guidance, and reflective insights, then weaves them into a single coherent response. It's the "output" engine.
+
+### In Practice
+
+When Orpheus responds, the indicator shows which engine is "active":
+
+- Remembering something you said → **MEM** lights up
+- Speaking in character → **ARC** glows
+- Pausing to reconsider → **REF** pulses
+- Forming the final reply → **SYN** activates
+
+---
+
+## Tech Stack
+
+- **Frontend:** React + Vite
+- **3D:** Three.js with React Three Fiber + Drei
+- **Backend:** Node.js + Express
+- **AI:** OpenAI API with custom personality layer
+
+---
+
+## Development
+
+```bash
+# Client
+cd client && npm run dev
+
+# Server
+cd server && node index.js
+```

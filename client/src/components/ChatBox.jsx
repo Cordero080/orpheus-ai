@@ -2,6 +2,13 @@ import { useState } from "react";
 import axios from "axios";          // Used to send requests to the backend
 import "./ChatBox.css";
 
+// User text color options
+const USER_COLORS = {
+  magenta: { color: '#ff44dd', glow: 'rgba(255, 68, 221, 0.4)', border: 'rgba(255, 68, 221, 0.6)' },
+  white: { color: '#ffffff', glow: 'rgba(255, 255, 255, 0.3)', border: 'rgba(255, 255, 255, 0.5)' },
+  blue: { color: '#00d4ff', glow: 'rgba(0, 212, 255, 0.4)', border: 'rgba(0, 212, 255, 0.6)' }
+};
+
 function ChatBox() {
   /*
     messages: array that stores all chat messages
@@ -16,6 +23,11 @@ function ChatBox() {
     setInput: function to update the text box value
   */
   const [input, setInput] = useState("");
+
+  /*
+    userColor: selected color theme for user messages
+  */
+  const [userColor, setUserColor] = useState('magenta');
 
   /*
     handleSend():
@@ -73,8 +85,37 @@ function ChatBox() {
   }
 
   return (
-    <div className="chat-wrapper">
+    <div 
+      className="chat-wrapper"
+      style={{
+        '--user-text-color': USER_COLORS[userColor].color,
+        '--user-glow-color': USER_COLORS[userColor].glow,
+        '--user-border-color': USER_COLORS[userColor].border
+      }}
+    >
       <div className="chat-container">
+        
+        {/* COLOR PICKER */}
+        <div className="color-picker">
+          <span className="color-label">YOUR COLOR</span>
+          <div className="color-options">
+            <button 
+              className={`color-btn magenta ${userColor === 'magenta' ? 'active' : ''}`}
+              onClick={() => setUserColor('magenta')}
+              title="Magenta"
+            />
+            <button 
+              className={`color-btn white ${userColor === 'white' ? 'active' : ''}`}
+              onClick={() => setUserColor('white')}
+              title="White"
+            />
+            <button 
+              className={`color-btn blue ${userColor === 'blue' ? 'active' : ''}`}
+              onClick={() => setUserColor('blue')}
+              title="Electric Blue"
+            />
+          </div>
+        </div>
         
         {/* MESSAGE LIST */}
         <div className="messages-container">
