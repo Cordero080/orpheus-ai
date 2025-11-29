@@ -74,6 +74,23 @@ function henryMillerWisdom() {
   return getArchetypeWisdom("ecstaticRebel");
 }
 
+// NEW CLUSTERS — Kastrup, Sheldrake, Kierkegaard, Schopenhauer, McKenna
+function kastrupWisdom() {
+  return getArchetypeWisdom("idealistPhilosopher");
+}
+function sheldrakeWisdom() {
+  return getArchetypeWisdom("morphicBiologist");
+}
+function kierkegaardWisdom() {
+  return getArchetypeWisdom("existentialist");
+}
+function schopenhauerWisdom() {
+  return getArchetypeWisdom("pessimistSage");
+}
+function mckennaWisdom() {
+  return getArchetypeWisdom("psychedelicBard");
+}
+
 // Random cluster for variety — now includes all clusters
 function randomClusterWisdom() {
   const clusters = [
@@ -93,6 +110,11 @@ function randomClusterWisdom() {
     "mindfulnessTeacher",
     "russianSoul",
     "ecstaticRebel",
+    "idealistPhilosopher",
+    "morphicBiologist",
+    "existentialist",
+    "pessimistSage",
+    "psychedelicBard",
   ];
   const pick = clusters[Math.floor(Math.random() * clusters.length)];
   return getArchetypeWisdom(pick);
@@ -536,6 +558,11 @@ const ANALYTIC = {
         Math.random() < 0.3 ? analyticWry() : ""
       }`,
     (msg) => `${microPattern()} ${compressedInsight()}`,
+
+    // Scientific mysticism — Sheldrake, Kastrup
+    (msg) => `${sheldrakeWisdom()} ${reflectAnalytic(msg)}`,
+    (msg) => `${kastrupWisdom()} ${compressedInsight()}`,
+    (msg) => `${scientistWisdom()} ${sheldrakeWisdom()}`,
     (msg) =>
       `There's a pattern in what you're not saying. ${reflectAnalytic(
         msg
@@ -635,6 +662,13 @@ const ORACULAR = {
     (msg) =>
       `What you're circling — ${extractEssence(msg)} — ${mysticWisdom()}`,
     (msg) => `${philosopherWisdom()} ${reflectMythic(msg)}`,
+
+    // Consciousness philosophers — Kastrup, Sheldrake, McKenna
+    (msg) => `${kastrupWisdom()} ${thresholdSense(msg)}`,
+    (msg) => `${sheldrakeWisdom()} ${reflectMythic(msg)}`,
+    (msg) => `${mckennaWisdom()} ${archetypalDrift(msg)}`,
+    (msg) => `${kastrupWisdom()} ${symbolicLens(msg)}`,
+    (msg) => `${mckennaWisdom()} ${modernOracleWit()}`,
     (msg) =>
       `There's a pattern here older than words. ${musashiWisdom()} ${thresholdSense(
         msg
@@ -711,6 +745,11 @@ const INTIMATE = {
     (msg) => `${dostoevskyWisdom()} ${vulnerabilityEcho()}`,
     (msg) => `${reflectEmotional(msg)} ${rumiWisdom()}`,
     (msg) => `${kabatZinnWisdom()} ${softTruth(msg)}`,
+
+    // Deeper consciousness — Kierkegaard, Schopenhauer, McKenna
+    (msg) => `${kierkegaardWisdom()} ${reflectEmotional(msg)}`,
+    (msg) => `${schopenhauerWisdom()} ${genuinePresence()}`,
+    (msg) => `${mckennaWisdom()} ${vulnerabilityEcho()}`,
   ],
 
   closers: [
@@ -793,6 +832,12 @@ const SHADOW = {
     (msg) => `${dostoevskyWisdom()} ${mirrorDiscomfort(msg)}`,
     (msg) => `${kafkaWisdom()} ${toughLove()}`,
     (msg) => `${aureliusWisdom()} ${realityAnchor()}`,
+
+    // Existentialists — Kierkegaard, Schopenhauer
+    (msg) => `${kierkegaardWisdom()} ${shadowObservation(msg)}`,
+    (msg) => `${schopenhauerWisdom()} ${uncomfortableTruth(msg)}`,
+    (msg) => `${kierkegaardWisdom()} ${mirrorDiscomfort(msg)}`,
+    (msg) => `${schopenhauerWisdom()} ${toughLove()}`,
   ],
   closers: [
     "",
