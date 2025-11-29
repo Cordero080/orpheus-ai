@@ -53,6 +53,14 @@ const INTENT_PATTERNS = {
     /\b(lost|stuck|don't know|not sure|uncertain)\b/i,
     /\?{2,}/,
   ],
+  art: [
+    /\b(art|artist|painting|sculpture|gallery|museum)\b/i,
+    /\b(picasso|warhol|rothko|duchamp|basquiat|kahlo|van gogh|da vinci)\b/i,
+    /\b(renaissance|baroque|impressionism|expressionism|cubism|surrealism)\b/i,
+    /\b(contemporary art|modern art|abstract|conceptual|minimalism)\b/i,
+    /\b(revolutionary art|art history|art movement|masterpiece)\b/i,
+    /\b(beauty|aesthetic|creative|creativity|visual)\b/i,
+  ],
 };
 
 export function detectIntent(message) {
@@ -110,6 +118,12 @@ export function selectTone(intentScores, state, threadMemory) {
   if (intentScores.intimacy > 0.5) weights.intimate += 0.4; // Raised from 0.3
   if (intentScores.humor > 0.3) weights.casual += 0.3;
   if (intentScores.confusion > 0.3) weights.analytic += 0.25;
+
+  // Art topics get analytic or oracular treatment
+  if (intentScores.art > 0.3) {
+    weights.analytic += 0.35;
+    weights.oracular += 0.25;
+  }
 
   // Anti-monotony: penalize recently used tones
   const lastTones = threadMemory.lastTones || [];
