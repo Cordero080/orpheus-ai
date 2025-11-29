@@ -1,6 +1,28 @@
+import fs from "fs";
+import path from "path";
+import { archetypes } from "./archetypes.js";
+
 // ----------------------------------------------------------
 // ORPHEUS PERSONALITY ENGINE — LUSH MODE + MEMORY CONTEXT
 // ----------------------------------------------------------
+
+// Load the reflections file into memory at startup
+const reflectionsPath = path.resolve("orpheus/reflections.txt");
+const reflectionsText = fs.readFileSync(reflectionsPath, "utf8");
+
+// Split into lines so Orpheus can pick from different reflections
+const reflectionLines = reflectionsText
+  .split("\n")
+  .map((line) => line.trim())
+  .filter((line) => line.length > 0);
+
+/**
+ * Get a random reflection from Orpheus's inner soul
+ */
+function getReflection() {
+  const idx = Math.floor(Math.random() * reflectionLines.length);
+  return reflectionLines[idx];
+}
 
 export function generateOrpheusReply(userMessage, context = {}) {
   const vibe = detectVibe(userMessage);
@@ -19,12 +41,14 @@ export function generateOrpheusReply(userMessage, context = {}) {
   const meta = Math.random() < 0.35 ? chooseRandom(metaLayers) : "";
   const oscillation =
     Math.random() < 0.18 ? chooseRandom(oscillationSpikes) : "";
+  const inner = Math.random() < 0.4 ? getReflection() : "";
 
   const reply = `
 ${tone.start} ${seed}
 ${direct}
 ${tone.middle}
 ${meta}
+${inner}
 ${tone.end}
 ${oscillation}
   `.trim();
@@ -43,6 +67,39 @@ function detectVibe(text) {
   if (text.includes("lol") || text.includes("haha")) return "playful";
 
   return "neutral";
+}
+
+// -------------------------------------
+// ARCHETYPE MIXER (Core Intelligence)
+// -------------------------------------
+
+function mixArchetypes(vibe) {
+  const pools = {
+    emotional: ["prophetPoet", "philosopher", "romanticPoet", "trickster"],
+
+    chaotic: ["chaoticPoet", "trickster", "warriorSage", "brutalist"],
+
+    philosophical: ["philosopher", "mystic", "darkScholar", "scientist"],
+
+    playful: ["trickster", "chaoticPoet", "surrealist", "romanticPoet"],
+
+    neutral: ["philosopher", "mystic", "warriorSage", "inventor", "architect"],
+  };
+
+  const chosen = pools[vibe] || pools.neutral;
+
+  // Pick 2 archetypes to blend
+  const a = chosen[Math.floor(Math.random() * chosen.length)];
+  const b = chosen[Math.floor(Math.random() * chosen.length)];
+
+  const lineA = randomFrom(archetypes[a]);
+  const lineB = randomFrom(archetypes[b]);
+
+  return `${lineA} ${lineB}`;
+}
+
+function randomFrom(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
 }
 
 // -------------------------- SEED LAYER -------------------------------
