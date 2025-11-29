@@ -25,7 +25,7 @@ const defaultMemory = {
   },
 
   // Topics they return to (pattern detection)
-  recurringTopics: [], // { topic, count, lastMentioned, sentiment }
+  recurringTopics: [], // { topic, count, lastMentioned, sentiment, weight }
 
   // Things they've struggled with
   struggles: [], // { description, firstMentioned, resolved, notes }
@@ -47,7 +47,19 @@ const defaultMemory = {
     date: null,
     mood: null,
     topic: null,
+    emotionalState: null, // NEW: Track emotional state at session end
   },
+
+  // Session emotional handoff
+  sessionEmotionalState: {
+    lastMood: null, // 'heavy', 'light', 'processing', 'energized', 'drained'
+    lastTopic: null,
+    unresolvedThread: null, // Something they were working through
+    timestamp: null,
+  },
+
+  // Phrase blacklist (things user doesn't want Orpheus to say)
+  phraseBlacklist: [], // { phrase, addedAt, reason }
 
   // Statistics
   stats: {
@@ -312,7 +324,18 @@ export function getRelevantMemories(memory, message, intentScores) {
     recurringTopic: null,
     daysSinceLastChat: null,
     significantPattern: null,
+    previousEmotionalState: null, // NEW: For session handoff
   };
+
+  // Include previous emotional state for session handoff awareness
+  if (memory.sessionEmotionalState?.timestamp) {
+    const hoursSince =
+      (Date.now() - new Date(memory.sessionEmotionalState.timestamp)) /
+      (1000 * 60 * 60);
+    if (hoursSince < 48) {
+      relevant.previousEmotionalState = memory.sessionEmotionalState;
+    }
+  }
 
   // Calculate days since last interaction
   if (memory.lastInteraction?.date) {
@@ -401,7 +424,207 @@ export function getMemoryAwarePhrases(relevant) {
     phrases.push(`This connects to something you care about.`);
   }
 
+  // Session emotional handoff — acknowledge previous emotional state
+  if (relevant.previousEmotionalState) {
+    const state = relevant.previousEmotionalState;
+    if (state.lastMood === "heavy" || state.lastMood === "drained") {
+      phrases.push(`Last time felt heavy.`);
+    } else if (state.unresolvedThread) {
+      phrases.push(`You were working through something.`);
+    }
+  }
+
   return phrases;
+}
+
+// ============================================================
+// SESSION EMOTIONAL HANDOFF
+// Track emotional state at session boundaries
+// ============================================================
+
+export function updateSessionEnd(memory, intentScores, lastMessage) {
+  const now = new Date().toISOString();
+
+  // Determine emotional state
+  let mood = "light";
+  if ((intentScores?.emotional || 0) > 0.5) mood = "heavy";
+  else if ((intentScores?.philosophical || 0) > 0.5) mood = "processing";
+  else if ((intentScores?.casual || 0) > 0.7) mood = "light";
+
+  // Detect if there's an unresolved thread
+  const unresolvedIndicators = [
+    /i('ll| will) think about/i,
+    /i('m| am) not sure/i,
+    /i need to/i,
+    /still (trying|figuring|processing)/i,
+    /maybe i('ll| will)/i,
+  ];
+
+  let unresolvedThread = null;
+  for (const pattern of unresolvedIndicators) {
+    if (pattern.test(lastMessage)) {
+      unresolvedThread = lastMessage.slice(0, 100);
+      break;
+    }
+  }
+
+  memory.sessionEmotionalState = {
+    lastMood: mood,
+    lastTopic: memory.lastInteraction?.topic || null,
+    unresolvedThread,
+    timestamp: now,
+  };
+
+  return memory;
+}
+
+export function getSessionHandoffPhrase(memory) {
+  const state = memory.sessionEmotionalState;
+  if (!state || !state.timestamp) return null;
+
+  // Check how long ago the session was
+  const lastSession = new Date(state.timestamp);
+  const now = new Date();
+  const hoursSince = (now - lastSession) / (1000 * 60 * 60);
+
+  // Only mention if it's been less than 48 hours
+  if (hoursSince > 48) return null;
+
+  if (state.lastMood === "heavy") {
+    return "Last time was heavy. How are you now?";
+  } else if (state.lastMood === "drained") {
+    return "You seemed drained when we last talked.";
+  } else if (state.unresolvedThread) {
+    return "You were working through something.";
+  }
+
+  return null;
+}
+
+// ============================================================
+// PHRASE BLACKLIST
+// Things Orpheus should never say
+// ============================================================
+
+export function addToBlacklist(memory, phrase, reason = null) {
+  const now = new Date().toISOString();
+  const lower = phrase.toLowerCase().trim();
+
+  // Check if already blacklisted
+  if (memory.phraseBlacklist.some((p) => p.phrase.toLowerCase() === lower)) {
+    return memory;
+  }
+
+  memory.phraseBlacklist.push({
+    phrase: phrase.trim(),
+    addedAt: now,
+    reason,
+  });
+
+  // Keep only last 50 blacklisted phrases
+  memory.phraseBlacklist = memory.phraseBlacklist.slice(-50);
+
+  return memory;
+}
+
+export function isBlacklisted(memory, text) {
+  if (!text || !memory.phraseBlacklist?.length) return false;
+
+  const lower = text.toLowerCase();
+  for (const item of memory.phraseBlacklist) {
+    if (lower.includes(item.phrase.toLowerCase())) {
+      return true;
+    }
+  }
+  return false;
+}
+
+export function filterBlacklistedContent(memory, response) {
+  if (!response || !memory.phraseBlacklist?.length) return response;
+
+  let filtered = response;
+  for (const item of memory.phraseBlacklist) {
+    // Case-insensitive replacement
+    const regex = new RegExp(item.phrase.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi");
+    filtered = filtered.replace(regex, "");
+  }
+
+  // Clean up any double spaces left behind
+  filtered = filtered.replace(/\s{2,}/g, " ").trim();
+
+  return filtered;
+}
+
+export function detectBlacklistRequest(message) {
+  const patterns = [
+    /never say ['"]?([^'"]+)['"]? again/i,
+    /don('t| not) (ever )?say ['"]?([^'"]+)['"]?/i,
+    /stop saying ['"]?([^'"]+)['"]?/i,
+    /i hate when you say ['"]?([^'"]+)['"]?/i,
+    /blacklist ['"]?([^'"]+)['"]?/i,
+  ];
+
+  for (const pattern of patterns) {
+    const match = message.match(pattern);
+    if (match) {
+      // Get the last capture group (the phrase)
+      const phrase = match[match.length - 1];
+      if (phrase && phrase.length > 1 && phrase.length < 100) {
+        return phrase.trim();
+      }
+    }
+  }
+
+  return null;
+}
+
+// ============================================================
+// TOPIC WEIGHT SCORING
+// Heavy topics matter more than casual ones
+// ============================================================
+
+export function getTopicWeight(topic, memory) {
+  // Base weight is the mention count
+  const recurring = memory.recurringTopics.find(
+    (t) => t.topic.toLowerCase() === topic.toLowerCase()
+  );
+  let weight = recurring?.count || 1;
+
+  // Heavy sentiment multiplier
+  if (recurring?.sentiment === "heavy") {
+    weight *= 2;
+  }
+
+  // Struggle-related topics get boosted
+  const relatedStruggle = memory.struggles.some(
+    (s) => s.description.toLowerCase().includes(topic.toLowerCase())
+  );
+  if (relatedStruggle) {
+    weight *= 1.5;
+  }
+
+  // Recency boost (mentioned in last 3 days)
+  if (recurring?.lastMentioned) {
+    const daysSince =
+      (Date.now() - new Date(recurring.lastMentioned)) / (1000 * 60 * 60 * 24);
+    if (daysSince < 3) {
+      weight *= 1.3;
+    }
+  }
+
+  return weight;
+}
+
+export function getWeightedTopics(memory, limit = 5) {
+  const weighted = memory.recurringTopics.map((t) => ({
+    ...t,
+    weight: getTopicWeight(t.topic, memory),
+  }));
+
+  // Sort by weight descending
+  weighted.sort((a, b) => b.weight - a.weight);
+
+  return weighted.slice(0, limit);
 }
 
 // ============================================================
@@ -415,4 +638,12 @@ export default {
   updateMemory,
   getRelevantMemories,
   getMemoryAwarePhrases,
+  updateSessionEnd,
+  getSessionHandoffPhrase,
+  addToBlacklist,
+  isBlacklisted,
+  filterBlacklistedContent,
+  detectBlacklistRequest,
+  getTopicWeight,
+  getWeightedTopics,
 };

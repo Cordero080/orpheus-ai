@@ -36,6 +36,11 @@ import {
   updateMemory,
   getRelevantMemories,
   getMemoryAwarePhrases,
+  updateSessionEnd,
+  getSessionHandoffPhrase,
+  addToBlacklist,
+  filterBlacklistedContent,
+  detectBlacklistRequest,
 } from "./longTermMemory.js";
 import { analyzePushback, getPushbackResponse } from "./disagreement.js";
 
@@ -199,8 +204,39 @@ export async function orpheusRespond(userMessage) {
   // Load long-term memory
   let longTermMem = loadMemory();
 
+  // ========================================
+  // PHRASE BLACKLIST CHECK
+  // Handle "never say X again" requests
+  // ========================================
+  const blacklistPhrase = detectBlacklistRequest(userMessage);
+  if (blacklistPhrase) {
+    longTermMem = addToBlacklist(longTermMem, blacklistPhrase);
+    saveMemory(longTermMem);
+    console.log(`[Orpheus V2] Blacklisted phrase: "${blacklistPhrase}"`);
+    return {
+      reply: `Got it. I won't say "${blacklistPhrase}" again.`,
+      monologue: "",
+      mode: "meta",
+    };
+  }
+
   // Detect intent
   const intentScores = detectIntent(userMessage);
+
+  // ========================================
+  // SESSION EMOTIONAL HANDOFF
+  // Check if this is start of a new session
+  // ========================================
+  let sessionHandoffPhrase = null;
+  const isNewSession = !threadMemory?.recentMessages?.length || 
+    (threadMemory.recentMessages.length === 0);
+  
+  if (isNewSession && longTermMem.sessionEmotionalState?.timestamp) {
+    sessionHandoffPhrase = getSessionHandoffPhrase(longTermMem);
+    if (sessionHandoffPhrase) {
+      console.log(`[Orpheus V2] Session handoff: ${longTermMem.sessionEmotionalState.lastMood}`);
+    }
+  }
 
   // ========================================
   // RHYTHM INTELLIGENCE
@@ -350,6 +386,14 @@ export async function orpheusRespond(userMessage) {
   // Build final reply with memory and rhythm awareness
   let finalReply = reply;
 
+  // Filter any blacklisted phrases from the response
+  finalReply = filterBlacklistedContent(longTermMem, finalReply);
+
+  // Prepend session emotional handoff if this is a new session
+  if (sessionHandoffPhrase && isNewSession) {
+    finalReply = `${sessionHandoffPhrase} ${finalReply}`;
+  }
+
   // Prepend memory-aware phrase if appropriate (less frequent)
   if (memoryPhrases.length > 0 && Math.random() < 0.3) {
     const memPhrase =
@@ -383,6 +427,10 @@ export async function orpheusRespond(userMessage) {
     finalReply,
     intentScores
   );
+  
+  // Update session emotional state (for next session handoff)
+  longTermMem = updateSessionEnd(longTermMem, intentScores, userMessage);
+  
   saveMemory(longTermMem);
 
   // Save state
