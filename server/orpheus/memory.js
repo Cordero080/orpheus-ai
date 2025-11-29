@@ -1,69 +1,50 @@
-// ----------------------------------------------
-// ORPHEUS MEMORY ENGINE (in-memory for now)
-// Stores recent exchanges + computes emotional drift
-// ----------------------------------------------
+import fs from "fs";
+import path from "path";
 
-const MAX_MEMORY = 50;
+const memoryPath = path.resolve("orpheus/memory.json");
 
-// Each entry: { userMessage, reply, vibe, timestamp }
-const memory = [];
+// Load memory from file
+export function loadMemory() {
+  const raw = fs.readFileSync(memoryPath, "utf8");
+  return JSON.parse(raw);
+}
 
-/**
- * Save one interaction into Orpheus' memory.
- */
-export function addMemoryEntry({ userMessage, reply, vibe }) {
-  memory.push({
-    userMessage,
-    reply,
-    vibe,
+// Save memory to file
+function saveMemory(memory) {
+  fs.writeFileSync(memoryPath, JSON.stringify(memory, null, 2));
+}
+
+// Add a short-term memory entry (last 10 messages)
+export function addShortTermMemory(userMessage, orpheusReply) {
+  const mem = loadMemory();
+
+  mem.shortTerm.push({
+    user: userMessage,
+    orpheus: orpheusReply,
     timestamp: Date.now(),
   });
 
-  // limit memory size
-  if (memory.length > MAX_MEMORY) {
-    memory.shift();
+  // Keep only last 10
+  if (mem.shortTerm.length > 10) {
+    mem.shortTerm = mem.shortTerm.slice(-10);
   }
+
+  saveMemory(mem);
 }
 
-/**
- * Get last N exchanges (for future UI / debugging / memory-based behavior).
- */
-export function getRecentMemory(limit = 5) {
-  return memory.slice(-limit);
-}
+// Add long-term memory if important
+export function addLongTermMemory(insight) {
+  const mem = loadMemory();
 
-/**
- * Compute "emotional drift" from the last N entries.
- * Returns: "emotional", "chaotic", "philosophical", "playful", or "neutral"
- */
-export function getEmotionalDrift(windowSize = 10) {
-  if (memory.length === 0) return "neutral";
-
-  const slice = memory.slice(-windowSize);
-
-  const counts = {
-    emotional: 0,
-    chaotic: 0,
-    philosophical: 0,
-    playful: 0,
-    neutral: 0,
-  };
-
-  for (const entry of slice) {
-    if (!counts[entry.vibe]) counts[entry.vibe] = 0;
-    counts[entry.vibe]++;
+  // Don't store duplicates
+  if (!mem.longTerm.includes(insight)) {
+    mem.longTerm.push(insight);
   }
 
-  // find the vibe with highest count
-  let bestVibe = "neutral";
-  let bestCount = -1;
-
-  for (const [vibe, count] of Object.entries(counts)) {
-    if (count > bestCount) {
-      bestCount = count;
-      bestVibe = vibe;
-    }
+  // Cap at 50 items
+  if (mem.longTerm.length > 50) {
+    mem.longTerm = mem.longTerm.slice(-50);
   }
 
-  return bestVibe;
+  saveMemory(mem);
 }
