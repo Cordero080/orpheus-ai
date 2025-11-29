@@ -228,13 +228,16 @@ export async function orpheusRespond(userMessage) {
   // Check if this is start of a new session
   // ========================================
   let sessionHandoffPhrase = null;
-  const isNewSession = !threadMemory?.recentMessages?.length || 
-    (threadMemory.recentMessages.length === 0);
-  
+  const isNewSession =
+    !threadMemory?.recentMessages?.length ||
+    threadMemory.recentMessages.length === 0;
+
   if (isNewSession && longTermMem.sessionEmotionalState?.timestamp) {
     sessionHandoffPhrase = getSessionHandoffPhrase(longTermMem);
     if (sessionHandoffPhrase) {
-      console.log(`[Orpheus V2] Session handoff: ${longTermMem.sessionEmotionalState.lastMood}`);
+      console.log(
+        `[Orpheus V2] Session handoff: ${longTermMem.sessionEmotionalState.lastMood}`
+      );
     }
   }
 
@@ -427,10 +430,10 @@ export async function orpheusRespond(userMessage) {
     finalReply,
     intentScores
   );
-  
+
   // Update session emotional state (for next session handoff)
   longTermMem = updateSessionEnd(longTermMem, intentScores, userMessage);
-  
+
   saveMemory(longTermMem);
 
   // Save state
