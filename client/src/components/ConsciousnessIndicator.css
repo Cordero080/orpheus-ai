@@ -1,0 +1,125 @@
+/* ============================================
+   CONSCIOUSNESS INDICATOR
+   Shows which engine is active
+   ============================================ */
+
+.consciousness-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 16px;
+  
+  /* Glassmorphism */
+  background: rgba(5, 5, 15, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  
+  border: 1px solid rgba(138, 43, 226, 0.15);
+  border-radius: 8px;
+  
+  margin-bottom: 8px;
+}
+
+.engines-row {
+  display: flex;
+  gap: 12px;
+}
+
+.engine-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 10px;
+  
+  background: rgba(20, 20, 40, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: 6px;
+  
+  position: relative;
+  cursor: default;
+  
+  transition: all 0.3s ease;
+}
+
+.engine-icon {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--engine-color);
+  opacity: 0.75;
+  transition: all 0.3s ease;
+}
+
+.engine-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.engine-name {
+  font-size: 0.5rem;
+  letter-spacing: 1px;
+  color: var(--engine-color);
+  opacity: 0.75;
+  font-family: 'JetBrains Mono', monospace;
+  transition: all 0.3s ease;
+}
+
+/* Active engine state */
+.engine-node.active {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--engine-color);
+}
+
+.engine-node.active .engine-icon {
+  opacity: 1;
+  filter: drop-shadow(0 0 6px var(--engine-color));
+}
+
+.engine-node.active .engine-name {
+  opacity: 1;
+}
+
+/* Processing state - pulsing animation */
+.consciousness-indicator.processing .engine-node.active {
+  animation: enginePulse 1s ease-in-out infinite;
+}
+
+@keyframes enginePulse {
+  0%, 100% {
+    box-shadow: 0 0 8px var(--engine-color);
+  }
+  50% {
+    box-shadow: 0 0 16px var(--engine-color);
+  }
+}
+
+/* Processing bar */
+.processing-bar {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 1px;
+  overflow: hidden;
+  margin-top: 2px;
+}
+
+.processing-fill {
+  height: 100%;
+  width: 30%;
+  background: linear-gradient(90deg, #00d4ff, #a855f7, #ff00cc);
+  border-radius: 1px;
+  animation: processingSlide 1.5s ease-in-out infinite;
+}
+
+@keyframes processingSlide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(400%);
+  }
+}

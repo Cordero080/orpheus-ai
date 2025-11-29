@@ -8,7 +8,7 @@ function ChatBox() {
     setMessages: function to update the messages array
   */
   const [messages, setMessages] = useState([
-    { sender: "ai", text: "Hey Pablo, I’m Orpheus. Talk to me. " }
+    { sender: "ai", text: "Hey Pablo, I'm Orpheus. Talk to me. " }
   ]);
 
   /*
@@ -83,6 +83,8 @@ function ChatBox() {
               key={index}
               className={`message-bubble ${msg.sender === "user" ? "user" : "ai"}`}
             >
+              {/* Aurora shader for Orpheus messages */}
+              {msg.sender === "ai" && <div className="aurora-shader"></div>}
               {msg.text}
             </div>
           ))}

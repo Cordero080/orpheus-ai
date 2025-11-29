@@ -210,6 +210,13 @@
   }
 }
 
+/* App layout with sidebar */
+.app-layout {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+}
+
 .app-container {
   padding: 10px 20px;
   color: white;
@@ -217,13 +224,22 @@
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
+  margin-left: 280px; /* Account for sidebar */
   font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  align-items: center;
   
   position: relative;
   z-index: 1;
+  
+  transition: margin-left 0.3s ease;
+}
+
+/* When sidebar is collapsed */
+.app-layout:has(.sidebar.collapsed) .app-container {
+  margin-left: 70px;
 }
 
 /* ============================================
