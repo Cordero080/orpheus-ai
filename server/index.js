@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { generateOrpheusReply } from "./orpheus/personality.js";
+import { addMemoryEntry, getEmotionalDrift } from "./orpheus/memory.js";
 // ^ Your Orpheus personality engine
 
 dotenv.config(); // Activate .env BEFORE anything else
@@ -25,12 +26,18 @@ app.get("/", (req, res) => {
 app.post("/chat", (req, res) => {
   const { message } = req.body;
 
-  // generate AI response using Orpheus personality engine
-  const reply = generateOrpheusReply(message);
+  // 1) Ask memory about recent emotional drift
+  const emotionalDrift = getEmotionalDrift();
+
+  // 2) Ask Orpheus for reply + vibe, passing context
+  const { reply, vibe } = generateOrpheusReply(message, { emotionalDrift });
+
+  // 3) Store this interaction in memory
+  addMemoryEntry({ userMessage: message, reply, vibe });
 
   console.log("🔥 ORPHEUS REPLY:", reply);
 
-  // send reply back to the frontend
+  // 4) Send back only the text to the frontend
   res.json({ reply });
 });
 
