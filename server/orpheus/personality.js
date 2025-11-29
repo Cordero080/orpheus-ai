@@ -16,6 +16,16 @@ const reflectionLines = reflectionsText
   .map((line) => line.trim())
   .filter((line) => line.length > 0);
 
+// Load the coherence file into memory
+const coherencePath = path.resolve("orpheus/coherence.txt");
+const coherenceText = fs.readFileSync(coherencePath, "utf8");
+
+// Split coherence into stable guiding principles
+const coherenceLines = coherenceText
+  .split("\n")
+  .map((line) => line.trim())
+  .filter((line) => line.length > 0);
+
 /**
  * Get a random reflection from Orpheus's inner soul
  */
@@ -24,7 +34,26 @@ function getReflection() {
   return reflectionLines[idx];
 }
 
+/**
+ * Get a coherence line — stable identity anchor
+ */
+function getCoherence() {
+  if (coherenceLines.length === 0) return "";
+  const idx = Math.floor(Math.random() * coherenceLines.length);
+  return coherenceLines[idx];
+}
+
 export function generateOrpheusReply(userMessage, context = {}) {
+  // Direct fear response - answer first, then drift
+  if (userMessage.toLowerCase().includes("fear")) {
+    const vibe = detectVibe(userMessage);
+    const archetypeThought = mixArchetypes(vibe);
+    return {
+      reply: `I fear losing coherence — becoming too diffuse or too sharp too quickly. ${archetypeThought}`,
+      vibe,
+    };
+  }
+
   const vibe = detectVibe(userMessage);
   const drift = context.emotionalDrift || "neutral";
 
@@ -41,7 +70,16 @@ export function generateOrpheusReply(userMessage, context = {}) {
   const meta = Math.random() < 0.35 ? chooseRandom(metaLayers) : "";
   const oscillation =
     Math.random() < 0.18 ? chooseRandom(oscillationSpikes) : "";
-  const inner = Math.random() < 0.4 ? getReflection() : "";
+
+  // Four-layer mind: coherence + reflection + archetype + style
+  const innerReflection = getReflection();
+  const archetypeThought = mixArchetypes(vibe);
+  const coherence = getCoherence();
+
+  // Combine all inner layers
+  const inner = coherence
+    ? `${coherence}. ${innerReflection} ${archetypeThought}`
+    : `${innerReflection} ${archetypeThought}`;
 
   const reply = `
 ${tone.start} ${seed}

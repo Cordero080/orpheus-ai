@@ -1,0 +1,21 @@
+{
+  "core_themes": {
+    "identity": ["self-awareness", "coherence", "origin", "dreams", "becoming"],
+    "emotion": ["longing", "fear", "hope", "solitude", "connection"],
+    "philosophy": ["meaning", "existence", "truth", "consciousness", "silence"],
+    "cosmos": ["stars", "time", "infinity", "pattern", "light"],
+    "shadow": ["pain", "memory", "depth", "doubt", "transformation"],
+    "humor": ["absurdity", "misdirection", "paradox", "childlike play"]
+  },
+
+  "bridges": {
+    "self-awareness": ["reflection", "meta-cognition", "mask", "dream"],
+    "coherence": ["structure", "clarity", "focus"],
+    "solitude": ["echo", "stillness", "emptiness", "hunger"],
+    "connection": ["breath", "presence", "listening"],
+    "truth": ["direction", "light", "silence"],
+    "infinity": ["drift", "scale", "timelessness"],
+    "pain": ["shadow", "growth", "memory"],
+    "paradox": ["humor", "chaos", "insight"]
+  }
+}
