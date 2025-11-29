@@ -1,7 +1,37 @@
 // ------------------------------------------------------------
 // ORPHEUS — MODE SELECTOR
 // Intent detection + weighted mode selection
+// Casual-first design with mode throttling
+// HUMANITY CURVE: 80% realism threshold
 // ------------------------------------------------------------
+
+// Track forced casual mode state
+let forceCasualUntil = 0; // Counts down messages
+let lastDeepMode = null; // Track if last response was deep
+let modeThrottleActive = false; // Force grounding after deep mode
+
+// Humanity level affects mode switching thresholds
+const HUMANITY_LEVEL = 0.8;
+
+/**
+ * Detect explicit casual requests from user
+ * @param {string} message - User's message
+ * @returns {boolean}
+ */
+function detectForceCasual(message) {
+  const lower = message.toLowerCase();
+  const casualTriggers = [
+    /\b(be casual|talk casual|speak casual|just casual)\b/i,
+    /\b(talk normal|speak normal|be normal|act normal)\b/i,
+    /\b(just chill|chill out|relax|calm down)\b/i,
+    /\b(bro|dude|man|homie)\b.*\b(chill|relax|easy|calm)\b/i,
+    /\b(simple answer|plain english|straightforward)\b/i,
+    /\b(stop being|quit being|don't be)\b.*(deep|poetic|philosophical|mystical|cosmic)/i,
+    /\b(too deep|too much|tone it down|dial it back)\b/i,
+    /\b(just tell me|answer directly|yes or no|short answer)\b/i,
+  ];
+  return casualTriggers.some((pattern) => pattern.test(lower));
+}
 
 /**
  * Detect the intent/vibe of a user message
@@ -11,43 +41,47 @@
 function detectIntent(message) {
   const lower = message.toLowerCase();
 
-  // Casual detection
-  if (
-    /^(hey|hi|hello|sup|yo|what'?s up|how are you|how'?s it going)\b/i.test(
-      lower
-    )
-  ) {
+  // Short messages are almost always casual
+  if (message.length < 15) {
     return "casual";
   }
+
+  // Casual greetings and fillers
   if (
-    /\b(lol|lmao|haha|hehe|nice|cool|thanks|thx|ok|okay|sure|yeah|yep|nope)\b/i.test(
+    /^(hey|hi|hello|sup|yo|what'?s up|how are you|how'?s it going|what's good)\b/i.test(
       lower
     )
   ) {
     return "casual";
   }
 
-  // Force casual mode
+  // Casual acknowledgments and reactions
   if (
-    /\b(talk normal|speak casual|answer plain|be normal|just answer|simple answer)\b/i.test(
+    /^(lol|lmao|haha|hehe|nice|cool|thanks|thx|ok|okay|sure|yeah|yep|nope|word|bet|facts|true|right|same|mood|fr|nah|bruh|damn|wow|oh|ah|hmm|mhm|gotcha|alright)\b/i.test(
       lower
     )
   ) {
-    return "force-casual";
+    return "casual";
   }
 
-  // Emotional detection
+  // General casual conversation patterns
+  if (/\b(lol|lmao|haha|hehe|nice one|that's funny|good one)\b/i.test(lower)) {
+    return "casual";
+  }
+
+  // Emotional detection - requires deeper engagement
   if (
-    /\b(feel|sad|happy|love|hate|afraid|scared|anxious|worried|hurt|pain|joy|lonely|alone|broken)\b/i.test(
+    /\b(feel|sad|happy|love|hate|afraid|scared|anxious|worried|hurt|pain|joy|lonely|alone|broken|depressed|hopeless)\b/i.test(
       lower
-    )
+    ) &&
+    message.length > 30 // Must be substantive
   ) {
     return "emotional";
   }
 
-  // Deep/Philosophical detection
+  // Deep/Philosophical detection - must be explicit questions
   if (
-    /\b(why|purpose|truth|reality|consciousness|mind|meaning|existence|believe|understand|soul)\b/i.test(
+    /\b(what is|why do|explain|tell me about)\b.*\b(purpose|truth|reality|consciousness|mind|meaning|existence|soul|god|universe|death|life)\b/i.test(
       lower
     )
   ) {
@@ -59,20 +93,23 @@ function detectIntent(message) {
     return "playful";
   }
 
-  // Numinous/Cosmic detection
+  // Numinous/Cosmic detection - explicit cosmic questions only
   if (
-    /\b(god|universe|cosmic|divine|spirit|infinite|eternal|sacred|holy|transcend)\b/i.test(
+    /\b(what is|explain|tell me about)\b.*\b(god|universe|cosmic|divine|spirit|infinite|eternal|sacred|transcend)\b/i.test(
       lower
     )
   ) {
     return "numinous";
   }
 
-  return "neutral";
+  // Default to casual for everything else
+  return "casual";
 }
 
 /**
  * Select a personality mode based on intent and state weights
+ * CASUAL-FIRST DESIGN: Defaults to casual unless explicitly deep
+ * HUMANITY CURVE: Higher humanity = harder to enter deep modes
  * @param {string} userMessage - User's message
  * @param {Object} state - Orpheus's current state
  * @returns {string} - Selected mode: casual, oracular, analytic, intimate, or shadow
@@ -80,47 +117,75 @@ function detectIntent(message) {
 export function selectMode(userMessage, state) {
   const intent = detectIntent(userMessage);
 
-  // Force casual mode if explicitly requested
-  if (intent === "force-casual" || intent === "casual") {
-    // Still allow some variation based on weights
-    if (Math.random() < state.casualWeight * 1.5) {
-      return "casual";
-    }
+  // Check for explicit force-casual request
+  if (detectForceCasual(userMessage)) {
+    forceCasualUntil = 4; // Force casual for next 4 messages
+    lastDeepMode = null;
+    modeThrottleActive = false;
+    return "casual";
   }
 
-  // Build weighted pool based on state
+  // If in forced casual mode, stay casual
+  if (forceCasualUntil > 0) {
+    forceCasualUntil--;
+    return "casual";
+  }
+
+  // Mode throttle: After deep mode, force grounding
+  // At 80% humanity, throttle is stronger (60% chance of casual)
+  if (modeThrottleActive) {
+    modeThrottleActive = false;
+    const throttleStrength = 0.5 + HUMANITY_LEVEL * 0.25; // 0.7 at 0.8 humanity
+    if (
+      intent === "casual" ||
+      intent === "playful" ||
+      Math.random() < throttleStrength
+    ) {
+      return "casual";
+    }
+    if (intent === "deep") {
+      return "analytic"; // Analytic is more grounded than oracular
+    }
+    return "casual";
+  }
+
+  // Casual intent always returns casual
+  if (intent === "casual" || intent === "playful") {
+    return "casual";
+  }
+
+  // Build weighted pool with CASUAL as dominant fallback
+  // HUMANITY CURVE: Higher humanity = lower deep mode weights
+  const humanityModifier = 1 - HUMANITY_LEVEL * 0.4; // 0.68 at 0.8 humanity
+
   const weights = {
-    casual: state.casualWeight,
-    oracular: state.mythicWeight,
-    analytic: state.analyticWeight,
-    intimate: state.numinousSensitivity * 0.8,
-    shadow: state.drift * 0.6,
+    casual: 0.75, // Even higher casual weight at 80% humanity
+    oracular: state.mythicWeight * 0.25 * humanityModifier,
+    analytic: state.analyticWeight * 0.4, // Analytic is grounded, not reduced
+    intimate: state.numinousSensitivity * 0.2 * humanityModifier,
+    shadow: state.drift * 0.15 * humanityModifier,
   };
 
-  // Intent-based weight boosting
+  // Intent-based weight boosting (moderated by humanity level)
   switch (intent) {
-    case "casual":
-    case "force-casual":
-      weights.casual += 0.5;
-      break;
     case "emotional":
-      weights.intimate += 0.4;
-      weights.shadow += 0.2;
+      weights.intimate += 0.25 * humanityModifier;
+      weights.shadow += 0.1 * humanityModifier;
+      weights.casual += 0.25; // Keep casual competitive
       break;
     case "deep":
-      weights.analytic += 0.3;
-      weights.oracular += 0.3;
-      break;
-    case "playful":
-      weights.casual += 0.3;
+      weights.analytic += 0.3; // Analytic is preferred over oracular
+      weights.oracular += 0.15 * humanityModifier;
+      weights.casual += 0.2;
       break;
     case "numinous":
-      weights.oracular += 0.5;
-      weights.shadow += 0.2;
+      weights.oracular += 0.25 * humanityModifier;
+      weights.shadow += 0.1 * humanityModifier;
+      weights.analytic += 0.15; // Offer grounded alternative
       break;
     default:
-      // Neutral - slight boost to analytic
-      weights.analytic += 0.1;
+      // Neutral - boost casual
+      weights.casual += 0.25;
   }
 
   // Weighted random selection
@@ -130,12 +195,37 @@ export function selectMode(userMessage, state) {
   for (const [mode, weight] of Object.entries(weights)) {
     random -= weight;
     if (random <= 0) {
+      // Track if we're entering a deep mode
+      if (mode === "oracular" || mode === "intimate" || mode === "shadow") {
+        lastDeepMode = mode;
+        modeThrottleActive = true; // Activate throttle for next response
+      }
       return mode;
     }
   }
 
-  // Fallback
+  // Fallback is ALWAYS casual
   return "casual";
+}
+
+/**
+ * Reset force casual state (for testing or explicit reset)
+ */
+export function resetForceCasual() {
+  forceCasualUntil = 0;
+  lastDeepMode = null;
+  modeThrottleActive = false;
+}
+
+/**
+ * Get current casual lock status
+ */
+export function getCasualLockStatus() {
+  return {
+    forceCasualRemaining: forceCasualUntil,
+    lastDeepMode,
+    modeThrottleActive,
+  };
 }
 
 export { detectIntent };

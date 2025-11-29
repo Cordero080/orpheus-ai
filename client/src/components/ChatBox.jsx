@@ -9,7 +9,7 @@ const USER_COLORS = {
   blue: { color: '#00d4ff', glow: 'rgba(0, 212, 255, 0.4)', border: 'rgba(0, 212, 255, 0.6)' }
 };
 
-function ChatBox() {
+function ChatBox({ onProcessingChange, onEngineChange }) {
   /*
     messages: array that stores all chat messages
     setMessages: function to update the messages array
@@ -65,22 +65,43 @@ function ChatBox() {
     setMessages((prev) => [...prev, userMessage]);
 
     try {
-      // STEP 3 — Send message to backend (POST request)
+      // STEP 3 — Show processing state and cycle through engines
+      onProcessingChange?.(true);
+      const engines = ['memory', 'archetype', 'reflection', 'synthesis'];
+      let engineIndex = 0;
+      const engineCycle = setInterval(() => {
+        onEngineChange?.(engines[engineIndex % engines.length]);
+        engineIndex++;
+      }, 200);
+
+      // STEP 4 — Send message to backend (POST request)
       const response = await axios.post("http://localhost:3000/chat", {
         message: input,
       });
 
-      // STEP 4 — Create AI reply from backend data
+      // STEP 5 — Stop cycling and show final engine state
+      clearInterval(engineCycle);
+      onEngineChange?.(response.data.engine || null);
+
+      // STEP 6 — Create AI reply from backend data
       const aiMessage = {
         sender: "ai",
         text: response.data.reply,   // backend sends { reply: "..." }
       };
 
-      // STEP 5 — Add AI message to chat
+      // STEP 7 — Add AI message to chat
       setMessages((prev) => [...prev, aiMessage]);
+
+      // STEP 8 — Clear engine state after a moment
+      setTimeout(() => {
+        onEngineChange?.(null);
+        onProcessingChange?.(false);
+      }, 1500);
 
     } catch (error) {
       console.error("Error talking to backend:", error);
+      onProcessingChange?.(false);
+      onEngineChange?.(null);
 
       // OPTIONAL — show an error message in chat
       setMessages((prev) => [
