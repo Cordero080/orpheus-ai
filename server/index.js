@@ -1,34 +1,40 @@
-// Import the libraries installed
-import express from "express"; // import express
-import cors from "cors"; // allows frontend to talk to backend
-import dotenv from "dotenv"; // load environment variables
+// ------------------------- IMPORTS ---------------------------------
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import { generateOrpheusReply } from "./orpheus/personality.js";
+// ^ Your Orpheus personality engine
 
-dotenv.config(); // activate .env file BEFORE using anything
+dotenv.config(); // Activate .env BEFORE anything else
 
-const app = express(); // create express application
+// ------------------------- APP CONFIG -------------------------------
+const app = express();
 const PORT = 3000;
 
-app.use(cors()); // enable CORS
-app.use(express.json()); // allow JSON request bodies
+app.use(cors()); // allow frontend → backend communication
+app.use(express.json()); // parse JSON request bodies
 
-// TEST ROUTE - shows backend is working
+// -------------------------- TEST ROUTE ------------------------------
+// Quick test to confirm the backend is alive
 app.get("/", (req, res) => {
-  res.send("🐲Pablo's AI backend is running.🐲");
+  res.send("🐲 Pablo's AI backend is running. 🐲");
 });
 
-// ACCEPTS POST request
-// Reads the message the user typed
-// Sends response back
+// -------------------------- CHAT ROUTE ------------------------------
+// Accepts user message → generates Orpheus reply → returns it
 app.post("/chat", (req, res) => {
   const { message } = req.body;
 
-  // For now, return a simple fake backend reply
-  res.json({
-    reply: `Backend received: "${message}`,
-  });
+  // generate AI response using Orpheus personality engine
+  const reply = generateOrpheusReply(message);
+
+  console.log("🔥 ORPHEUS REPLY:", reply);
+
+  // send reply back to the frontend
+  res.json({ reply });
 });
 
-// START THE SERVER on port 3000
+// -------------------------- START SERVER ----------------------------
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
