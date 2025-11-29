@@ -1,0 +1,176 @@
+/* ============================================
+   SIDEBAR — Conversation History
+   Dark holographic glassmorphism style
+   ============================================ */
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 260px;
+  
+  /* Dark holographic glassmorphism */
+  background: rgba(5, 5, 15, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  
+  /* Right edge glow border */
+  border-right: 1px solid rgba(0, 212, 255, 0.2);
+  box-shadow: 
+    inset -1px 0 0 rgba(138, 43, 226, 0.1),
+    4px 0 30px rgba(0, 0, 0, 0.5);
+  
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+  z-index: 100;
+  
+  transition: width 0.3s ease, transform 0.3s ease;
+}
+
+.sidebar.collapsed {
+  width: 50px;
+}
+
+/* Toggle button */
+.sidebar-toggle {
+  position: absolute;
+  right: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  
+  width: 24px;
+  height: 48px;
+  
+  background: rgba(10, 10, 25, 0.9);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  border-radius: 0 8px 8px 0;
+  
+  color: rgba(0, 212, 255, 0.8);
+  font-size: 10px;
+  cursor: pointer;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  transition: all 0.2s ease;
+}
+
+.sidebar-toggle:hover {
+  background: rgba(0, 212, 255, 0.1);
+  border-color: rgba(0, 212, 255, 0.5);
+  color: #00d4ff;
+}
+
+/* New chat button */
+.new-chat-btn {
+  margin: 0 16px 20px;
+  padding: 12px 16px;
+  
+  background: linear-gradient(135deg, rgba(138, 43, 226, 0.3), rgba(0, 212, 255, 0.2));
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  border-radius: 8px;
+  
+  color: #e0f7ff;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  
+  transition: all 0.2s ease;
+}
+
+.new-chat-btn:hover {
+  background: linear-gradient(135deg, rgba(138, 43, 226, 0.5), rgba(0, 212, 255, 0.3));
+  border-color: rgba(0, 212, 255, 0.6);
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+}
+
+.plus-icon {
+  font-size: 1.2rem;
+  color: #00d4ff;
+}
+
+/* Conversation list */
+.conversation-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 8px;
+  
+  scrollbar-width: thin;
+  scrollbar-color: rgba(138, 43, 226, 0.3) transparent;
+}
+
+.list-header {
+  padding: 8px 12px;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: rgba(138, 43, 226, 0.7);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.empty-state {
+  padding: 20px 12px;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.8rem;
+  font-style: italic;
+  text-align: center;
+}
+
+/* Conversation item */
+.conversation-item {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 4px;
+  
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  
+  color: rgba(255, 255, 255, 0.7);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  text-align: left;
+  
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  
+  transition: all 0.2s ease;
+}
+
+.conversation-item:hover {
+  background: rgba(0, 212, 255, 0.05);
+  border-color: rgba(0, 212, 255, 0.1);
+  color: #fff;
+}
+
+.conversation-item.active {
+  background: rgba(138, 43, 226, 0.15);
+  border-color: rgba(138, 43, 226, 0.3);
+  color: #e8e0ff;
+}
+
+.conv-icon {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+.conv-title {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.conv-date {
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.3);
+}
