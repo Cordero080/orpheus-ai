@@ -25,11 +25,25 @@ app.get("/", (req, res) => {
 app.post("/chat", (req, res) => {
   const { message } = req.body;
 
-  const { reply, monologue } = orpheusRespond(message);
+  const { reply, monologue, mode } = orpheusRespond(message);
 
-  // We only send the "reply" to the user for now
-  // but later we may log monologue for debugging/personality tuning.
-  res.json({ reply });
+  // Map mode to engine for frontend visualization
+  const modeToEngine = {
+    casual: null,
+    oracular: "archetype",
+    analytic: "reflection",
+    intimate: "memory",
+    shadow: "synthesis",
+    diagnostic: "reflection",
+    upgrade: "synthesis",
+  };
+
+  // Return reply + engine state for UI
+  res.json({
+    reply,
+    engine: modeToEngine[mode] || null,
+    mode,
+  });
 });
 
 // -------------------------- START SERVER ----------------------------
