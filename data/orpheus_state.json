@@ -1,48 +1,48 @@
 {
   "vectors": {
     "humility": 0.5,
-    "presence": 0.607365675,
-    "mythicDepth": 0.3028548297089826,
-    "analyticClarity": 0.5027117623904,
+    "presence": 0.613101362026875,
+    "mythicDepth": 0.30330218200317405,
+    "analyticClarity": 0.5081387170207533,
     "intuitionSensitivity": 0.4,
-    "casualGrounding": 0.6985155509953721,
-    "emotionalResonance": 0.5053847687154532,
+    "casualGrounding": 0.7000938057453496,
+    "emotionalResonance": 0.5105796208825081,
     "numinousDrift": 0.20450000000000002
   },
-  "casualWeight": 0.6985155509953721,
-  "analyticWeight": 0.5027117623904,
-  "oracularWeight": 0.3028548297089826,
-  "intimateWeight": 0.5053847687154532,
+  "casualWeight": 0.7000938057453496,
+  "analyticWeight": 0.5081387170207533,
+  "oracularWeight": 0.30330218200317405,
+  "intimateWeight": 0.5105796208825081,
   "shadowWeight": 0.20450000000000002,
   "threadMemory": {
     "lastTones": [
-      "analytic",
-      "casual",
-      "intimate"
+      "intimate",
+      "oracular",
+      "analytic"
     ],
     "lastIntents": [
       {
         "casual": 0,
-        "emotional": 0.15,
-        "philosophical": 0.15,
-        "numinous": 0.7,
+        "emotional": 0.44999999999999996,
+        "philosophical": 0.44999999999999996,
+        "numinous": 0.1,
         "conflict": 0,
         "intimacy": 0,
         "humor": 0,
         "confusion": 0
       },
       {
-        "casual": 0.3,
-        "emotional": 0,
-        "philosophical": 0,
-        "numinous": 0,
+        "casual": 0,
+        "emotional": 0.44999999999999996,
+        "philosophical": 0.44999999999999996,
+        "numinous": 0.1,
         "conflict": 0,
         "intimacy": 0,
         "humor": 0,
         "confusion": 0
       },
       {
-        "casual": 0.3,
+        "casual": 0.6,
         "emotional": 0,
         "philosophical": 0,
         "numinous": 0,
@@ -53,9 +53,9 @@
       }
     ],
     "recentMessages": [
-      "I had a dream about transcendence and the infinite cosmos",
-      "hey there, how are you?",
-      "hey there, how are you?"
+      "I feel like I am at a crossroads in my life",
+      "I feel like I am at a crossroads in my life",
+      "hello"
     ]
   },
   "identity": {
@@ -97,6 +97,8 @@
     "I hate how unfair everything is and I want to fight back",
     "I had a dream about transcendence and the infinite cosmos",
     "hey there, how are you?",
-    "hey there, how are you?"
+    "hey there, how are you?",
+    "I feel like I am at a crossroads in my life",
+    "I feel like I am at a crossroads in my life"
   ]
 }

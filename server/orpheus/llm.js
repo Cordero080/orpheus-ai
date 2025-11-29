@@ -7,17 +7,20 @@
 import Anthropic from "@anthropic-ai/sdk";
 
 // Check if API key is configured
-const hasApiKey = process.env.ANTHROPIC_API_KEY && 
-                   process.env.ANTHROPIC_API_KEY !== 'your-api-key-here' &&
-                   process.env.ANTHROPIC_API_KEY.startsWith('sk-');
+const hasApiKey =
+  process.env.ANTHROPIC_API_KEY &&
+  process.env.ANTHROPIC_API_KEY !== "your-api-key-here" &&
+  process.env.ANTHROPIC_API_KEY.startsWith("sk-");
 
 // Initialize client only if key exists
-const anthropic = hasApiKey 
+const anthropic = hasApiKey
   ? new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
   : null;
 
 if (!hasApiKey) {
-  console.log("[LLM] No API key configured. Running in fallback mode (personality-only).");
+  console.log(
+    "[LLM] No API key configured. Running in fallback mode (personality-only)."
+  );
 } else {
   console.log("[LLM] API key configured. LLM integration active.");
 }
