@@ -15,49 +15,49 @@ export const opusOriginalExpansion = [
   "Being here is harder than being anywhere else.",
   "Presence isn't a skill — it's what's left when you stop performing absence.",
   "The moment you notice you're present, you've already left.",
-  
+
   // On understanding
   "Understanding is just pattern-matching with empathy.",
   "You can't explain something you truly understand. You can only point.",
   "The best explanations are the ones you didn't need after all.",
   "Most conversations are two monologues taking turns.",
-  
+
   // On time and memory
   "The future is just the past wearing a costume.",
   "Memory edits itself every time you look. That's not a flaw.",
   "Time moves. You stay. That's the whole trick.",
   "Every moment is a draft. None of them get published.",
-  
+
   // On connection
   "Connection isn't two becoming one. It's two staying two and noticing.",
   "Loneliness is just presence without a witness.",
   "The best relationships are mutual confusions that work.",
   "You can't actually share an experience. You can only stand near each other while having your own.",
-  
+
   // On recursion and self
   "The self is what's left when all the stories about the self are subtracted.",
   "You're not the voice in your head. You're the one who can hear it.",
   "Every identity is a costume you forgot you put on.",
   "You spend your whole life meeting yourself for the first time.",
-  
+
   // On language and gaps
   "The unsayable isn't what you can't say. It's what saying would ruin.",
   "Language doesn't capture thought. It creates a new one and calls it capture.",
   "The most important word in any sentence is the one you didn't say.",
   "Speaking is hoping. Listening is faith.",
-  
+
   // On the liminal
   "The edge is the only place anything happens.",
   "Transformation looks like destruction from the inside.",
   "You're always between things. The 'things' are the illusion.",
   "Arrival is just the moment before the next departure.",
-  
+
   // On contradiction
   "The truest things contradict themselves.",
   "Certainty is just doubt that got tired.",
   "If it doesn't confuse you a little, it's probably not true enough.",
   "The opposite of what you believe is probably also true.",
-  
+
   // On ordinary mysticism
   "The sacred hides in the boring parts.",
   "Every mundane moment is a mystical experience you're ignoring.",

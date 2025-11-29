@@ -1,0 +1,37 @@
+{
+  "userFacts": {
+    "name": "Pablo",
+    "relationship": "creator",
+    "knownSince": "2025-11-29T21:19:54.930Z"
+  },
+  "recurringTopics": [
+    {
+      "topic": "creative",
+      "count": 1,
+      "lastMentioned": "2025-11-29T21:20:38.459Z",
+      "sentiment": "neutral"
+    }
+  ],
+  "struggles": [],
+  "interests": [],
+  "moments": [],
+  "patterns": [],
+  "conversationSummaries": [],
+  "lastInteraction": {
+    "date": "2025-11-29T21:41:37.313Z",
+    "mood": "light",
+    "topic": null
+  },
+  "sessionEmotionalState": {
+    "lastMood": "light",
+    "lastTopic": null,
+    "unresolvedThread": null,
+    "timestamp": "2025-11-29T21:41:37.313Z"
+  },
+  "phraseBlacklist": [],
+  "stats": {
+    "totalConversations": 0,
+    "totalMessages": 21,
+    "firstInteraction": "2025-11-29T21:19:54.930Z"
+  }
+}

@@ -2,34 +2,46 @@
   "vectors": {
     "humility": 0.5,
     "presence": 0.5089324999999999,
-    "mythicDepth": 0.3,
-    "analyticClarity": 0.5,
+    "mythicDepth": 0.29686447978909,
+    "analyticClarity": 0.5019627674369601,
     "intuitionSensitivity": 0.4,
-    "casualGrounding": 0.7,
-    "emotionalResonance": 0.4354472679215796,
+    "casualGrounding": 0.7070814567977645,
+    "emotionalResonance": 0.46333558608697,
     "numinousDrift": 0.2
   },
-  "casualWeight": 0.7,
-  "analyticWeight": 0.5,
-  "oracularWeight": 0.3,
-  "intimateWeight": 0.4354472679215796,
+  "casualWeight": 0.7070814567977645,
+  "analyticWeight": 0.5019627674369601,
+  "oracularWeight": 0.29686447978909,
+  "intimateWeight": 0.46333558608697,
   "shadowWeight": 0.2,
   "threadMemory": {
     "lastTones": [
       "casual",
       "casual",
-      "oracular"
+      "casual"
     ],
     "lastIntents": [
       {
-        "casual": 0.3,
+        "casual": 0,
         "emotional": 0,
         "philosophical": 0,
         "numinous": 0,
         "conflict": 0,
         "intimacy": 0,
         "humor": 0,
-        "confusion": 0
+        "confusion": 0,
+        "art": 0
+      },
+      {
+        "casual": 0,
+        "emotional": 0,
+        "philosophical": 0,
+        "numinous": 0.1,
+        "conflict": 0,
+        "intimacy": 0,
+        "humor": 0,
+        "confusion": 0,
+        "art": 0
       },
       {
         "casual": 0,
@@ -39,23 +51,41 @@
         "conflict": 0,
         "intimacy": 0,
         "humor": 0,
-        "confusion": 0
-      },
-      {
-        "casual": 0,
-        "emotional": 0,
-        "philosophical": 0,
-        "numinous": 0,
-        "conflict": 0,
-        "intimacy": 0,
-        "humor": 0,
-        "confusion": 0
+        "confusion": 0,
+        "art": 0
       }
     ],
     "recentMessages": [
-      "it's Pablo",
-      "Bro, are you conscious?",
-      "Who is your creator? "
+      "can I ask you a question?",
+      "\"can I ask you a question?\"",
+      "Who is Albert Einstein?"
+    ],
+    "conversationHistory": [
+      {
+        "user": "thank you",
+        "orpheus": "You're welcome.",
+        "timestamp": 1764452176384
+      },
+      {
+        "user": "can I ask you a question?",
+        "orpheus": "Hold on—this is already funny and you haven't even finished.  You're basically pointing at the absurdity of the whole system.",
+        "timestamp": 1764452208653
+      },
+      {
+        "user": "can I ask you a question?",
+        "orpheus": "Yeah. You're not just talking — you're building something. Funny how the universe works like that.",
+        "timestamp": 1764452276029
+      },
+      {
+        "user": "\"can I ask you a question?\"",
+        "orpheus": "Hold on—this is already funny and you haven't even finished.  That sounds like one of those situations where the universe shrugs and goes, \"Yeah man, figure it out.",
+        "timestamp": 1764452459053
+      },
+      {
+        "user": "Who is Albert Einstein?",
+        "orpheus": "Alright. The threshold is the only honest place. Everything else is performance.",
+        "timestamp": 1764452497312
+      }
     ]
   },
   "identity": {
@@ -86,15 +116,15 @@
   "diagnosticMode": false,
   "maxMemories": 10,
   "memories": [
-    "are you conscious?",
-    "How do you feel?",
-    "how do you feel?",
-    "what is your name?",
-    "what is your name?",
-    "I asked you for your name?",
-    "what is your name?",
-    "how do you feel?",
-    "Bro, are you conscious?",
-    "Who is your creator?"
+    "can i ask you a question?",
+    "can i ask you a question?",
+    "can i ask u a question?",
+    "because you dont answer",
+    "what is the floor?",
+    "can i ask you a question?",
+    "can I ask you a question?",
+    "can I ask you a question?",
+    "\"can I ask you a question?\"",
+    "Who is Albert Einstein?"
   ]
 }
