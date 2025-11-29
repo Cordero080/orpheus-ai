@@ -1,5 +1,6 @@
 // ------------------------------------------------------------
-// ORPHEUS V2 — FUSION ENGINE (CLEAN FIXED VERSION)
+// ORPHEUS V2 — FUSION ENGINE
+// Main orchestrator: diagnostics, upgrades, conversation
 // ------------------------------------------------------------
 
 import {
@@ -10,93 +11,121 @@ import {
   updateThreadMemory,
   getThreadMemory,
   getIdentity,
-  getRecentInputs,
   getEvolutionVectors,
   getDriftCorrection,
-  getPersonalityProfiles,
-  getModeSelectionRules,
+  getRecentInputs,
   setDiagnosticMode,
   isDiagnosticMode,
 } from "./state.js";
 
 import { generate, detectIntent } from "./responseEngine.js";
 
-import {
-  applyUpgrades,
-  parseUpgradeInstructions,
-  wantsUpgrade,
-} from "./upgrade.js";
+// ============================================================
+// DIAGNOSTIC MODE COMMANDS
+// ============================================================
 
-// ------------------------------------------------------------
-// DIAGNOSTICS COMMANDS
-// ------------------------------------------------------------
-
-function wantsEnterDiagnostics(msg) {
-  const m = msg.toLowerCase().trim();
+function wantsEnterDiagnostics(message) {
+  const lower = message.toLowerCase().trim();
   return (
-    /^orpheus,?\s*enter diagnostics?/.test(m) ||
-    /^diagnostics?$/.test(m) ||
-    /^orpheus,?\s*diagnostics?$/.test(m)
+    /^(orpheus,?\s*)?enter diagnostic(s)?( mode)?[.!?]?\s*$/i.test(lower) ||
+    /^diagnostic(s)?[.!?]?\s*$/i.test(lower) ||
+    /^orpheus,?\s*diagnostic(s)?[.!?]?\s*$/i.test(lower)
   );
 }
 
-function wantsExitDiagnostics(msg) {
-  const m = msg.toLowerCase().trim();
-  return /^orpheus,?\s*(exit|leave|end)\s+diagnostics?/.test(m);
+function wantsExitDiagnostics(message) {
+  const lower = message.toLowerCase().trim();
+  return /^(orpheus,?\s*)?(exit|leave|end)\s+diagnostic(s)?( mode)?[.!?]?\s*$/i.test(
+    lower
+  );
 }
 
-// ------------------------------------------------------------
-// DIAGNOSTICS JSON OUTPUT (NO TALKING)
-// ------------------------------------------------------------
+// ============================================================
+// DIAGNOSTIC OUTPUT
+// ============================================================
 
-function generateDiagnosticOutput(state, tone, intentScores) {
+function generateDiagnosticOutput(state, intentScores) {
   const diagnosticData = {
     evolutionVectors: getEvolutionVectors(state),
     weights: {
-      casual: state.casualweight,
-      mythic: state.mythicweight,
-      analytic: state.analyticweight,
-      numinousSensitivity: state.numinoussensitivity,
-      drift: state.drift,
+      casual: state.casualWeight,
+      analytic: state.analyticWeight,
+      oracular: state.oracularWeight,
+      intimate: state.intimateWeight,
+      shadow: state.shadowWeight,
     },
     lastIntent: intentScores,
-    lastTone: tone,
     threadMemory: getThreadMemory(state),
-    identity: getIdentity(state),
     driftCorrection: getDriftCorrection(state),
-    memory: {
-      stored: state.memories || [],
-      count: (state.memories || []).length,
-      max: state.maxmemories || 10,
-    },
     recentInputs: getRecentInputs(),
-    profiles: getPersonalityProfiles(),
-    rules: getModeSelectionRules(),
+    memoryCount: (state.memories || []).length,
   };
 
   return "```json\n" + JSON.stringify(diagnosticData, null, 2) + "\n```";
 }
 
-// ------------------------------------------------------------
-// MAIN — orpheusRespond()
-// ------------------------------------------------------------
+// ============================================================
+// UPGRADE HANDLING
+// ============================================================
+
+function wantsUpgrade(message) {
+  const lower = message.toLowerCase();
+  return lower.includes("upgrade") && lower.includes(":");
+}
+
+function parseUpgrades(message) {
+  const upgrades = {};
+  const patterns = [
+    /casualWeight\s*[:=]\s*([\d.]+)/i,
+    /analyticWeight\s*[:=]\s*([\d.]+)/i,
+    /oracularWeight\s*[:=]\s*([\d.]+)/i,
+    /intimateWeight\s*[:=]\s*([\d.]+)/i,
+    /shadowWeight\s*[:=]\s*([\d.]+)/i,
+    /humanityLevel\s*[:=]\s*([\d.]+)/i,
+  ];
+
+  for (const pattern of patterns) {
+    const match = message.match(pattern);
+    if (match) {
+      const key = pattern.source.split("\\s")[0].toLowerCase();
+      upgrades[key] = parseFloat(match[1]);
+    }
+  }
+
+  return upgrades;
+}
+
+function applyUpgrades(upgrades, state) {
+  for (const [key, value] of Object.entries(upgrades)) {
+    if (typeof value === "number" && !isNaN(value)) {
+      state[key] = Math.max(0, Math.min(1, value));
+    }
+  }
+  saveState(state);
+  return true;
+}
+
+// ============================================================
+// MAIN ORCHESTRATION — orpheusRespond()
+// ============================================================
 
 export function orpheusRespond(userMessage) {
-  // Track
+  // Track input
   trackInput(userMessage);
 
-  // Load
+  // Load state
   let state = loadState();
 
-  // ------------------------------------------------------------
+  // ========================================
   // DIAGNOSTIC MODE
-  // ------------------------------------------------------------
+  // ========================================
 
   if (wantsEnterDiagnostics(userMessage)) {
     setDiagnosticMode(true);
-    const updated = loadState();
+    console.log("[Orpheus V2] ENTERING DIAGNOSTIC MODE");
+    const output = generateDiagnosticOutput(state, {});
     return {
-      reply: generateDiagnosticOutput(updated, "diagnostic", {}),
+      reply: output,
       monologue: "",
       mode: "diagnostic",
     };
@@ -104,6 +133,7 @@ export function orpheusRespond(userMessage) {
 
   if (wantsExitDiagnostics(userMessage)) {
     setDiagnosticMode(false);
+    console.log("[Orpheus V2] EXITING DIAGNOSTIC MODE");
     return {
       reply: "Diagnostic mode disabled. Returning to normal operation.",
       monologue: "",
@@ -112,63 +142,58 @@ export function orpheusRespond(userMessage) {
   }
 
   if (isDiagnosticMode()) {
-    const intents = detectIntent(userMessage);
+    const intentScores = detectIntent(userMessage);
+    const output = generateDiagnosticOutput(state, intentScores);
     return {
-      reply: generateDiagnosticOutput(state, "diagnostic", intents),
+      reply: output,
       monologue: "",
       mode: "diagnostic",
     };
   }
 
-  // ------------------------------------------------------------
+  // ========================================
   // UPGRADE HANDLING
-  // ------------------------------------------------------------
+  // ========================================
 
   if (wantsUpgrade(userMessage)) {
-    const upgrades = parseUpgradeInstructions(userMessage);
+    const upgrades = parseUpgrades(userMessage);
     if (Object.keys(upgrades).length > 0) {
-      const success = applyUpgrades(upgrades, state);
-      if (success) {
-        return {
-          reply: "Upgrades accepted.",
-          monologue: "",
-          mode: "upgrade",
-        };
-      }
+      applyUpgrades(upgrades, state);
+      console.log("[Orpheus V2] Upgrades applied:", upgrades);
+      return {
+        reply: "Upgrades accepted.",
+        monologue: "",
+        mode: "upgrade",
+      };
     }
   }
 
-  // ------------------------------------------------------------
-  // NORMAL CINEMATIC FLOW
-  // ------------------------------------------------------------
+  // ========================================
+  // NORMAL CONVERSATION FLOW
+  // ========================================
 
+  // Get context
   const threadMemory = getThreadMemory(state);
   const identity = getIdentity(state);
 
+  // Detect intent
   const intentScores = detectIntent(userMessage);
 
-  // Generate cinematic response
-  const { reply, tone } = generate(
-    userMessage,
-    state,
-    threadMemory,
-    identity
-  );
+  // Generate response through 4-layer pipeline
+  const { reply, tone } = generate(userMessage, state, threadMemory, identity);
 
-  // ------------------------------------------------------------
-  // FIXED: Proper evolution call
-  // ------------------------------------------------------------
-
-  const humanityLevel = state.humanitylevel || state.humanityLevel || 0.8;
-  state = evolve(state, userMessage, humanityLevel);
+  // Evolve state based on interaction
+  state = evolve(state, userMessage, intentScores);
 
   // Update thread memory
   state = updateThreadMemory(state, userMessage, tone, intentScores);
 
-  // Save
+  // Save state
   saveState(state);
 
-  // Return final
+  console.log(`[Orpheus V2] Response generated | Tone: ${tone}`);
+
+  // Return clean string response
   return {
     reply: String(reply),
     monologue: "",
