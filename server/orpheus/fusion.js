@@ -181,7 +181,12 @@ export async function orpheusRespond(userMessage) {
   const intentScores = detectIntent(userMessage);
 
   // Generate response through 4-layer pipeline (now async with LLM)
-  const { reply, tone } = await generate(userMessage, state, threadMemory, identity);
+  const { reply, tone } = await generate(
+    userMessage,
+    state,
+    threadMemory,
+    identity
+  );
 
   // Evolve state based on interaction
   state = evolve(state, userMessage, intentScores);
