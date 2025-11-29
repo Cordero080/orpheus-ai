@@ -125,10 +125,10 @@
 .chat-wrapper {
   width: 100%;
   max-width: 750px;
-  margin: 20px auto 0;
+  margin: 0 auto;
   flex: 1;
   min-height: 0;
-  max-height: calc(100vh - 180px);
+  max-height: calc(100vh - 120px);
   position: relative;
   overflow: hidden;
   

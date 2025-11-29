@@ -4,8 +4,8 @@
 
 .title-container {
   width: 100%;
-  height: 140px;
-  margin-top: 20px;
+  height: 100px;
+  margin-top: -5px;
   margin-bottom: 0;
   flex-shrink: 0;
 }
