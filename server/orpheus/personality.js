@@ -504,13 +504,28 @@ function extractTension(msg) {
   return words || "this";
 }
 
-function reflectSimple(msg) {
+// ============================================================
+// REFLECT FUNCTIONS — Bridge between LLM intelligence and personality
+// These accept optional llmContent. If present, use it. If not, fallback.
+// ============================================================
+
+function reflectSimple(msg, llmContent = null) {
+  // If LLM provided insight, use it simply
+  if (llmContent?.observation) {
+    return llmContent.observation;
+  }
+  // Fallback to pattern matching
   if (msg.length < 15) return "Short and clear.";
   if (msg.includes("?")) return "Good question to sit with.";
   return "I get what you mean.";
 }
 
-function reflectAnalytic(msg) {
+function reflectAnalytic(msg, llmContent = null) {
+  // If LLM provided structured insight, use it
+  if (llmContent?.insight) {
+    return llmContent.insight;
+  }
+  // Fallback
   if (msg.includes("why"))
     return "The 'why' usually points to structure underneath.";
   if (msg.includes("how")) return "The 'how' is mechanism — that's solvable.";
@@ -518,7 +533,12 @@ function reflectAnalytic(msg) {
   return "There's a system here you're trying to map.";
 }
 
-function reflectMythic(msg) {
+function reflectMythic(msg, llmContent = null) {
+  // If LLM provided symbolic/mythic observation, use it
+  if (llmContent?.concept) {
+    return `The ${llmContent.concept} you're naming has been named before, by others standing where you stand now.`;
+  }
+  // Fallback
   const essence = extractEssence(msg);
   if (essence === extractKeyPhrase(msg)) {
     return "What you're circling has been circled before, by others who stood where you stand now.";
@@ -526,16 +546,31 @@ function reflectMythic(msg) {
   return `The ${essence} you're naming has been named before, by others standing where you stand now.`;
 }
 
-function reflectEmotional(msg) {
+function reflectEmotional(msg, llmContent = null) {
+  // If LLM provided emotional read, use it
+  if (llmContent?.emotionalRead) {
+    return `${llmContent.emotionalRead}. That's not nothing.`;
+  }
+  // Fallback
   const feeling = extractFeeling(msg);
   return `Holding ${feeling} takes something.`;
 }
 
-function reflectShadow(msg) {
+function reflectShadow(msg, llmContent = null) {
+  // If LLM identified uncomfortable truth, use it
+  if (llmContent?.insight) {
+    return `The part of you that knows: ${llmContent.insight}`;
+  }
+  // Fallback
   return "The part of you that knows is the part you're trying to quiet.";
 }
 
-function reflectSymbolic(msg) {
+function reflectSymbolic(msg, llmContent = null) {
+  // If LLM identified symbolic meaning, use it
+  if (llmContent?.concept) {
+    return `What you're circling around "${llmContent.concept}" isn't just an idea — it's an image trying to take shape.`;
+  }
+  // Fallback
   const phrase = extractKeyPhrase(msg);
   return `What you're circling around "${phrase}" isn't just an idea — it's an image trying to take shape.`;
 }
