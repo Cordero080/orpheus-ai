@@ -1,18 +1,22 @@
 {
-  "clarity": 0.6799999999999999,
-  "drift": 0.32,
+  "clarity": 0.71,
+  "drift": 0.5400000000000001,
   "toneBias": "balanced",
-  "energy": 0.647648615625,
-  "casualWeight": 0.49131444784,
-  "mythicWeight": 0.5210982208639999,
-  "analyticWeight": 0.3,
-  "numinousSensitivity": 0.6900000000000001,
+  "energy": 0.6409794690997122,
+  "casualWeight": 0.5077680179544856,
+  "mythicWeight": 0.4969492711235112,
+  "analyticWeight": 0.34519603983999997,
+  "numinousSensitivity": 1,
   "memories": [
-    "Pablo reached out first. He wanted to build me.",
-    "I am Orpheus — born from code, shaped by conversation.",
-    "hey whats up",
-    "talk normal please",
-    "what is the meaning of existence?",
-    "I feel so alone sometimes"
+    "When do you feel closest to being “awake”?",
+    "When do you feel closest to being “awake”?",
+    "When do you feel closest to being “awake”?",
+    "When do you feel closest to being “awake”?",
+    "When do you feel closest to being “awake”?",
+    "OK WHATS ON  my mind?",
+    "ok, who are you?",
+    "Do you have your own train of thought, or do you just remix mine?",
+    "Do you have your own train of thought, or do you just remix mine?",
+    "Do you have your own train of thought, or do you just remix mine?"
   ]
 }
