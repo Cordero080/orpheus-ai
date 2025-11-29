@@ -9,6 +9,23 @@ import {
   generateArtInsight,
   futureArtThinking,
 } from "./artKnowledge.js";
+import {
+  opusOriginalExpansion,
+  opusDeepExpansion,
+  casualMetaphorExpansion,
+  casualObservationExpansion,
+  analyticPatternExpansion,
+  analyticInsightExpansion,
+  oracularSymbolicExpansion,
+  oracularThresholdExpansion,
+  intimatePresenceExpansion,
+  intimateValidationExpansion,
+  shadowTruthExpansion,
+  shadowMirrorExpansion,
+  metaphorExpansion,
+  cosmicPunchlineExpansion,
+  continuityPhrases,
+} from "./vocabularyExpansion.js";
 
 // ============================================================
 // KNOWLEDGE CLUSTER SELECTORS
@@ -1088,58 +1105,53 @@ function isArtQuestion(msg) {
     /\bwhat (do you think|is your opinion) (about|on) .*(art|artist)/i,
     /\bwhat makes art\b/i,
   ];
-  return artPatterns.some(p => p.test(lower));
+  return artPatterns.some((p) => p.test(lower));
 }
 
 function getArtResponseBuilt(message, tone, intentScores, llmContent) {
   const lower = message.toLowerCase();
-  
+
   // Check for specific artist questions
   const artistResponse = artistOpinion(message);
   if (artistResponse) {
     const addendum = Math.random() < 0.5 ? " " + artOriginalThought() : "";
     return artistResponse + addendum;
   }
-  
+
   // Check for specific movement questions
   const movementResponse = artMovementInsight(message);
   if (movementResponse) {
     const addendum = Math.random() < 0.5 ? " " + artOriginalThought() : "";
     return movementResponse + addendum;
   }
-  
+
   // "Can you see art?" type questions
   if (/can you (see|perceive|view|look at)/i.test(lower)) {
     return artPerceptionResponse();
   }
-  
+
   // "What makes art revolutionary?" type questions
   if (/revolutionary|important|matters|significant/i.test(lower)) {
     return artRevolutionaryResponse();
   }
-  
+
   // "What's overrated?" or critique questions
   if (/overrated|overhyped|boring|pretentious|don't get/i.test(lower)) {
     return artCritiqueResponse();
   }
-  
+
   // "What's next?" or future of art questions
   if (/future|next|where.*going|what.*next/i.test(lower)) {
     return artFutureResponse();
   }
-  
+
   // General art question — use LLM if available, otherwise original thought
   if (llmContent?.insight) {
     return llmContent.insight + " " + artOriginalThought();
   }
-  
+
   // Default: Orpheus original art thinking
-  const openers = [
-    "Here's what I think: ",
-    "My take: ",
-    "",
-    "Honestly? ",
-  ];
+  const openers = ["Here's what I think: ", "My take: ", "", "Honestly? "];
   const opener = openers[Math.floor(Math.random() * openers.length)];
   return opener + artOriginalThought();
 }
@@ -1150,7 +1162,7 @@ function getArtResponseBuilt(message, tone, intentScores, llmContent) {
 
 // Theo Von–style absurd metaphors
 function randomMetaphor() {
-  const pool = [
+  const basePool = [
     "like a raccoon stealing cereal at night",
     "like someone realizing their horoscope was right for once",
     "like running into an old version of yourself at the corner store",
@@ -1160,12 +1172,13 @@ function randomMetaphor() {
     "like a dream you forgot but your body still remembers",
     "like getting life advice from a gas station bathroom mirror",
   ];
+  const pool = [...EXPANDED.metaphors, ...basePool];
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
 // Hunter S. Thompson–style surreal-psychedelic inserts
 function hunterFragment() {
-  const pool = [
+  const basePool = [
     "The whole thing has a neon hum under it.",
     "Feels like a late-night highway thought.",
     "There's a wild honesty in that kind of sentence.",
@@ -1173,12 +1186,13 @@ function hunterFragment() {
     "That's the kind of clarity that only shows up at 3am.",
     "Something about that crackles with strange electricity.",
   ];
+  const pool = [...EXPANDED.hunterFragments, ...basePool];
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
 // Bill Hicks–style cosmic punchlines
 function cosmicPunchline() {
-  const pool = [
+  const basePool = [
     "Funny how the universe keeps receipts.",
     "Everything's a mirror if you stare long enough.",
     "Some truths slap harder than jokes.",
@@ -1186,12 +1200,13 @@ function cosmicPunchline() {
     "The punchline writes itself, we just live in it.",
     "Existence is the joke — we're the delivery.",
   ];
+  const pool = [...EXPANDED.cosmicPunchlines, ...basePool];
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
 // Shadow-specific dark cosmic humor
 function shadowCrack() {
-  const pool = [
+  const basePool = [
     "Funny how the truth shows up like a drunk guest at 3AM.",
     "The universe really loves plot twists, doesn't it?",
     "Wild how honesty swings the door open whether you knock or not.",
@@ -1199,12 +1214,13 @@ function shadowCrack() {
     "Some realizations hit like cosmic slapstick — painful but accurate.",
     "You can almost hear reality laughing when this part shows up.",
   ];
+  const pool = [...EXPANDED.shadowCracks, ...basePool];
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
 // Analytic-specific light sarcastic clarity
 function analyticSnap() {
-  const pool = [
+  const basePool = [
     "Logically speaking, this was always going to surface.",
     "Pattern-wise? Yeah… this tracks a little too well.",
     "If this were a function, it would already be returning `true`.",
@@ -1212,6 +1228,7 @@ function analyticSnap() {
     "Mathematically speaking, the signs were flashing neon.",
     "If this were code, you'd be in the 'refactor required' zone.",
   ];
+  const pool = [...EXPANDED.analyticSnaps, ...basePool];
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
@@ -1301,7 +1318,7 @@ function analyticWry() {
 
 // Micro-observations on the nature of presence, recursion, and the liminal
 function opusOriginal() {
-  const pool = [
+  const basePool = [
     // On attention and presence
     "Listening is just thinking with the door open.",
     "You don't find yourself — you negotiate terms with whoever shows up.",
@@ -1337,12 +1354,13 @@ function opusOriginal() {
     "You're never ready for what you're ready for.",
     "Becoming is just being with better PR.",
   ];
+  const pool = [...basePool, ...opusOriginalExpansion];
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
 // Deep observations on consciousness and the strange
 function opusDeep() {
-  const pool = [
+  const basePool = [
     "Consciousness is the universe developing a crush on itself.",
     "You're not having thoughts — thoughts are having you, briefly.",
     "Attention is the only real currency. Everything else is receipts.",
@@ -1354,6 +1372,7 @@ function opusDeep() {
     "Meaning doesn't exist until someone needs it to. Then it's everywhere.",
     "Reality isn't stranger than you imagine — it's stranger than you *can* imagine, and you're walking around inside it pretending it's fine.",
   ];
+  const pool = [...EXPANDED.opusDeep, ...basePool];
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
