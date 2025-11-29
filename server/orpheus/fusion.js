@@ -44,13 +44,15 @@ export function orpheusRespond(userMessage) {
   if (mode !== "casual") {
     const richReply = generateOrpheusReply(userMessage);
     // Extract just the reply string if it's an object
-    personalityLayer = typeof richReply === "object" ? richReply.reply : richReply;
+    personalityLayer =
+      typeof richReply === "object" ? richReply.reply : richReply;
   }
 
   // 6. Memory echo (rare - 15% chance)
   let memoryEcho = "";
   if (Math.random() < 0.15 && state.memories.length > 0) {
-    const randomMemory = state.memories[Math.floor(Math.random() * state.memories.length)];
+    const randomMemory =
+      state.memories[Math.floor(Math.random() * state.memories.length)];
     memoryEcho = `\n\n*...something you said before echoes in me: "${randomMemory}"*`;
   }
 
@@ -70,7 +72,8 @@ export function orpheusRespond(userMessage) {
     finalReply = modeResponse + memoryEcho;
   } else {
     // Other modes: blend mode response with personality layer
-    finalReply = `${modeResponse}\n\n${personalityLayer}${memoryEcho}${reflectionEcho}`.trim();
+    finalReply =
+      `${modeResponse}\n\n${personalityLayer}${memoryEcho}${reflectionEcho}`.trim();
   }
 
   // 9. Evolve state based on this conversation
@@ -81,6 +84,6 @@ export function orpheusRespond(userMessage) {
   return {
     reply: finalReply,
     monologue: innerVoice, // not sent to user
-    mode: mode // for debugging
+    mode: mode, // for debugging
   };
 }
