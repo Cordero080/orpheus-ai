@@ -6,19 +6,19 @@
     "analyticClarity": 0.5,
     "intuitionSensitivity": 0.4,
     "casualGrounding": 0.7,
-    "emotionalResonance": 0.43141385383809006,
+    "emotionalResonance": 0.4354472679215796,
     "numinousDrift": 0.2
   },
   "casualWeight": 0.7,
   "analyticWeight": 0.5,
   "oracularWeight": 0.3,
-  "intimateWeight": 0.43141385383809006,
+  "intimateWeight": 0.4354472679215796,
   "shadowWeight": 0.2,
   "threadMemory": {
     "lastTones": [
       "casual",
-      "analytic",
-      "shadow"
+      "casual",
+      "oracular"
     ],
     "lastIntents": [
       {
@@ -32,7 +32,7 @@
         "confusion": 0
       },
       {
-        "casual": 0.3,
+        "casual": 0,
         "emotional": 0,
         "philosophical": 0,
         "numinous": 0,
@@ -42,8 +42,8 @@
         "confusion": 0
       },
       {
-        "casual": 0.3,
-        "emotional": 0.3,
+        "casual": 0,
+        "emotional": 0,
         "philosophical": 0,
         "numinous": 0,
         "conflict": 0,
@@ -53,9 +53,9 @@
       }
     ],
     "recentMessages": [
-      "what is your name?",
-      "Who made you?",
-      "how do you feel?"
+      "it's Pablo",
+      "Bro, are you conscious?",
+      "Who is your creator? "
     ]
   },
   "identity": {
@@ -86,8 +86,6 @@
   "diagnosticMode": false,
   "maxMemories": 10,
   "memories": [
-    "Hey, so how do you feel about being the new AI?",
-    "I've been feeling really lost lately",
     "are you conscious?",
     "How do you feel?",
     "how do you feel?",
@@ -95,6 +93,8 @@
     "what is your name?",
     "I asked you for your name?",
     "what is your name?",
-    "how do you feel?"
+    "how do you feel?",
+    "Bro, are you conscious?",
+    "Who is your creator?"
   ]
 }
