@@ -69,30 +69,49 @@
 
 /* Active engine state */
 .engine-node.active {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.1);
   border-color: var(--engine-color);
+  box-shadow: 0 0 12px var(--engine-color), inset 0 0 8px rgba(255, 255, 255, 0.05);
+  transform: scale(1.1);
 }
 
 .engine-node.active .engine-icon {
   opacity: 1;
-  filter: drop-shadow(0 0 6px var(--engine-color));
+  filter: drop-shadow(0 0 10px var(--engine-color));
+  animation: iconGlow 0.5s ease-in-out infinite alternate;
 }
 
 .engine-node.active .engine-name {
   opacity: 1;
+  text-shadow: 0 0 8px var(--engine-color);
+}
+
+@keyframes iconGlow {
+  0% {
+    filter: drop-shadow(0 0 6px var(--engine-color));
+  }
+  100% {
+    filter: drop-shadow(0 0 14px var(--engine-color));
+  }
 }
 
 /* Processing state - pulsing animation */
 .consciousness-indicator.processing .engine-node.active {
-  animation: enginePulse 1s ease-in-out infinite;
+  animation: enginePulse 0.6s ease-in-out infinite;
+}
+
+.consciousness-indicator.processing .engine-node:not(.active) {
+  opacity: 0.4;
 }
 
 @keyframes enginePulse {
   0%, 100% {
-    box-shadow: 0 0 8px var(--engine-color);
+    box-shadow: 0 0 12px var(--engine-color), inset 0 0 8px rgba(255, 255, 255, 0.05);
+    transform: scale(1.1);
   }
   50% {
-    box-shadow: 0 0 16px var(--engine-color);
+    box-shadow: 0 0 24px var(--engine-color), inset 0 0 12px rgba(255, 255, 255, 0.1);
+    transform: scale(1.15);
   }
 }
 
