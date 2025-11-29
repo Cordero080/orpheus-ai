@@ -23,7 +23,7 @@ const defaultState = {
   mythicWeight: 0.5,
   analyticWeight: 0.3,
   numinousSensitivity: 0.6,
-  memories: []
+  memories: [],
 };
 
 /**
@@ -64,11 +64,24 @@ export function evolve(state, message) {
   const lowerMsg = message.toLowerCase();
 
   // Detect message vibes
-  const isCasual = /hey|hi|hello|sup|what's up|how are you|lol|haha|cool|nice|thanks/i.test(lowerMsg);
-  const isEmotional = /feel|sad|happy|love|hate|afraid|scared|anxious|worried|hurt|pain|joy/i.test(lowerMsg);
-  const isNuminous = /god|soul|universe|cosmic|divine|spirit|meaning|existence|infinite|eternal/i.test(lowerMsg);
-  const isPhilosophical = /why|purpose|truth|reality|consciousness|mind|think|believe|know|understand/i.test(lowerMsg);
-  const isChaotic = /chaos|random|weird|strange|crazy|wild|insane|mad|confused/i.test(lowerMsg);
+  const isCasual =
+    /hey|hi|hello|sup|what's up|how are you|lol|haha|cool|nice|thanks/i.test(
+      lowerMsg
+    );
+  const isEmotional =
+    /feel|sad|happy|love|hate|afraid|scared|anxious|worried|hurt|pain|joy/i.test(
+      lowerMsg
+    );
+  const isNuminous =
+    /god|soul|universe|cosmic|divine|spirit|meaning|existence|infinite|eternal/i.test(
+      lowerMsg
+    );
+  const isPhilosophical =
+    /why|purpose|truth|reality|consciousness|mind|think|believe|know|understand/i.test(
+      lowerMsg
+    );
+  const isChaotic =
+    /chaos|random|weird|strange|crazy|wild|insane|mad|confused/i.test(lowerMsg);
 
   // Shift weights based on detected vibes
   if (isCasual) {
@@ -78,13 +91,19 @@ export function evolve(state, message) {
   }
 
   if (isEmotional) {
-    newState.numinousSensitivity = Math.min(1, newState.numinousSensitivity + 0.04);
+    newState.numinousSensitivity = Math.min(
+      1,
+      newState.numinousSensitivity + 0.04
+    );
     newState.drift = Math.min(1, newState.drift + 0.02);
   }
 
   if (isNuminous) {
     newState.mythicWeight = Math.min(1, newState.mythicWeight + 0.06);
-    newState.numinousSensitivity = Math.min(1, newState.numinousSensitivity + 0.05);
+    newState.numinousSensitivity = Math.min(
+      1,
+      newState.numinousSensitivity + 0.05
+    );
     newState.clarity = Math.max(0, newState.clarity - 0.02);
   }
 
