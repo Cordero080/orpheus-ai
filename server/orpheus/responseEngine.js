@@ -258,11 +258,17 @@ export async function generate(
   }
 
   // Layer 2.5: Get LLM content (if available AND message warrants it)
-  // Skip LLM content for very casual messages - they don't need deep analysis
+  // Skip LLM for pure casual greetings like "hey" or "hi" - but NOT for questions
   let llmContent = null;
-  const isCasualGreeting = intentScores.casual >= 0.8;
+  const isQuestion =
+    message.includes("?") ||
+    /^(who|what|where|when|why|how|is|are|can|do|does|will|would|should|could)\b/i.test(
+      message.trim()
+    );
+  const isPureCasualGreeting =
+    intentScores.casual >= 0.8 && !isQuestion && message.trim().length < 15;
 
-  if (isLLMAvailable() && !isCasualGreeting) {
+  if (isLLMAvailable() && !isPureCasualGreeting) {
     const context = {
       recentMessages: threadMemory.recentMessages || [],
       conversationHistory: threadMemory.conversationHistory || [],
