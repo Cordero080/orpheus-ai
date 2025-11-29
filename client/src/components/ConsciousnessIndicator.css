@@ -8,12 +8,11 @@
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  padding: 6px 16px;
+  padding: 1px 40px;
   
   /* Glassmorphism */
-  background: rgba(5, 5, 15, 0.6);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  
+  
   
   border: 1px solid rgba(138, 43, 226, 0.15);
   border-radius: 8px;
@@ -23,7 +22,7 @@
 
 .engines-row {
   display: flex;
-  gap: 12px;
+  gap: 100px;
 }
 
 .engine-node {
@@ -44,8 +43,8 @@
 }
 
 .engine-icon {
-  width: 18px;
-  height: 18px;
+  width: 25px;
+  height: 25px;
   display: flex;
   align-items: center;
   justify-content: center;
