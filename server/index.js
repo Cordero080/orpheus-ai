@@ -1,11 +1,11 @@
+// ------------------------- LOAD ENV FIRST --------------------------
+import "dotenv/config"; // Loads .env before any other imports
+
 // ------------------------- IMPORTS ---------------------------------
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
 import { orpheusRespond } from "./orpheus/fusion.js";
 // ^ Your Orpheus fusion engine
-
-dotenv.config(); // Activate .env BEFORE anything else
 
 // ------------------------- APP CONFIG -------------------------------
 const app = express();
