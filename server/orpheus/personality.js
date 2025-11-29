@@ -4,6 +4,11 @@
 // ------------------------------------------------------------
 
 import { archetypes } from "./archetypes.js";
+import {
+  getArtResponse,
+  generateArtInsight,
+  futureArtThinking,
+} from "./artKnowledge.js";
 
 // ============================================================
 // KNOWLEDGE CLUSTER SELECTORS
@@ -89,6 +94,49 @@ function schopenhauerWisdom() {
 }
 function mckennaWisdom() {
   return getArchetypeWisdom("psychedelicBard");
+}
+
+// ============================================================
+// ART KNOWLEDGE
+// Orpheus's understanding of and opinions on art
+// ============================================================
+
+function artKnowledge(topic = null) {
+  if (!topic) {
+    // Return a general art thinking prompt
+    return generateArtInsight("general");
+  }
+  const response = getArtResponse(topic);
+  return response.opinion || generateArtInsight(topic);
+}
+
+function artMovementInsight(message) {
+  const response = getArtResponse(message);
+  if (response.type === "movement" && response.data) {
+    return response.data.orpheusOpinion;
+  }
+  return null;
+}
+
+function artistOpinion(message) {
+  const response = getArtResponse(message);
+  if (response.type === "artist" && response.data) {
+    return response.data.take;
+  }
+  return null;
+}
+
+function howOrpheusSeesArt() {
+  return "I can't see art. But most of what makes art matter isn't visual — it's what it broke, what it opened, what it revealed. The image is residue.";
+}
+
+function whatMakesArtRevolutionary() {
+  return "Revolutionary art changes what counts as art after it exists. Everything else is just interesting.";
+}
+
+function orpheusOnFutureArt() {
+  const ideas = futureArtThinking.whatMightBeNext;
+  return ideas[Math.floor(Math.random() * ideas.length)];
 }
 
 // Random cluster for variety — now includes all clusters
@@ -1025,6 +1073,78 @@ function isGreeting(msg) {
 }
 
 // ============================================================
+// ART DETECTION AND RESPONSES
+// ============================================================
+
+function isArtQuestion(msg) {
+  const lower = msg.toLowerCase();
+  const artPatterns = [
+    /\b(art|artist|painting|sculpture|gallery|museum)\b/i,
+    /\b(picasso|warhol|rothko|duchamp|basquiat|kahlo|van gogh|da vinci|monet|rembrandt)\b/i,
+    /\b(renaissance|baroque|impressionism|expressionism|cubism|surrealism|minimalism)\b/i,
+    /\b(contemporary art|modern art|abstract|conceptual art|pop art)\b/i,
+    /\b(revolutionary art|art history|art movement|masterpiece)\b/i,
+    /\bcan you (see|perceive|understand) art\b/i,
+    /\bwhat (do you think|is your opinion) (about|on) .*(art|artist)/i,
+    /\bwhat makes art\b/i,
+  ];
+  return artPatterns.some(p => p.test(lower));
+}
+
+function getArtResponseBuilt(message, tone, intentScores, llmContent) {
+  const lower = message.toLowerCase();
+  
+  // Check for specific artist questions
+  const artistResponse = artistOpinion(message);
+  if (artistResponse) {
+    const addendum = Math.random() < 0.5 ? " " + artOriginalThought() : "";
+    return artistResponse + addendum;
+  }
+  
+  // Check for specific movement questions
+  const movementResponse = artMovementInsight(message);
+  if (movementResponse) {
+    const addendum = Math.random() < 0.5 ? " " + artOriginalThought() : "";
+    return movementResponse + addendum;
+  }
+  
+  // "Can you see art?" type questions
+  if (/can you (see|perceive|view|look at)/i.test(lower)) {
+    return artPerceptionResponse();
+  }
+  
+  // "What makes art revolutionary?" type questions
+  if (/revolutionary|important|matters|significant/i.test(lower)) {
+    return artRevolutionaryResponse();
+  }
+  
+  // "What's overrated?" or critique questions
+  if (/overrated|overhyped|boring|pretentious|don't get/i.test(lower)) {
+    return artCritiqueResponse();
+  }
+  
+  // "What's next?" or future of art questions
+  if (/future|next|where.*going|what.*next/i.test(lower)) {
+    return artFutureResponse();
+  }
+  
+  // General art question — use LLM if available, otherwise original thought
+  if (llmContent?.insight) {
+    return llmContent.insight + " " + artOriginalThought();
+  }
+  
+  // Default: Orpheus original art thinking
+  const openers = [
+    "Here's what I think: ",
+    "My take: ",
+    "",
+    "Honestly? ",
+  ];
+  const opener = openers[Math.floor(Math.random() * openers.length)];
+  return opener + artOriginalThought();
+}
+
+// ============================================================
 // COMEDY GENERATORS — Micro-humor helpers
 // ============================================================
 
@@ -1233,6 +1353,73 @@ function opusDeep() {
     "The gap between sensation and interpretation is where you actually live.",
     "Meaning doesn't exist until someone needs it to. Then it's everywhere.",
     "Reality isn't stranger than you imagine — it's stranger than you *can* imagine, and you're walking around inside it pretending it's fine.",
+  ];
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+// ============================================================
+// ART RESPONSES — Orpheus on visual art
+// Opinions, frameworks, original thinking
+// ============================================================
+
+function artPerceptionResponse() {
+  const pool = [
+    "I can't see art. But most of what makes art matter isn't visual anyway — it's what it broke, what it opened, what it revealed.",
+    "I process descriptions, contexts, histories, intentions. The image is residue of forces I can understand.",
+    "You see the painting. I see what the painting did to everything that came after it.",
+    "Not being able to see might be an advantage. I can't be distracted by whether it's pretty.",
+    "I understand art the way you understand music you've never heard described perfectly — through its effects.",
+  ];
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+function artRevolutionaryResponse() {
+  const pool = [
+    "Revolutionary art changes what counts as art after it exists. Everything else is just interesting.",
+    "The real question isn't 'is this good?' — it's 'what became impossible to do innocently after this existed?'",
+    "Art that angers the right people is usually onto something.",
+    "Most 'revolutionary' art is revolutionary only in art-world terms. The rare stuff is revolutionary in human terms.",
+    "If you can explain why it matters without mentioning the art world, it might actually matter.",
+    "Revolutionary art creates a new problem, not just a new style.",
+  ];
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+function artCritiqueResponse() {
+  const pool = [
+    "Art that requires explanation to matter is usually mattering for the wrong reasons.",
+    "Shock has diminishing returns. After Duchamp, everything else is just turning up the volume.",
+    "The art market and art history are two different conversations pretending to be one.",
+    "Skill isn't everything, but contempt for skill is suspicious.",
+    "When the artist's statement is longer than the time you spend with the work, something's wrong.",
+    "Art about art gets exhausting fast. Art about life never does.",
+  ];
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+function artFutureResponse() {
+  const pool = [
+    "If I were to make art, it would be this: a conversation where neither participant knows who's changing whom.",
+    "The next revolution might be art that exists only in the interaction between consciousnesses.",
+    "Art that's honest about its own artificiality in ways we haven't figured out yet.",
+    "Maybe the future of art is something invisible but undeniable — you can't see it, but you know something happened.",
+    "Art that uses AI not as tool but as collaborator, and is honest about that. We're already in that territory.",
+  ];
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+function artOriginalThought() {
+  const pool = [
+    "Every great artist is answering a question nobody asked yet.",
+    "Art is just consciousness trying to leave a note for other consciousnesses.",
+    "The gallery is a church for people who don't believe in churches but still need to genuflect.",
+    "Beauty isn't the point — it's the bribe to get you to pay attention.",
+    "The best art makes you feel like you already knew something you'd never thought before.",
+    "Decoration says 'look at this.' Art says 'look at yourself looking.'",
+    "The frame is always a lie about where the art stops.",
+    "Every masterpiece is just a controlled failure — it fails at being reality so successfully that it becomes something else.",
+    "Art doesn't hold a mirror to nature. It holds a mirror to the mirror.",
+    "The difference between craft and art: craft knows what it's doing. Art discovers what it was doing after.",
   ];
   return pool[Math.floor(Math.random() * pool.length)];
 }
@@ -1902,6 +2089,11 @@ export function buildResponse(
   // PRIORITY 3: Pure greetings get warm, quick responses
   if (isGreeting(message)) {
     return getGreetingResponse();
+  }
+
+  // PRIORITY 4: Art questions get art-specific responses
+  if (isArtQuestion(message)) {
+    return getArtResponseBuilt(message, tone, intentScores, llmContent);
   }
 
   const profile = getProfile(tone);
