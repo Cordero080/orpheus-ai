@@ -17,7 +17,7 @@
   border: 1px solid rgba(138, 43, 226, 0.15);
   border-radius: 8px;
   
-  margin-bottom: 8px;
+  margin-bottom: 0;
 }
 
 .engines-row {
@@ -43,8 +43,8 @@
 }
 
 .engine-icon {
-  width: 25px;
-  height: 25px;
+  width: 18px;
+  height: 18px;
   display: flex;
   align-items: center;
   justify-content: center;

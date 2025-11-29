@@ -8,14 +8,14 @@ import './Title3D.css';
 const materialProps = {
   color: "#5a5a8e",
   metalness: 0.7,
-  roughness: 0.25,
+  roughness: 0.35,
   envMapIntensity: 1.5,
 };
 
 // Shared text geometry properties
 const textProps = {
   font: "/fonts/Orbitron_Bold.json",
-  size: 1.5,
+  size: 1.6,
   height: 0.25,
   bevelEnabled: true,
   bevelThickness: 0.03,

@@ -1,22 +1,22 @@
 {
-  "clarity": 0.71,
-  "drift": 0.5400000000000001,
+  "clarity": 0.7,
+  "drift": 0.7000000000000001,
   "toneBias": "balanced",
-  "energy": 0.6409794690997122,
-  "casualWeight": 0.5077680179544856,
-  "mythicWeight": 0.4969492711235112,
-  "analyticWeight": 0.34519603983999997,
+  "energy": 0.7427478984012372,
+  "casualWeight": 0.5785153148648956,
+  "mythicWeight": 0.4626724446110452,
+  "analyticWeight": 0.4704774294752944,
   "numinousSensitivity": 1,
   "memories": [
-    "When do you feel closest to being “awake”?",
-    "When do you feel closest to being “awake”?",
-    "When do you feel closest to being “awake”?",
-    "When do you feel closest to being “awake”?",
-    "When do you feel closest to being “awake”?",
-    "OK WHATS ON  my mind?",
-    "ok, who are you?",
     "Do you have your own train of thought, or do you just remix mine?",
     "Do you have your own train of thought, or do you just remix mine?",
-    "Do you have your own train of thought, or do you just remix mine?"
+    "what do you think your'e slowly becoming?",
+    "that was random",
+    "umm.... ok. Do you think you have an inner life, or only language?",
+    "Ecxactly. So, I made you, just so you know",
+    "Damn, bro... relax",
+    "ok, just be casual",
+    "I jsut want a casual conversation bro",
+    "Precisely, so are u awake?"
   ]
 }
