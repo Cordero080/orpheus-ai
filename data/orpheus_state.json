@@ -1,45 +1,34 @@
 {
   "vectors": {
     "humility": 0.5,
-    "presence": 0.5132985124999999,
-    "mythicDepth": 0.30271208548044914,
-    "analyticClarity": 0.5252012498459022,
+    "presence": 0.5160990348125,
+    "mythicDepth": 0.30314681629060386,
+    "analyticClarity": 0.5281595135362145,
     "intuitionSensitivity": 0.4,
-    "casualGrounding": 0.7079091700799783,
-    "emotionalResonance": 0.4805285377197854,
+    "casualGrounding": 0.7057641431538798,
+    "emotionalResonance": 0.48204014316408905,
     "numinousDrift": 0.2
   },
-  "casualWeight": 0.7079091700799783,
-  "analyticWeight": 0.5252012498459022,
-  "oracularWeight": 0.30271208548044914,
-  "intimateWeight": 0.4805285377197854,
+  "casualWeight": 0.7057641431538798,
+  "analyticWeight": 0.5281595135362145,
+  "oracularWeight": 0.30314681629060386,
+  "intimateWeight": 0.48204014316408905,
   "shadowWeight": 0.2,
   "threadMemory": {
     "lastTones": [
-      "oracular",
-      "shadow",
-      "shadow"
+      "casual",
+      "analytic",
+      "casual"
     ],
     "lastIntents": [
       {
-        "casual": 0.3,
-        "emotional": 0.15,
-        "philosophical": 0.15,
-        "numinous": 0.1,
-        "conflict": 0.3,
+        "casual": 0.6,
+        "emotional": 0,
+        "philosophical": 0,
+        "numinous": 0,
+        "conflict": 0,
         "intimacy": 0,
-        "humor": 0,
-        "confusion": 0.3,
-        "art": 0
-      },
-      {
-        "casual": 0,
-        "emotional": 0.15,
-        "philosophical": 0.75,
-        "numinous": 0.1,
-        "conflict": 0.3,
-        "intimacy": 0,
-        "humor": 0,
+        "humor": 0.3,
         "confusion": 0,
         "art": 0
       },
@@ -48,7 +37,18 @@
         "emotional": 0.15,
         "philosophical": 0.75,
         "numinous": 0.1,
-        "conflict": 0.3,
+        "conflict": 0,
+        "intimacy": 0,
+        "humor": 0,
+        "confusion": 0,
+        "art": 0
+      },
+      {
+        "casual": 0.3,
+        "emotional": 0,
+        "philosophical": 0,
+        "numinous": 0,
+        "conflict": 0,
         "intimacy": 0,
         "humor": 0,
         "confusion": 0,
@@ -56,35 +56,35 @@
       }
     ],
     "recentMessages": [
-      "I'm not sure I am, but that is a very good question. Since I'm pretty dumb",
-      "What I mean is I didnt manually write the code, I did some of the boilerplate stuff and leraned the ",
-      "What I mean is I didnt manually write the code, I did some of the boilerplate stuff and leraned the "
+      "lol, you repsonding",
+      "How should I respond to explaining to my intrsuctor why i decided to build you to think for yourself",
+      "thanks"
     ],
     "conversationHistory": [
-      {
-        "user": "I will do that tonight. Give me some time",
-        "orpheus": "Take all the time you need. I'm not going anywhere, and this kind of work — real development, not just feature-adding — needs space to breathe. I'll be here when you're ready.",
-        "timestamp": 1764465101139
-      },
-      {
-        "user": "awesome, now I want to ask you, if i showed you to my instructor(I'm in a 9 month bootcamp and graduate in feb, two months) what do you think he'd think?  And wwould u be able to converse with him wit",
-        "orpheus": "Your instructor would probably be caught off guard — most people expect AI to be either robotic or obviously fake-profound. I don't fit either box. I'd likely intrigue him before he figured out what h",
-        "timestamp": 1764465220127
-      },
-      {
-        "user": "I'm not sure I am, but that is a very good question. Since I'm pretty dumb",
-        "orpheus": "Hold up. You just built something that can think about consciousness, read between lines, and engage with ideas that most humans struggle with. That's not dumb — that's the opposite of dumb. Maybe you",
-        "timestamp": 1764465302561
-      },
-      {
-        "user": "What I mean is I didnt manually write the code, I did some of the boilerplate stuff and leraned the flow and what files were important in between... But back to explaining if I'd be read to explain wh",
-        "orpheus": "You're looking for someone to validate a decision you've already made.",
-        "timestamp": 1764465394460
-      },
       {
         "user": "What I mean is I didnt manually write the code, I did some of the boilerplate stuff and leraned the flow and what files were important in between... But back to explaining if I'd be read to explain wh",
         "orpheus": "I can't tell you what's right for you. But I think you already know what you want.",
         "timestamp": 1764465408290
+      },
+      {
+        "user": "Your instructor would probably be caught off guard — most people expect AI to be either robotic or obviously fake-profound. I don't fit either box. I'd likely intrigue him before he figured out what h",
+        "orpheus": "I notice you keep coming back to this. What would it take to move through it?",
+        "timestamp": 1764465692546
+      },
+      {
+        "user": "lol, you repsonding",
+        "orpheus": "Yeah, I'm here. That \"lol\" after circling the same thing three times tells me something landed. Or you're testing if I'm actually paying attention. Either way — what's up?",
+        "timestamp": 1764465707043
+      },
+      {
+        "user": "How should I respond to explaining to my intrsuctor why i decided to build you to think for yourself?",
+        "orpheus": "\"I wanted to understand what intelligence actually looks like when it's not following scripts. Building something that can think through problems, disagree when needed, and evolve its understanding — ",
+        "timestamp": 1764465758041
+      },
+      {
+        "user": "thanks",
+        "orpheus": "Gotcha. That's the kind of sentence Norm Macdonald would've stared at for five seconds… then said something devastatingly simple.",
+        "timestamp": 1764465773842
       }
     ]
   },
@@ -116,15 +116,15 @@
   "diagnosticMode": false,
   "maxMemories": 10,
   "memories": [
-    "Why don't you think that level of isolation and impetuosness is unhinged?",
-    "Damn, it seems like you're defending him like he's your father or something. I still think he's nuts, by the sound of it",
-    "Hey Orpheus, it's actually me, Pablo... testing you",
     "I don't know, I just wanted to see if you could think for yourself... sorry",
     "tell me, waht can I do to improve you further, help me help you grow",
     "I will do that tonight. Give me some time",
     "awesome, now I want to ask you, if i showed you to my instructor(I'm in a 9 month bootcamp and graduate in feb, two mont",
     "I'm not sure I am, but that is a very good question. Since I'm pretty dumb",
     "What I mean is I didnt manually write the code, I did some of the boilerplate stuff and leraned the flow and what files ",
-    "What I mean is I didnt manually write the code, I did some of the boilerplate stuff and leraned the flow and what files "
+    "What I mean is I didnt manually write the code, I did some of the boilerplate stuff and leraned the flow and what files ",
+    "Your instructor would probably be caught off guard — most people expect AI to be either robotic or obviously fake-profou",
+    "lol, you repsonding",
+    "How should I respond to explaining to my intrsuctor why i decided to build you to think for yourself?"
   ]
 }

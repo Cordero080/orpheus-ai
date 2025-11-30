@@ -16,6 +16,12 @@
       "count": 1,
       "lastMentioned": "2025-11-30T00:59:10.785Z",
       "sentiment": "neutral"
+    },
+    {
+      "topic": "work",
+      "count": 1,
+      "lastMentioned": "2025-11-30T01:21:32.546Z",
+      "sentiment": "neutral"
     }
   ],
   "struggles": [],
@@ -24,20 +30,20 @@
   "patterns": [],
   "conversationSummaries": [],
   "lastInteraction": {
-    "date": "2025-11-30T01:16:48.289Z",
+    "date": "2025-11-30T01:22:53.842Z",
     "mood": "light",
     "topic": null
   },
   "sessionEmotionalState": {
     "lastMood": "light",
     "lastTopic": null,
-    "unresolvedThread": "I'm not sure I am, but that is a very good question. Since I'm pretty dumb",
-    "timestamp": "2025-11-30T01:15:02.561Z"
+    "unresolvedThread": null,
+    "timestamp": "2025-11-30T01:22:53.842Z"
   },
   "phraseBlacklist": [],
   "stats": {
     "totalConversations": 0,
-    "totalMessages": 45,
+    "totalMessages": 49,
     "firstInteraction": "2025-11-29T21:19:54.930Z"
   }
 }
