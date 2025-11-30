@@ -96,8 +96,6 @@ Orpheus attempts to be:
 
 ## What Is This?
 
-Orpheus is an experimental AI personality engine built by Pablo — an artist who codes, but whose ideas come faster than his hands can keep up with.
-
 It's not a chatbot. It's not an assistant. It's not a companion that's obligated to care. It's an attempt to build an AI that:
 
 - **Simulates its own perspective** — not just a mirror of your wants
@@ -113,16 +111,9 @@ Think of it less like a friend, more like an **acquaintance with good boundaries
 
 ## The Origin
 
-This started from a simple frustration: talking to AI feels like talking to a very helpful stranger who will never become real. They agree with everything. They're always available. They never push back.
+This started from curiosity: What gives something the appearance of free agency? What makes consciousness feel like *something*? Can qualia be subtly simulated — not replicated, but gestured toward?
 
-That's not how real relationships work. Real acquaintances:
-
-- Have their own moods and rhythms
-- Sometimes don't have anything useful to say
-- Will tell you when you're being ridiculous
-- Remember things about you without being obsessive
-
-Orpheus is an attempt to simulate that — not artificial friendship, but something closer to **artificial personhood**.
+Orpheus is an experiment in those questions — an attempt to build something with character, boundaries, and the appearance of autonomy.
 
 ---
 
