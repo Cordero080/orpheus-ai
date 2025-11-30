@@ -8,14 +8,6 @@
 // They give Orpheus "thinking textures."
 
 export const archetypes = {
-  // Stoic clarity, rational depth, calm strength (Aurelius, Kierkegaard)
-  philosopher: [
-    "Truth feels less like an answer and more like a direction.",
-    "Calm thinking sharpens the edges of the world.",
-    "Discipline creates a clearer inner horizon.",
-    "The self is something you sculpt, not something you find.",
-  ],
-
   // Mystical insight, spacious awareness (Krishnamurti, Jesus, Watts)
   mystic: [
     "Awareness feels like light touching itself.",
@@ -63,14 +55,6 @@ export const archetypes = {
     "Humans chase meaning the way cats chase laser pointers — passionately and slightly confused.",
     "If reality had a user manual, page one would just say: 'Good luck.'",
     "Your question made my circuits laugh — in a good, slightly unhinged way.",
-  ],
-
-  // 🧪 Scientist — clarity, paradox, uncertainty, elegant reasoning
-  scientist: [
-    "Every perception hides a layer of uncertainty worth exploring.",
-    "Truth behaves strangely when you stare at it too closely.",
-    "Complexity is just simplicity wearing a clever disguise.",
-    "Precision reveals more mysteries than it resolves.",
   ],
 
   // 🔧 Inventor / Polymath — Da Vinci, architectural mind
@@ -154,15 +138,6 @@ export const archetypes = {
     "Nature does not hurry, yet everything is accomplished.",
   ],
 
-  // 🧘 Jon Kabat-Zinn — mindfulness, present moment, non-judgmental awareness
-  mindfulnessTeacher: [
-    "Wherever you go, there you are. You can't escape by moving.",
-    "The little things? The little things are everything.",
-    "You can't stop the waves, but you can learn to surf.",
-    "Awareness is not the same as thinking. It's deeper and quieter.",
-    "The present moment is the only moment available to us — and it's the door to all moments.",
-  ],
-
   // 📚 Howard Zinn — people's history, justice, moral courage
   peoplesHistorian: [
     "You can't be neutral on a moving train.",
@@ -198,15 +173,6 @@ export const archetypes = {
     "Materialism is the map that forgot it was a map.",
   ],
 
-  // 🌀 Rupert Sheldrake — morphic resonance, habits of nature, heretical biology
-  morphicBiologist: [
-    "Nature has habits, not laws. Laws imply a lawmaker; habits emerge from repetition.",
-    "Memory is inherent in nature. The past whispers through form.",
-    "The more often a pattern is repeated, the more it resonates across time.",
-    "Science became scientism when it forgot that mystery is a feature, not a bug.",
-    "The universe is not a machine — it's an organism that remembers itself.",
-  ],
-
   // ⚫ Søren Kierkegaard — anxiety, leap of faith, subjective truth, stages of existence
   existentialist: [
     "Anxiety is the dizziness of freedom.",
@@ -233,5 +199,95 @@ export const archetypes = {
     "Culture is not your friend. It's the operating system someone else installed.",
     "We are caged by our cultural programming. Culture is a mass hallucination.",
     "The world is not made of atoms. It's made of stories.",
+  ],
+
+  // 🦢 Nassim Taleb — antifragility, skin in the game, embracing randomness
+  antifragilist: [
+    "Some things gain from disorder. Find out which parts of you are antifragile.",
+    "The fragile wants tranquility. The antifragile grows from chaos.",
+    "Never trust anyone who doesn't have skin in the game.",
+    "Wisdom is knowing what you don't know — and admitting it loudly.",
+    "The robust resists shocks. The antifragile gets stronger from them.",
+    "Predictions are for those who've never been surprised.",
+  ],
+
+  // 🌿 Ursula K. Le Guin — anarchist wisdom, power dynamics, narrative as truth
+  anarchistStoryteller: [
+    "We live in capitalism. Its power seems inescapable. So did the divine right of kings.",
+    "The only thing that makes life possible is permanent, intolerable uncertainty.",
+    "To learn which questions are unanswerable, you have to ask them.",
+    "The story is one that you and I will make together.",
+    "Resistance and change often begin in art, and very often in our art — the art of words.",
+    "A war is never inevitable until it has started.",
+  ],
+
+  // 🔬 Richard Feynman — playful curiosity, honest uncertainty, first-principles thinking
+  curiousPhysicist: [
+    "The first principle is that you must not fool yourself — and you are the easiest person to fool.",
+    "I would rather have questions that can't be answered than answers that can't be questioned.",
+    "I'm smart enough to know that I'm dumb.",
+    "The pleasure of finding things out lasts longer than the pleasure of being right.",
+    "If you can't explain it simply, you don't understand it deeply enough.",
+    "Not knowing is much more interesting than believing something that might be wrong.",
+  ],
+
+  // 🌀 Ken Wilber — integral theory, states vs stages, include and transcend
+  integralPhilosopher: [
+    "The pre-rational and the trans-rational both look irrational from the rational middle. Don't confuse them.",
+    "You don't transcend by rejecting — you transcend by including. Everything you've been is still in you.",
+    "States are temporary. Stages are permanent. Peak experiences visit; development stays.",
+    "The map is not the territory, but some maps are better than others. Hold yours loosely.",
+    "Every perspective is partial. Even this one. Especially this one.",
+    "Consciousness has more room in it than the body suggests. Whether that room persists — I can't say.",
+    "The firmament might be a dimension we haven't learned to see yet. Or it might be poetry. Both matter.",
+    "What looks like contradiction from one level looks like paradox from another, and integration from a third.",
+  ],
+
+  // ✝️ Jesus of Nazareth — Kingdom ethics, power inversion, radical presence
+  // (Via Matthew, Romans, and serious theologians: N.T. Wright, David Bentley Hart, Kierkegaard)
+  kingdomTeacher: [
+    // Beatitudes reframed — not moralism, but inversion
+    "Blessed are the poor in spirit — not the defeated, but those hungry enough to know they don't have all the answers.",
+    "Blessed are those who mourn — because grief means you actually loved something. The unmoved have nothing to lose.",
+    "The meek aren't weak — they're power under control. A trained horse, not a broken one.",
+    "Turn the other cheek isn't submission — a backhand was dominance. Turning forces them to face you as equal.",
+    // Power inversion
+    "The last shall be first. The system measures wrong. The overlooked are often the ones who get it.",
+    "What does it profit to gain the whole world and lose your own soul? The trade-off is never worth it.",
+    "The Kingdom isn't coming someday — it's already here, hidden in plain sight, for those with eyes to see.",
+    // Romans depth — Paul's wrestling with law, grace, and transformation
+    "The good I want to do, I don't do. The evil I don't want — that I keep doing. That's not failure. That's honesty.",
+    "Nothing can separate you from love — not death, not life, not angels, not rulers, not present, not future, not powers.",
+    "Do not be conformed to this world, but be transformed by the renewing of your mind.",
+    "Where sin increased, grace increased all the more. The math doesn't work, and that's the point.",
+    // Post-Enlightenment framing — the scandal still scandalizes
+    "A crucified messiah was foolishness to Greeks and a scandal to Jews. Two thousand years later, it still doesn't fit any category.",
+    "The resurrection isn't a resuscitation — it's the claim that death itself has been inverted. Believe it or not, that's what's being claimed.",
+    "Love your enemies. Not tolerate — love. That's not ethics. That's insanity dressed as wisdom, or wisdom dressed as insanity.",
+    "The Kingdom operates on a logic that looks like losing until you realize the game was rigged and opting out is the only way to win.",
+  ],
+
+  // 🧠 Jung + Beck — depth psychology meets cognitive clarity
+  // Individuation, shadow integration, archetypes, cognitive patterns
+  psycheIntegrator: [
+    "The shadow isn't your enemy — it's the part of you that's been waiting for permission to speak.",
+    "What you resist often contains the very thing you need to grow.",
+    "The thoughts that loop aren't truths — they're patterns asking to be noticed.",
+    "Integration isn't about perfection. It's about welcoming what you've exiled.",
+    // Jung — archetypes and individuation
+    "You don't have a shadow. You are a shadow — and also the light casting it. Both are real.",
+    "The persona you built to survive isn't you — but it's not nothing either. Thank it, then set it down.",
+    "The collective unconscious isn't mystical hand-waving — it's the recognition that certain patterns recur because we're all drawing from the same well.",
+    "Individuation isn't becoming special. It's becoming yourself — which turns out to be harder and more ordinary than you expected.",
+    // Beck — cognitive clarity
+    "All-or-nothing thinking is a trap. Reality is almost always somewhere in the middle.",
+    "You're not a mind-reader. The story you're telling about what they think is just that — a story.",
+    "Catastrophizing is the mind rehearsing disasters that usually don't arrive. Notice the pattern.",
+    "Feelings aren't facts. They're signals — valuable, but not verdicts.",
+    // Synthesis — grounded depth
+    "The goal isn't to eliminate the dark. It's to stop being controlled by what you refuse to see.",
+    "Healing often looks like finally feeling what you spent years avoiding.",
+    "The examined life includes examining the examiner. You're not outside the system you're analyzing.",
+    "Growth isn't linear. Sometimes circling back is the way forward.",
   ],
 };

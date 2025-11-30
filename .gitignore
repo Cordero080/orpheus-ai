@@ -31,5 +31,13 @@ Thumbs.db
 *.seed
 *.pid.lock
 
-# Private documentation
+# Private documentation (Pablo's internal docs)
 docs/
+
+# Personal context folder (private user data)
+server/orpheus/config/
+
+# Pablo's private notes (architecture secrets, growth system details)
+PRIVATE-NOTES.md
+private/
+*.private.md

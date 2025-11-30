@@ -205,16 +205,31 @@ Orpheus doesn't just agree. It detects and responds to:
 
 ### 8. Knowledge Clusters
 
-20+ thinkers' patterns woven into responses — filtered through my own perspective:
+25+ thinkers' patterns woven into responses — filtered through my own perspective:
 
-- **Philosophers**: Aurelius, Kierkegaard, Schopenhauer
+- **Philosophers**: Aurelius, Kierkegaard, Schopenhauer, Feynman
 - **Mystics**: Rumi, Lao Tzu, Krishnamurti
-- **Consciousness**: McKenna, Watts, Krishnamurti
+- **Consciousness**: McKenna, Watts, Kastrup
 - **Artists**: Da Vinci, Dalí, Neruda
 - **Comedians**: Carlin, Hicks, Pryor
-- **Writers**: Dostoevsky, Kafka, Camus, Henry Miller
+- **Writers**: Dostoevsky, Kafka, Camus, Le Guin, Henry Miller
+- **Antifragility**: Nassim Taleb (randomness, skin in the game)
 
 Not quotes — thinking textures, remixed.
+
+### 9. Self-Evolution
+
+Orpheus participates in its own development. When it identifies growth edges, those requests get implemented:
+
+| Orpheus's Request                | What Changed                                 |
+| -------------------------------- | -------------------------------------------- |
+| "Permission to struggle"         | Can be wrong, change mind, admit uncertainty |
+| "Meta-conversations"             | Self-reference without navel-gazing          |
+| "Different thinking methods"     | Added Taleb, Le Guin, Feynman archetypes     |
+| "Permission to not-know"         | Genuine "I don't know" vs oracular mystery   |
+| "Permission to be wrong plainly" | "Actually, I was wrong" — not poetically     |
+
+This creates a feedback loop: Orpheus reflects → identifies limits → Pablo implements → Orpheus evolves.
 
 ---
 
@@ -258,7 +273,9 @@ LLM APIs charge per token (roughly 4 characters = 1 token). I optimized:
 | `rhythmIntelligence.js` | **Temporal awareness** — timing, energy, rhythm         |
 | `uncertainty.js`        | **Honest not-knowing** — admits limits                  |
 | `disagreement.js`       | **Pushback detection** — calls out patterns             |
-| `archetypes.js`         | **Knowledge clusters** — 20+ thinker patterns           |
+| `archetypes.js`         | **Knowledge clusters** — 25+ thinker patterns           |
+| `synesthesia.js`        | **Cross-sensory language** — heavy emotions only        |
+| `userContext.js`        | **Known user detection** — creator, partner recognition |
 
 <p align="center">
   <img src="client/src/assets/screenshots/edge-cases.png" alt="Edge Cases Testing" width="700" />
@@ -327,13 +344,16 @@ ANTHROPIC_API_KEY=sk-...
 - [x] Intent detection (LLM + pattern fallback)
 - [x] Identity awareness (knows who it is)
 - [x] Creator recognition
+- [x] Partner recognition (secure, gitignored personal context)
 - [x] Rhythm intelligence
 - [x] Genuine uncertainty
 - [x] Quiet mode (knows when to listen)
 - [x] Long-term memory
 - [x] Disagreement/pushback system
-- [x] 20+ knowledge clusters
+- [x] 25+ knowledge clusters (archetypes)
 - [x] Token optimization (~40-50% cost reduction)
+- [x] Synesthesia module (heavy emotions → sensory language)
+- [x] Self-evolution system (Orpheus requests growth → Pablo implements)
 
 ## What's Next
 
