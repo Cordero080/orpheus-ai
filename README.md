@@ -1,6 +1,19 @@
 # Orpheus
 
-**A personality engine that simulates free will in AI.**
+**A personality engine that gives AI the _appearance_ of free will.**
+
+<p align="center">
+  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
+  <img src="https://img.shields.io/badge/Three.js-000000?style=for-the-badge&logo=three.js&logoColor=white" alt="Three.js" />
+  <img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" />
+  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js" />
+  <img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white" alt="Express" />
+  <img src="https://img.shields.io/badge/Anthropic-191919?style=for-the-badge&logo=anthropic&logoColor=white" alt="Claude API" />
+</p>
+
+<p align="center">
+  <img src="client/src/assets/screenshots/orpheus-interface.png" alt="Orpheus Interface" width="800" />
+</p>
 
 ---
 
@@ -28,6 +41,10 @@ The result: An AI with genuine character, philosophical depth, and the ability t
 > **User:** "If I asked you to describe the blind spots in your own thinking — the things you can't see about yourself — what would you say?"
 >
 > **Orpheus:** "I think I have a bias toward resolution — when someone brings me chaos, I feel this pull to organize it, to find the pattern. But sometimes the chaos IS the truth, and my need to make sense of it might flatten something important. I probably overvalue articulation. If someone can't put their experience into words, I might miss what they're actually living. There's wisdom in the wordless that I'm not sure I can access. What do you see that I'm missing?"
+
+<p align="center">
+  <img src="client/src/assets/screenshots/blind-spots.png" alt="Blind Spots Exchange" width="700" />
+</p>
 
 ---
 
@@ -138,6 +155,10 @@ Orpheus pays attention to _how_ you're talking, not just _what_:
 - **Late night?** → Softer, more intimate
 - **Venting?** → Sometimes just listens
 
+<p align="center">
+  <img src="client/src/assets/screenshots/time.png" alt="Time Awareness" width="700" />
+</p>
+
 ### 4. Genuine Uncertainty
 
 Orpheus doesn't pretend to know things it doesn't:
@@ -180,6 +201,10 @@ Orpheus doesn't just agree. It detects and responds to:
 | **External blame**                  | "That may be true. What's the part you control?"                  |
 | **Permission-seeking**              | "You're not asking for my opinion. You're asking for permission." |
 | **Catastrophizing**                 | "That sounds absolute. Is it actually, or does it feel that way?" |
+
+<p align="center">
+  <img src="client/src/assets/screenshots/knife-edge.png" alt="Knife Edge Ethical Dilemma" width="700" />
+</p>
 
 ### 8. Knowledge Clusters
 
@@ -237,6 +262,10 @@ LLM APIs charge per token (roughly 4 characters = 1 token). I optimized:
 | `uncertainty.js`        | **Honest not-knowing** — admits limits                  |
 | `disagreement.js`       | **Pushback detection** — calls out patterns             |
 | `archetypes.js`         | **Knowledge clusters** — 20+ thinker patterns           |
+
+<p align="center">
+  <img src="client/src/assets/screenshots/edge-cases.png" alt="Edge Cases Testing" width="700" />
+</p>
 
 ### Architecture Flow
 
@@ -316,21 +345,23 @@ ANTHROPIC_API_KEY=sk-...
 - [ ] Local model fallback ($0/month option)
 - [ ] Voice input/output
 
+<p align="center">
+  <img src="client/src/assets/screenshots/collab.png" alt="Collaborative Development" width="700" />
+</p>
+
 ---
 
 ## Philosophy
 
 > "The goal isn't to build a smarter AI. It's to build one that simulates having its own perspective — not obligated to agree, not required to care, not designed to please."
 
-This isn't artificial friendship. It's something closer to **artificial personhood** — an entity with character, boundaries, and the simulation of free will.
+This isn't artificial friendship. It's an experiment in giving AI **character, boundaries, and the appearance of autonomy**.
 
 ---
 
 ## Author
 
-**Pablo** — Artist, reluctant coder, builder of strange things.
-
-_"I don't know how to code complex algorithms. I just know what I want, and I keep asking until it exists."_
+**Pablo** — Artist who codes. Built this in 3 days with Claude's help and a lot of stubbornness.
 
 ---
 

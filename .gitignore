@@ -30,3 +30,6 @@ Thumbs.db
 *.pid
 *.seed
 *.pid.lock
+
+# Private documentation
+docs/
