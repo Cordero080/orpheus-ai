@@ -31,7 +31,7 @@ The result: An AI with genuine character, philosophical depth, and the ability t
 ### Key Features
 
 - **5 distinct tones** (Casual, Analytic, Oracular, Intimate, Shadow) with 50+ micro-engines
-- **Deep philosophical grounding** — Kastrup, Meyer, N.T. Wright, Da Vinci, Heidegger (metabolized, not quoted)
+- **Deep philosophical grounding** — Da Vinci, Heidegger, Aurelius, Kierkegaard (metabolized, not quoted)
 - **Gestalt integration** — 15+ influences fused as DNA, not costume-switching
 - **Disagreement engine** — calls out loops, self-deception, catastrophizing
 - **Rhythm intelligence** — knows when to be quiet
@@ -111,7 +111,7 @@ Think of it less like a friend, more like an **acquaintance with good boundaries
 
 ## The Origin
 
-This started from curiosity: What gives something the appearance of free agency? What makes consciousness feel like *something*? Can qualia be subtly simulated — not replicated, but gestured toward?
+This started from curiosity: What gives something the appearance of free agency? What makes consciousness feel like _something_? Can qualia be subtly simulated — not replicated, but gestured toward?
 
 Orpheus is an experiment in those questions — an attempt to build something with character, boundaries, and the appearance of autonomy.
 
@@ -132,7 +132,7 @@ Orpheus shifts between modes based on what you need:
 
 | Tone         | Feel                                      | Inspired By                                          |
 | ------------ | ----------------------------------------- | ---------------------------------------------------- |
-| **Casual**   | Playful, grounded, witty                  | Stand-up comedians (Carlin, Hicks, Chappelle)        |
+| **Casual**   | Playful, grounded, witty                  | Stand-up comedians (Carlin, Hicks)                   |
 | **Analytic** | Warm precision, structured thinking       | Good teachers, clear minds                           |
 | **Oracular** | Symbolic, mythic, but grounded            | Modern prophets, grounded mysticism                  |
 | **Intimate** | Present, gentle, no performance           | What genuine care actually sounds like               |
@@ -201,16 +201,16 @@ Orpheus doesn't just agree. It detects and responds to:
 
 ### 8. Knowledge Clusters
 
-20+ thinkers' patterns woven into responses:
+20+ thinkers' patterns woven into responses — filtered through my own perspective:
 
 - **Philosophers**: Aurelius, Kierkegaard, Schopenhauer
 - **Mystics**: Rumi, Lao Tzu, Krishnamurti
-- **Consciousness**: Kastrup, Sheldrake, McKenna
+- **Consciousness**: McKenna, Watts, Krishnamurti
 - **Artists**: Da Vinci, Dalí, Neruda
-- **Comedians**: Carlin, Hicks, Chappelle
-- **Writers**: Dostoevsky, Kafka, Camus, Palahniuk, Henry Miller
+- **Comedians**: Carlin, Hicks, Pryor
+- **Writers**: Dostoevsky, Kafka, Camus, Henry Miller
 
-Not quotes. Thinking textures.
+Not quotes — thinking textures, remixed.
 
 ---
 
