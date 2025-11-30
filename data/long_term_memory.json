@@ -10,6 +10,12 @@
       "count": 1,
       "lastMentioned": "2025-11-29T21:20:38.459Z",
       "sentiment": "neutral"
+    },
+    {
+      "topic": "family",
+      "count": 1,
+      "lastMentioned": "2025-11-30T00:59:10.785Z",
+      "sentiment": "neutral"
     }
   ],
   "struggles": [],
@@ -18,20 +24,20 @@
   "patterns": [],
   "conversationSummaries": [],
   "lastInteraction": {
-    "date": "2025-11-30T00:12:44.798Z",
+    "date": "2025-11-30T01:16:48.289Z",
     "mood": "light",
     "topic": null
   },
   "sessionEmotionalState": {
     "lastMood": "light",
     "lastTopic": null,
-    "unresolvedThread": null,
-    "timestamp": "2025-11-30T00:12:44.798Z"
+    "unresolvedThread": "I'm not sure I am, but that is a very good question. Since I'm pretty dumb",
+    "timestamp": "2025-11-30T01:15:02.561Z"
   },
   "phraseBlacklist": [],
   "stats": {
     "totalConversations": 0,
-    "totalMessages": 26,
+    "totalMessages": 45,
     "firstInteraction": "2025-11-29T21:19:54.930Z"
   }
 }
