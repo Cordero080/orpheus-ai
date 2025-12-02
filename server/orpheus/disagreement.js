@@ -26,6 +26,13 @@ export function analyzePushback(message, threadMemory, longTermMemory = {}) {
     suggestion: null,
   };
 
+  // FIRST: Check if user is processing trauma/vulnerability
+  // If so, SKIP pushback entirely
+  const traumaCheck = detectTraumaDisclosure(lower);
+  if (traumaCheck.detected) {
+    return analysis; // Return without pushback
+  }
+
   // Check for various pushback triggers
   const loopCheck = detectLoop(message, history);
   const selfDeceptionCheck = detectSelfDeception(lower);
@@ -61,6 +68,28 @@ export function analyzePushback(message, threadMemory, longTermMemory = {}) {
 // ============================================================
 // DETECTION FUNCTIONS
 // ============================================================
+
+function detectTraumaDisclosure(msg) {
+  // Detect when someone is sharing actual trauma/abuse/grief
+  // DO NOT push back in these moments
+  const traumaIndicators = [
+    /\b(abuse|abused|trauma|traumatic|molest|rape|assault)\b/i,
+    /\b(died|death|lost|grief|mourning|funeral)\b/i,
+    /\b(depression|depressed|suicidal|self.?harm|cutting)\b/i,
+    /\b(locked|beaten|hit|hurt|pain|suffering|scared|afraid)\b/i,
+    /\b(father|mother|parent).{0,50}(angry|violent|cruel|mean|hurt|hit)/i,
+    /\b(childhood|kid|growing up).{0,50}(abuse|trauma|scared|afraid|hurt)/i,
+    /\bjust venting\b/i, // Explicit request to just listen
+  ];
+
+  for (const pattern of traumaIndicators) {
+    if (pattern.test(msg)) {
+      return { detected: true };
+    }
+  }
+
+  return { detected: false };
+}
 
 function detectLoop(message, history) {
   // User is saying the same thing repeatedly

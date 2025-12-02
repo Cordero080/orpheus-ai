@@ -19,7 +19,7 @@ const app = express();
 const PORT = 3000;
 
 app.use(cors()); // allow frontend → backend communication
-app.use(express.json()); // parse JSON request bodies
+app.use(express.json({ limit: "10mb" })); // parse JSON request bodies with larger limit
 
 // -------------------------- TEST ROUTE ------------------------------
 // Quick test to confirm the backend is alive

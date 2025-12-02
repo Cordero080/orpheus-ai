@@ -45,7 +45,7 @@ When Orpheus responds, the indicator shows which engine is "active":
 - **Frontend:** React + Vite
 - **3D:** Three.js with React Three Fiber + Drei
 - **Backend:** Node.js + Express
-- **AI:** OpenAI API with custom personality layer
+- **AI:** Anthropic Claude API with custom personality layer
 
 ---
 
