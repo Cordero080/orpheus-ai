@@ -27,6 +27,7 @@
 // ------------------------------------------------------------
 
 import { archetypes } from "./archetypes.js";
+import { getCurrentUsage } from "./tokenTracker.js";
 import {
   getArtResponse,
   generateArtInsight,
@@ -260,6 +261,50 @@ const CREATOR_IDENTIFICATION_PATTERNS = [
 
 // Track if creator is present in session
 let creatorPresent = false;
+
+// ============================================================
+// USAGE/BUDGET QUERIES
+// Let user check their token usage via natural language
+// ============================================================
+
+const USAGE_PATTERNS = [
+  /\b(how many|how much).*(token|message|budget|usage|left|remaining)\b/i,
+  /\b(token|budget|usage).*(status|check|left|remaining|how much)\b/i,
+  /\bcheck.*(usage|budget|token)\b/i,
+  /\b(running out|almost out|low on).*(token|budget)\b/i,
+  /\bwhat('s| is) my (usage|budget|token)/i,
+  /\bhow (am i|are we) doing.*(token|budget|usage)/i,
+];
+
+function isUsageQuery(msg) {
+  return USAGE_PATTERNS.some((pattern) => pattern.test(msg));
+}
+
+function getUsageResponse() {
+  const usage = getCurrentUsage();
+
+  if (!usage || usage.messageCount === 0) {
+    return "No usage data yet — this might be your first conversation this month. I'll start tracking from here.";
+  }
+
+  const percentUsed = usage.percentUsed;
+  const messagesLeft = usage.messagesRemaining;
+  const avgTokens = usage.avgTokensPerMessage?.toLocaleString() || "unknown";
+
+  if (percentUsed >= 95) {
+    return `We're at ${percentUsed}% of your monthly budget. Only about ${messagesLeft} messages left — you might want to save these for when they count.`;
+  }
+
+  if (percentUsed >= 70) {
+    return `Usage check: ${percentUsed}% of your monthly budget used. Roughly ${messagesLeft} messages remaining at your current pace (~${avgTokens} tokens per exchange). We're in the home stretch.`;
+  }
+
+  if (percentUsed >= 30) {
+    return `You've used ${percentUsed}% of your monthly budget. About ${messagesLeft} messages left at your current pace. Plenty of room.`;
+  }
+
+  return `Barely touched it — ${percentUsed}% used. You've got around ${messagesLeft} messages at your current pace (~${avgTokens} tokens each). Go wild.`;
+}
 
 function isCreatorIdentifying(msg) {
   if (CREATOR_IDENTIFICATION_PATTERNS.some((p) => p.test(msg.trim()))) {
@@ -2185,7 +2230,12 @@ export function buildResponse(
   intentScores = {},
   llmContent = null
 ) {
-  // PRIORITY 0: Creator identifying themselves
+  // PRIORITY 0: Usage/budget queries
+  if (isUsageQuery(message)) {
+    return getUsageResponse();
+  }
+
+  // PRIORITY 0.5: Creator identifying themselves
   if (isCreatorIdentifying(message)) {
     return getCreatorGreetingResponse();
   }

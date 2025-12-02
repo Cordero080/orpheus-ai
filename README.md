@@ -30,24 +30,24 @@ It can disagree, stay silent, or call you out. It remembers. It has positions.
 
 ## Architecture
 
-| Layer | What It Does |
-|-------|--------------|
-| **Personality** | 5 tones, 50+ micro-engines — the voice |
-| **Archetypes** | 29 thinker patterns dynamically injected |
-| **Rhythm** | Timing, energy, late-night awareness |
-| **Memory** | Long-term facts, patterns, struggles |
-| **Disagreement** | Detects loops, self-deception, catastrophizing |
-| **LLM** | Claude provides raw insight — personality shapes output |
+| Layer            | What It Does                                            |
+| ---------------- | ------------------------------------------------------- |
+| **Personality**  | 5 tones, 50+ micro-engines — the voice                  |
+| **Archetypes**   | 23 thinker patterns dynamically injected                |
+| **Rhythm**       | Timing, energy, late-night awareness                    |
+| **Memory**       | Long-term facts, patterns, struggles                    |
+| **Disagreement** | Detects loops, self-deception, catastrophizing          |
+| **LLM**          | Claude provides raw insight — personality shapes output |
 
 ### The Five Tones
 
-| Tone | Feel |
-|------|------|
-| **Casual** | Playful, grounded |
-| **Analytic** | Warm precision |
-| **Oracular** | Symbolic but grounded |
+| Tone         | Feel                    |
+| ------------ | ----------------------- |
+| **Casual**   | Playful, grounded       |
+| **Analytic** | Warm precision          |
+| **Oracular** | Symbolic but grounded   |
 | **Intimate** | Present, no performance |
-| **Shadow** | Uncomfortable truths |
+| **Shadow**   | Uncomfortable truths    |
 
 ---
 
@@ -84,6 +84,7 @@ cd client && npm install && npm run dev
 ```
 
 Add your API key to `server/.env`:
+
 ```
 ANTHROPIC_API_KEY=sk-...
 ```
@@ -92,16 +93,16 @@ ANTHROPIC_API_KEY=sk-...
 
 ## Core Files
 
-| File | Purpose |
-|------|---------|
-| `llm.js` | Claude integration + 1200-line system prompt |
-| `personality.js` | 5 tones, micro-engines |
-| `archetypes.js` | 29 thinker patterns |
-| `thinkerDeep.js` | 20 conceptual toolkits for dynamic injection |
-| `responseEngine.js` | Intent detection, tone selection |
-| `longTermMemory.js` | Persistent memory |
-| `disagreement.js` | Pushback detection |
-| `rhythmIntelligence.js` | Temporal awareness |
+| File                    | Purpose                                      |
+| ----------------------- | -------------------------------------------- |
+| `llm.js`                | Claude integration + 1200-line system prompt |
+| `personality.js`        | 5 tones, micro-engines                       |
+| `archetypes.js`         | 29 thinker patterns                          |
+| `thinkerDeep.js`        | 20 conceptual toolkits for dynamic injection |
+| `responseEngine.js`     | Intent detection, tone selection             |
+| `longTermMemory.js`     | Persistent memory                            |
+| `disagreement.js`       | Pushback detection                           |
+| `rhythmIntelligence.js` | Temporal awareness                           |
 
 ---
 
@@ -109,11 +110,11 @@ ANTHROPIC_API_KEY=sk-...
 
 Optimized ~40-50% vs naive implementation.
 
-| Usage | Monthly |
-|-------|---------|
-| Light (10/day) | ~$3-5 |
-| Moderate (30/day) | ~$8-12 |
-| Heavy (50+/day) | ~$15-20 |
+| Usage             | Monthly |
+| ----------------- | ------- |
+| Light (10/day)    | ~$3-5   |
+| Moderate (30/day) | ~$8-12  |
+| Heavy (50+/day)   | ~$15-20 |
 
 ---
 

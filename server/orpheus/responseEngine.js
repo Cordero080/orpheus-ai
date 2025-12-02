@@ -289,11 +289,19 @@ export async function generate(
   // Layer 3: Apply personality (now with llmContent)
   let response = applyPersonality(message, tone, intentScores, llmContent);
 
+  // Append budget warning if present
+  if (llmContent?.budgetWarning) {
+    response += llmContent.budgetWarning;
+  }
+
   // Rhythm-based response length adjustment
-  if (rhythmModifiers?.preferShort && response.length > 150) {
-    // Trim to first sentence or two for rapid-fire mode
+  if (rhythmModifiers?.preferShort && response.length > 200) {
+    // Trim to first 3-4 sentences for rapid-fire mode
     const sentences = response.match(/[^.!?]+[.!?]+/g) || [response];
-    response = sentences.slice(0, 2).join(" ").trim();
+    response = sentences
+      .slice(0, Math.random() < 0.5 ? 3 : 4)
+      .join(" ")
+      .trim();
   }
 
   // Layer 4: Apply continuity
