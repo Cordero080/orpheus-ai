@@ -35,22 +35,25 @@ const SPANISH_INDICATORS = [
 ];
 
 // Explicit language switch commands
+// Note: Accept both "español" (proper) and "espanol" (no tilde — common on non-Spanish keyboards)
 const SPANISH_SWITCH_PATTERNS = [
-  /^habla(me)? (en )?español$/i,
-  /^en español$/i,
-  /^español$/i,
+  /^habla(me)? (en )?espa[ñn]ol$/i,
+  /^en espa[ñn]ol$/i,
+  /^espa[ñn]ol$/i,
   /^speak spanish$/i,
   /^switch to spanish$/i,
-  /^cambia a español$/i,
+  /^cambia a espa[ñn]ol$/i,
+  /^spanish$/i, // English speakers might just type "spanish"
 ];
 
 const ENGLISH_SWITCH_PATTERNS = [
   /^speak english$/i,
-  /^habla(me)? (en )?inglés$/i,
-  /^en inglés$/i,
-  /^inglés$/i,
+  /^habla(me)? (en )?ingl[eé]s$/i,
+  /^en ingl[eé]s$/i,
+  /^ingl[eé]s$/i,
   /^switch to english$/i,
-  /^cambia a inglés$/i,
+  /^cambia a ingl[eé]s$/i,
+  /^english$/i, // Just "english" should work too
 ];
 
 /**

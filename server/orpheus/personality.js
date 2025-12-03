@@ -2273,7 +2273,7 @@ export function buildResponse(
   // PRIORITY 0.5: Partner identifying themselves
   const detectedUser = detectKnownUser(message);
   if (detectedUser?.type === "partner") {
-    return getKnownUserGreeting("partner");
+    return getKnownUserGreeting("partner", message); // Pass message for language detection
   }
 
   // PRIORITY 1: Simple factual questions about creator ("who made you?")
