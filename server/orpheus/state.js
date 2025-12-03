@@ -6,6 +6,7 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { getCurrentExchanges, hasRestoredHistory } from "./conversationHistory.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -288,9 +289,18 @@ export function updateThreadMemory(
 // GETTERS
 // ============================================================
 export function getThreadMemory(state) {
-  return (
-    state.threadMemory || { lastTones: [], lastIntents: [], recentMessages: [] }
-  );
+  const tm = state.threadMemory || { lastTones: [], lastIntents: [], recentMessages: [], conversationHistory: [] };
+  
+  // If thread memory is empty but we have restored conversation history, populate it
+  if ((!tm.conversationHistory || tm.conversationHistory.length === 0) && hasRestoredHistory()) {
+    const restoredExchanges = getCurrentExchanges(5);
+    if (restoredExchanges.length > 0) {
+      tm.conversationHistory = restoredExchanges;
+      console.log(`[State] Populated thread memory from restored session (${restoredExchanges.length} exchanges)`);
+    }
+  }
+  
+  return tm;
 }
 
 export function getIdentity(state) {
