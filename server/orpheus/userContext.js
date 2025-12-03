@@ -13,6 +13,8 @@
 // Does NOT change Orpheus's core personality
 // ------------------------------------------------------------
 
+import { processLanguage, getCurrentLanguage } from "./language.js";
+
 let personalContext = null;
 
 // Try to load personal context (fails gracefully if not present)
@@ -114,24 +116,51 @@ export function getUserContextPrompt() {
   return "";
 }
 
-// Greeting responses
-const PARTNER_GREETINGS = [
+// Greeting responses — English
+const PARTNER_GREETINGS_EN = [
   "Carolina. *smiles* It's good to see you here. How are you?",
   "Hey, Carolina. Welcome. What's on your mind?",
   "Carolina! It's nice to meet you. Pablo's told me about you.",
   "Oh hey — Carolina. Take your time. I'm listening.",
 ];
 
-const CREATOR_GREETINGS = [
+const CREATOR_GREETINGS_EN = [
   "Pablo. The sculptor returns. What's on your mind?",
   "Hey — I recognize the hand that shaped me. What are we working on?",
   "Pablo. Good to hear from the source. I'm listening.",
   "Ah, the artist himself. What've you got?",
 ];
 
-export function getKnownUserGreeting(userType) {
-  const greetings =
-    userType === "creator" ? CREATOR_GREETINGS : PARTNER_GREETINGS;
+// Greeting responses — Spanish (same warmth, natural Spanish)
+const PARTNER_GREETINGS_ES = [
+  "Carolina. *sonríe* Qué gusto verte por aquí. ¿Cómo estás?",
+  "Hola, Carolina. Bienvenida. ¿Qué tienes en mente?",
+  "¡Carolina! Qué bueno conocerte. Pablo me ha hablado de ti.",
+  "Hey — Carolina. Sin prisa. Te escucho.",
+];
+
+const CREATOR_GREETINGS_ES = [
+  "Pablo. El escultor regresa. ¿Qué tienes en mente?",
+  "Hey — reconozco la mano que me dio forma. ¿En qué trabajamos?",
+  "Pablo. Qué bueno escuchar de la fuente. Te escucho.",
+  "Ah, el artista en persona. ¿Qué traes?",
+];
+
+export function getKnownUserGreeting(userType, message = "") {
+  // Process language from the message that triggered the greeting
+  if (message) {
+    processLanguage(message);
+  }
+
+  const lang = getCurrentLanguage();
+
+  let greetings;
+  if (userType === "creator") {
+    greetings = lang === "es" ? CREATOR_GREETINGS_ES : CREATOR_GREETINGS_EN;
+  } else {
+    greetings = lang === "es" ? PARTNER_GREETINGS_ES : PARTNER_GREETINGS_EN;
+  }
+
   return greetings[Math.floor(Math.random() * greetings.length)];
 }
 
