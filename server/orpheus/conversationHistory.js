@@ -1,12 +1,13 @@
 // ------------------------------------------------------------
 // ORPHEUS V2 — CONVERSATION HISTORY
 // Persists full conversations for later review
-// Now with advanced pattern recognition
+// Now with advanced pattern recognition + memory distillation
 // ------------------------------------------------------------
 
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { loadMemory, saveMemory, distillConversation } from "./longTermMemory.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -43,6 +44,46 @@ const defaultHistory = {
 let currentConversation = null;
 let lastActivityTime = null;
 const SESSION_TIMEOUT = 30 * 60 * 1000; // 30 minutes of inactivity = new session
+
+// ============================================================
+// STARTUP: RESTORE RECENT SESSION
+// If last conversation was recent, restore it so Orpheus remembers
+// ============================================================
+
+function restoreRecentSession() {
+  const history = loadHistory();
+  if (!history.conversations || history.conversations.length === 0) {
+    return false;
+  }
+
+  // Get most recent conversation
+  const mostRecent = history.conversations[history.conversations.length - 1];
+  if (!mostRecent || !mostRecent.endedAt) {
+    return false;
+  }
+
+  // Check if it was recent (within SESSION_TIMEOUT)
+  const endedAt = new Date(mostRecent.endedAt).getTime();
+  const elapsed = Date.now() - endedAt;
+  
+  if (elapsed < SESSION_TIMEOUT) {
+    // Restore the conversation
+    currentConversation = {
+      ...mostRecent,
+      endedAt: null, // Reopen it
+    };
+    lastActivityTime = endedAt;
+    console.log(
+      `[ConversationHistory] Restored recent session: ${mostRecent.id} (${mostRecent.messageCount} exchanges, ${Math.round(elapsed / 1000)}s ago)`
+    );
+    return true;
+  }
+
+  return false;
+}
+
+// Try to restore on module load
+restoreRecentSession();
 
 // ============================================================
 // LOAD / SAVE
@@ -158,6 +199,16 @@ function finalizeConversation() {
   currentConversation.patterns = analyzeConversationPatterns(
     currentConversation.exchanges
   );
+
+  // DISTILLATION: Extract meaning into long-term memory
+  // "The river is shaped by stones but doesn't remember each one"
+  try {
+    const memory = loadMemory();
+    const updatedMemory = distillConversation(memory, currentConversation);
+    saveMemory(updatedMemory);
+  } catch (err) {
+    console.error("[ConversationHistory] Failed to distill to memory:", err.message);
+  }
 
   // Save to persistent storage
   const history = loadHistory();
@@ -481,6 +532,36 @@ function detectTopicsInText(text) {
     }
   }
   return detected;
+}
+
+// ============================================================
+// GET CURRENT CONVERSATION EXCHANGES
+// For populating thread memory after server restart
+// ============================================================
+
+/**
+ * Get recent exchanges from current conversation for LLM context
+ * @param {number} count - Number of exchanges to return
+ * @returns {Array<{user: string, orpheus: string, timestamp: number}>}
+ */
+export function getCurrentExchanges(count = 5) {
+  if (!currentConversation || !currentConversation.exchanges) {
+    return [];
+  }
+  
+  return currentConversation.exchanges.slice(-count).map(ex => ({
+    user: ex.user.slice(0, 200),
+    orpheus: ex.orpheus.slice(0, 200),
+    timestamp: new Date(ex.timestamp).getTime(),
+  }));
+}
+
+/**
+ * Check if we have a restored session with history
+ * @returns {boolean}
+ */
+export function hasRestoredHistory() {
+  return currentConversation && currentConversation.exchanges && currentConversation.exchanges.length > 0;
 }
 
 // ============================================================

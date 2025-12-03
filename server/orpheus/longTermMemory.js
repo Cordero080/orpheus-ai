@@ -631,6 +631,144 @@ export function getWeightedTopics(memory, limit = 5) {
 }
 
 // ============================================================
+// SESSION DISTILLATION
+// Extract meaning from conversations, forget the words
+// "The river is shaped by stones but doesn't remember each one"
+// ============================================================
+
+/**
+ * Distill a completed conversation into patterns and insights
+ * This is called when a session ends (30+ min timeout or explicit end)
+ * @param {object} memory - Long-term memory object
+ * @param {object} conversation - Conversation object with exchanges, topics, mood
+ * @returns {object} - Updated memory
+ */
+export function distillConversation(memory, conversation) {
+  if (!conversation || !conversation.exchanges || conversation.exchanges.length === 0) {
+    return memory;
+  }
+
+  const now = new Date().toISOString();
+  const exchangeCount = conversation.exchanges.length;
+
+  // 1. Create compressed summary (what it was ABOUT, not what was SAID)
+  const topics = conversation.topics || [];
+  const mood = conversation.mood || 'neutral';
+  
+  const summary = {
+    date: conversation.startedAt || now,
+    exchangeCount,
+    keyTopics: topics.slice(0, 5),
+    mood,
+    // Don't store actual content - just the shape of it
+    shape: exchangeCount > 10 ? 'extended' : exchangeCount > 5 ? 'medium' : 'brief',
+  };
+
+  // Add to conversation summaries (keep last 50)
+  memory.conversationSummaries = memory.conversationSummaries || [];
+  memory.conversationSummaries.push(summary);
+  memory.conversationSummaries = memory.conversationSummaries.slice(-50);
+
+  // 2. Update recurring topics
+  for (const topic of topics) {
+    const existing = memory.recurringTopics.find(
+      t => t.topic.toLowerCase() === topic.toLowerCase()
+    );
+    
+    if (existing) {
+      existing.count = (existing.count || 1) + 1;
+      existing.lastMentioned = now;
+    } else {
+      memory.recurringTopics.push({
+        topic,
+        count: 1,
+        firstMentioned: now,
+        lastMentioned: now,
+        sentiment: mood,
+      });
+    }
+  }
+  // Keep only top 30 recurring topics
+  memory.recurringTopics = memory.recurringTopics
+    .sort((a, b) => (b.count || 0) - (a.count || 0))
+    .slice(0, 30);
+
+  // 3. Detect patterns from conversation content
+  const allUserText = conversation.exchanges.map(e => e.user).join(' ').toLowerCase();
+  
+  // Pattern: Repeated questions about self/identity
+  if ((allUserText.match(/who am i|what am i|what do i/gi) || []).length >= 2) {
+    addPattern(memory, 'identity-seeking', 'You often return to questions of self-definition.');
+  }
+  
+  // Pattern: Future uncertainty
+  if ((allUserText.match(/what if|should i|will i|what should/gi) || []).length >= 3) {
+    addPattern(memory, 'future-uncertainty', 'You bring questions about the future, seeking clarity or permission.');
+  }
+  
+  // Pattern: Processing through dialogue
+  if (exchangeCount > 8 && mood !== 'frustrated') {
+    addPattern(memory, 'processes-through-dialogue', 'You think by talking. The conversation is how you work things out.');
+  }
+
+  // 4. Update stats
+  memory.stats.totalConversations = (memory.stats.totalConversations || 0) + 1;
+  memory.stats.totalMessages = (memory.stats.totalMessages || 0) + exchangeCount;
+
+  // 5. Update last interaction with session context
+  memory.lastInteraction = {
+    date: now,
+    mood,
+    topic: topics[0] || null,
+    conversationShape: summary.shape,
+  };
+
+  console.log(`[Memory] Distilled conversation: ${exchangeCount} exchanges → ${topics.length} topics, mood: ${mood}`);
+  
+  return memory;
+}
+
+/**
+ * Add or reinforce a pattern observation
+ */
+function addPattern(memory, patternId, observation) {
+  memory.patterns = memory.patterns || [];
+  const existing = memory.patterns.find(p => p.id === patternId);
+  
+  if (existing) {
+    existing.confidence = Math.min(1, (existing.confidence || 0.5) + 0.1);
+    existing.lastSeen = new Date().toISOString();
+    existing.occurrences = (existing.occurrences || 1) + 1;
+  } else {
+    memory.patterns.push({
+      id: patternId,
+      observation,
+      confidence: 0.5,
+      firstSeen: new Date().toISOString(),
+      lastSeen: new Date().toISOString(),
+      occurrences: 1,
+    });
+  }
+  
+  // Keep only patterns with confidence > 0.3
+  memory.patterns = memory.patterns.filter(p => (p.confidence || 0) > 0.3);
+}
+
+/**
+ * Get patterns relevant to current moment
+ * @param {object} memory 
+ * @returns {Array} - Relevant pattern observations
+ */
+export function getActivePatterns(memory) {
+  if (!memory.patterns || memory.patterns.length === 0) return [];
+  
+  // Return patterns with confidence > 0.6
+  return memory.patterns
+    .filter(p => (p.confidence || 0) > 0.6)
+    .map(p => p.observation);
+}
+
+// ============================================================
 // EXPORTS
 // ============================================================
 
@@ -649,4 +787,6 @@ export default {
   detectBlacklistRequest,
   getTopicWeight,
   getWeightedTopics,
+  distillConversation,
+  getActivePatterns,
 };
