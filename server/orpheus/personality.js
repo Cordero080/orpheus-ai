@@ -1145,10 +1145,9 @@ function reflectSimple(msg) {
   if (llm?.observation) {
     return llm.observation;
   }
-  // Fallback to pattern matching
-  if (msg.length < 15) return "Short and clear.";
+  // Fallback to pattern matching — but don't fill ambiguity with generic phrases
   if (msg.includes("?")) return "Good question to sit with.";
-  return "I get what you mean.";
+  return ""; // Return empty — let the LLM handle ambiguous/short inputs
 }
 
 function reflectAnalytic(msg) {
@@ -1238,6 +1237,14 @@ function isQuestion(msg) {
 
 function isGreeting(msg) {
   const lower = msg.toLowerCase().trim();
+
+  // If greeting includes "again" or implies return, let LLM handle it
+  // The LLM can check conversation history and respond appropriately
+  if (/again|back|return|miss me/i.test(lower)) {
+    return false; // Pass to LLM for contextual response
+  }
+
+  // Only catch pure, context-free greetings
   return /^(hey|hi|hello|sup|yo|howdy|what'?s\s*up|how'?s\s*it\s*going)[!?.,\s]*$/i.test(
     lower
   );
@@ -2254,6 +2261,8 @@ export function buildResponse(
   intentScores = {},
   llmContent = null
 ) {
+  console.log(`[Personality] buildResponse called with message: "${message}"`);
+
   // PRIORITY -1: Language switch requests (handled immediately)
   if (isLanguageSwitchRequest(message)) {
     const response = getLanguageSwitchResponse(message);
@@ -2266,8 +2275,15 @@ export function buildResponse(
   }
 
   // PRIORITY 0.5: Creator identifying themselves
-  if (isCreatorIdentifying(message)) {
-    return getCreatorGreetingResponse();
+  console.log(
+    `[Personality] Checking creator identification for: "${message}"`
+  );
+  const isCreator = isCreatorIdentifying(message);
+  console.log(`[Personality] isCreatorIdentifying result: ${isCreator}`);
+  if (isCreator) {
+    const response = getCreatorGreetingResponse();
+    console.log(`[Personality] Creator greeting: "${response}"`);
+    return response;
   }
 
   // PRIORITY 0.5: Partner identifying themselves

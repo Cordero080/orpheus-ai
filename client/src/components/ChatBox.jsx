@@ -9,6 +9,31 @@ const USER_COLORS = {
   blue: { color: '#00d4ff', glow: 'rgba(0, 212, 255, 0.4)', border: 'rgba(0, 212, 255, 0.6)' }
 };
 
+// Speaker icon SVG component
+const SpeakerIcon = ({ playing }) => (
+  <svg 
+    width="18" 
+    height="18" 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round"
+    className={playing ? 'speaker-playing' : ''}
+  >
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+    {playing ? (
+      <>
+        <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+        <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+      </>
+    ) : (
+      <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+    )}
+  </svg>
+);
+
 function ChatBox({ onProcessingChange, onEngineChange }) {
   /*
     messages: array that stores all chat messages
@@ -38,6 +63,69 @@ function ChatBox({ onProcessingChange, onEngineChange }) {
     textareaRef: reference for auto-resizing textarea
   */
   const textareaRef = useRef(null);
+
+  /*
+    playingMessageIndex: tracks which message is currently being spoken
+  */
+  const [playingMessageIndex, setPlayingMessageIndex] = useState(null);
+  const audioRef = useRef(null);
+
+  /*
+    playMessage: sends text to TTS endpoint and plays audio
+  */
+  const playMessage = async (text, index) => {
+    // If already playing this message, stop it
+    if (playingMessageIndex === index && audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+      setPlayingMessageIndex(null);
+      return;
+    }
+
+    // Stop any currently playing audio
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+    }
+
+    try {
+      setPlayingMessageIndex(index);
+      
+      const response = await fetch('http://localhost:3000/tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text }),
+      });
+
+      if (!response.ok) {
+        console.error('TTS request failed');
+        setPlayingMessageIndex(null);
+        return;
+      }
+
+      const audioBlob = await response.blob();
+      const audioUrl = URL.createObjectURL(audioBlob);
+      const audio = new Audio(audioUrl);
+      audioRef.current = audio;
+
+      audio.onended = () => {
+        setPlayingMessageIndex(null);
+        URL.revokeObjectURL(audioUrl);
+        audioRef.current = null;
+      };
+
+      audio.onerror = () => {
+        setPlayingMessageIndex(null);
+        URL.revokeObjectURL(audioUrl);
+        audioRef.current = null;
+      };
+
+      audio.play();
+    } catch (error) {
+      console.error('TTS error:', error);
+      setPlayingMessageIndex(null);
+    }
+  };
 
   /*
     autoResizeTextarea: adjusts textarea height based on content
@@ -205,7 +293,17 @@ function ChatBox({ onProcessingChange, onEngineChange }) {
             >
               {/* Aurora shader for Orpheus messages */}
               {msg.sender === "ai" && <div className="aurora-shader"></div>}
-              {msg.text}
+              <span className="message-text">{msg.text}</span>
+              {/* Speaker button for AI messages */}
+              {msg.sender === "ai" && (
+                <button 
+                  className={`speaker-btn ${playingMessageIndex === index ? 'playing' : ''}`}
+                  onClick={() => playMessage(msg.text, index)}
+                  title={playingMessageIndex === index ? "Stop" : "Listen"}
+                >
+                  <SpeakerIcon playing={playingMessageIndex === index} />
+                </button>
+              )}
             </div>
           ))}
           <div ref={messagesEndRef} />
