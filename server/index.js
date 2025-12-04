@@ -12,7 +12,8 @@ import "dotenv/config"; // Loads .env before any other imports
 import express from "express";
 import cors from "cors";
 import { orpheusRespond } from "./orpheus/fusion.js";
-// ^ Your Orpheus fusion engine
+import { textToSpeech } from "./orpheus/tts.js";
+// ^ Your Orpheus fusion engine + TTS
 
 // ------------------------- APP CONFIG -------------------------------
 const app = express();
@@ -60,6 +61,33 @@ app.post("/chat", async (req, res) => {
       engine: null,
       mode: "error",
     });
+  }
+});
+
+// -------------------------- TTS ROUTE -------------------------------
+// Converts text to speech using ElevenLabs
+app.post("/tts", async (req, res) => {
+  try {
+    const { text } = req.body;
+
+    if (!text) {
+      return res.status(400).json({ error: "No text provided" });
+    }
+
+    const audio = await textToSpeech(text);
+
+    if (!audio) {
+      return res.status(500).json({ error: "TTS generation failed" });
+    }
+
+    res.set({
+      "Content-Type": "audio/mpeg",
+      "Content-Length": audio.length,
+    });
+    res.send(audio);
+  } catch (error) {
+    console.error("[TTS] Error:", error.message);
+    res.status(500).json({ error: "TTS failed" });
   }
 });
 

@@ -684,3 +684,74 @@
   }
 }
 
+/* ============================================
+   SPEAKER BUTTON (TTS)
+   ============================================ */
+.message-bubble.ai {
+  position: relative;
+}
+
+.message-text {
+  display: inline;
+}
+
+.speaker-btn {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(0, 255, 179, 0.3);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: rgba(0, 255, 179, 0.6);
+  transition: all 0.2s ease;
+  opacity: 0;
+  padding: 0;
+}
+
+.message-bubble.ai:hover .speaker-btn {
+  opacity: 1;
+}
+
+.speaker-btn:hover {
+  background: rgba(0, 255, 179, 0.15);
+  border-color: rgba(0, 255, 179, 0.6);
+  color: rgba(0, 255, 179, 0.9);
+  transform: scale(1.1);
+}
+
+.speaker-btn.playing {
+  opacity: 1;
+  background: rgba(0, 255, 179, 0.2);
+  border-color: rgba(0, 255, 179, 0.8);
+  color: #00ffb3;
+  animation: pulse-glow 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(0, 255, 179, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(0, 255, 179, 0.6);
+  }
+}
+
+.speaker-playing {
+  animation: sound-wave 0.8s ease-in-out infinite;
+}
+
+@keyframes sound-wave {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
