@@ -116,13 +116,42 @@ function detectLoop(message, history) {
   // User is saying the same thing repeatedly
   const recent = history.slice(-5).map((h) => h.user?.toLowerCase() || "");
   const current = message.toLowerCase();
+  const currentWords = new Set(
+    current.split(/\s+/).filter((w) => w.length > 4)
+  );
+
+  // FIRST: Check if this message is SUBSTANTIVELY LONGER than recent messages
+  // If user is elaborating with new detail, that's not a loop — it's deepening
+  const recentLengths = recent.map((r) => r.length).filter((l) => l > 0);
+  const avgRecentLength =
+    recentLengths.length > 0
+      ? recentLengths.reduce((a, b) => a + b, 0) / recentLengths.length
+      : 0;
+
+  // If current message is 2x+ longer than average recent, user is elaborating
+  const isElaborating =
+    current.length > avgRecentLength * 2 && current.length > 200;
+
+  // SECOND: Check for NEW significant words not in recent messages
+  const allRecentWords = new Set(
+    recent.flatMap((r) => r.split(/\s+/).filter((w) => w.length > 4))
+  );
+  const newWords = [...currentWords].filter((w) => !allRecentWords.has(w));
+  const hasNewContent = newWords.length >= 5; // At least 5 new significant words
+
+  // If user is elaborating OR bringing new content, don't treat as loop
+  if (isElaborating || hasNewContent) {
+    return {
+      detected: false,
+      confidence: 0,
+      suggestion: null,
+      newContentDetected: true, // Flag for upstream use
+    };
+  }
 
   let similarCount = 0;
   for (const past of recent) {
     // Check for significant word overlap
-    const currentWords = new Set(
-      current.split(/\s+/).filter((w) => w.length > 4)
-    );
     const pastWords = new Set(past.split(/\s+/).filter((w) => w.length > 4));
 
     let overlap = 0;
