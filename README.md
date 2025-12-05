@@ -136,7 +136,16 @@ Add your API key to `server/.env`:
 
 ```
 ANTHROPIC_API_KEY=sk-...
+ELEVENLABS_API_KEY=your-key-here  # Optional, for voice
 ```
+
+---
+
+## Note on Persistence
+
+**Conversations are ephemeral by default.** The public version of Orpheus does not save conversations between sessions — each refresh starts fresh.
+
+This is intentional. Orpheus is intense. One conversation is enough to feel the difference. If you want persistence, long-term memory, and a relationship that grows over time — that's a different offering.
 
 ---
 
