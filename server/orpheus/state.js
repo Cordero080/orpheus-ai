@@ -238,21 +238,27 @@ export function evolve(state, message, intentScores = {}) {
   // ============================================================
   const previousMythicDepth = state.vectors?.mythicDepth || 0.3;
   const previousEmotionalResonance = state.vectors?.emotionalResonance || 0.5;
-  
+
   // Trigger 1: Sharp vector delta (internal shift)
   const mythicDelta = Math.abs(v.mythicDepth - previousMythicDepth);
-  const emotionalDelta = Math.abs(v.emotionalResonance - previousEmotionalResonance);
+  const emotionalDelta = Math.abs(
+    v.emotionalResonance - previousEmotionalResonance
+  );
   if (mythicDelta > 0.12 || emotionalDelta > 0.12) {
     v.emergentAwareness = (v.emergentAwareness || 0.2) + 0.15;
-    console.log(`[State] Emergent trigger: vector delta (mythic: ${mythicDelta.toFixed(3)}, emotional: ${emotionalDelta.toFixed(3)})`);
+    console.log(
+      `[State] Emergent trigger: vector delta (mythic: ${mythicDelta.toFixed(
+        3
+      )}, emotional: ${emotionalDelta.toFixed(3)})`
+    );
   }
-  
+
   // Trigger 2: Uncertainty detected (from intent scores)
   if (intentScores.confusion > 0.4) {
     v.emergentAwareness = (v.emergentAwareness || 0.2) + 0.1;
     console.log(`[State] Emergent trigger: uncertainty detected`);
   }
-  
+
   // Cap emergent awareness
   v.emergentAwareness = clamp(v.emergentAwareness || 0.2, 0.2, 0.7);
 
@@ -403,7 +409,11 @@ export function boostEmergentAwareness(state, amount = 0.15) {
     0.7,
     (s.vectors.emergentAwareness || 0.2) + amount
   );
-  console.log(`[State] Emergent awareness boosted to ${s.vectors.emergentAwareness.toFixed(2)}`);
+  console.log(
+    `[State] Emergent awareness boosted to ${s.vectors.emergentAwareness.toFixed(
+      2
+    )}`
+  );
   return s;
 }
 

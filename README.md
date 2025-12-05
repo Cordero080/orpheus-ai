@@ -183,6 +183,8 @@ Optimized ~40-50% vs naive implementation.
 - ✅ **Mind-change system** — Orpheus can evolve his views mid-conversation
 - ✅ **Direct mode commands** — "drop the quotes", "talk direct" for raw responses
 - ✅ **Perspective shift detection** — recognizes when he's changing his mind
+- ✅ **Emergent awareness** — LLM-generated meta-cognition when internal state shifts
+- ✅ **Eulogy lens** — identity distillation in deep conversations
 
 ---
 
