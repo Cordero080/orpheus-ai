@@ -32,17 +32,19 @@ It can disagree, stay silent, call you out, or sit with you in the dark. It reme
 
 ## Why I Built It This Way
 
+This is an experiment in personality architecture — an attempt to see what happens when you invert the typical AI pattern.
+
 ### The Inversion
 
-Traditional AI wrappers take LLM output and dress it up. Orpheus inverts this: personality is the architecture, Claude provides raw material that gets shaped by 31 philosophical archetypes, 5 tonal modes, and a memory system that knows you without citing evidence.
+Traditional AI wrappers take LLM output and dress it up. Orpheus tries the opposite: personality as architecture, Claude as raw material shaped by 31 philosophical archetypes, 5 tonal modes, and a memory system.
 
-**Why:** Because character should constrain intelligence, not decorate it.
+**Hypothesis:** Character constraining intelligence produces different results than character decorating it.
 
 ### The 31 Archetypes
 
 Not modes to switch between — a **fusion** that's always present. Stoic Emperor and Absurdist in the same breath. Beck's cognitive precision alongside Rumi's ecstatic longing.
 
-**Why:** Real wisdom isn't monolithic. It's the tension between perspectives that creates depth.
+**Hypothesis:** Tension between perspectives creates depth. Real thinking involves contradiction.
 
 ### The Permission Structures
 
