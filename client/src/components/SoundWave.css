@@ -1,0 +1,111 @@
+/* ============================================
+   SOUND WAVE VISUALIZER
+   Animated sine wave bars for TTS playback
+   ============================================ */
+
+.sound-wave {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  height: 24px;
+  padding: 0 8px;
+}
+
+.sound-bar {
+  width: 3px;
+  height: var(--base-height, 40%);
+  background: linear-gradient(
+    180deg,
+    rgba(0, 255, 179, 0.9) 0%,
+    rgba(0, 212, 255, 0.7) 50%,
+    rgba(138, 43, 226, 0.5) 100%
+  );
+  border-radius: 2px;
+  transition: height 0.1s ease;
+  box-shadow: 
+    0 0 4px rgba(0, 255, 179, 0.4),
+    0 0 8px rgba(0, 212, 255, 0.2);
+}
+
+/* When not playing - idle state */
+.sound-wave:not(.playing) .sound-bar {
+  height: 4px;
+  opacity: 0.3;
+}
+
+/* When playing - animate the bars */
+.sound-wave.playing .sound-bar {
+  animation: soundBarWave 0.6s ease-in-out infinite;
+}
+
+.sound-wave.playing .sound-bar:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.sound-wave.playing .sound-bar:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.sound-wave.playing .sound-bar:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.sound-wave.playing .sound-bar:nth-child(4) {
+  animation-delay: 0.15s;
+}
+
+.sound-wave.playing .sound-bar:nth-child(5) {
+  animation-delay: 0.05s;
+}
+
+@keyframes soundBarWave {
+  0%, 100% {
+    height: var(--base-height, 40%);
+    opacity: 0.7;
+  }
+  50% {
+    height: 100%;
+    opacity: 1;
+    box-shadow: 
+      0 0 8px rgba(0, 255, 179, 0.6),
+      0 0 16px rgba(0, 212, 255, 0.4),
+      0 0 24px rgba(138, 43, 226, 0.2);
+  }
+}
+
+/* Alternative: Continuous sine wave effect */
+@keyframes sineWave {
+  0% {
+    transform: scaleY(0.3);
+  }
+  25% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.5);
+  }
+  75% {
+    transform: scaleY(0.8);
+  }
+  100% {
+    transform: scaleY(0.3);
+  }
+}
+
+/* Glow pulse on the entire wave container */
+.sound-wave.playing {
+  filter: drop-shadow(0 0 6px rgba(0, 255, 179, 0.4));
+}
+
+/* Inline variant for message bubbles */
+.sound-wave.inline {
+  display: inline-flex;
+  height: 18px;
+  vertical-align: middle;
+  margin-left: 8px;
+}
+
+.sound-wave.inline .sound-bar {
+  width: 2px;
+}

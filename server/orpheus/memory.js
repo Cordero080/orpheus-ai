@@ -3,15 +3,35 @@ import path from "path";
 
 const memoryPath = path.resolve("orpheus/memory.json");
 
-// Load memory from file
+// Default memory structure
+const defaultMemory = {
+  shortTerm: [],
+  longTerm: [],
+};
+
+// Load memory from file with error handling
 export function loadMemory() {
-  const raw = fs.readFileSync(memoryPath, "utf8");
-  return JSON.parse(raw);
+  try {
+    if (!fs.existsSync(memoryPath)) {
+      console.warn("[Memory] File not found, creating default");
+      saveMemory(defaultMemory);
+      return { ...defaultMemory };
+    }
+    const raw = fs.readFileSync(memoryPath, "utf8");
+    return JSON.parse(raw);
+  } catch (err) {
+    console.error("[Memory] Failed to load:", err.message);
+    return { ...defaultMemory };
+  }
 }
 
-// Save memory to file
-function saveMemory(memory) {
-  fs.writeFileSync(memoryPath, JSON.stringify(memory, null, 2));
+// Save memory to file with error handling
+export function saveMemory(memory) {
+  try {
+    fs.writeFileSync(memoryPath, JSON.stringify(memory, null, 2));
+  } catch (err) {
+    console.error("[Memory] Failed to save:", err.message);
+  }
 }
 
 // Add a short-term memory entry (last 10 messages)
