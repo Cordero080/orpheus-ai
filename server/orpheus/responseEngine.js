@@ -15,6 +15,7 @@
 
 import { buildResponse, TONES } from "./personality.js";
 import { getLLMContent, getLLMIntent, isLLMAvailable } from "./llm.js";
+import { detectToneFlip, boostEmergentAwareness, getEmergentAwareness } from "./state.js";
 
 // ============================================================
 // LAYER 1: INTENT DETECTION
@@ -229,7 +230,7 @@ function enforceIdentityBoundaries(response, identity) {
 // ============================================================
 // MAIN EXPORT: generate()
 // Full 4-layer pipeline with LLM integration
-// Now with rhythm and uncertainty awareness
+// Now with rhythm, uncertainty, emergent awareness, and eulogy lens
 // ============================================================
 
 export async function generate(
@@ -254,6 +255,17 @@ export async function generate(
   // Layer 2: Select tone (rhythm can influence this)
   let tone = selectTone(intentScores, state, threadMemory);
 
+  // ============================================================
+  // EMERGENT AWARENESS: Tone flip detection
+  // If tone changed from last response, boost emergent awareness
+  // ============================================================
+  const toneFlipped = detectToneFlip(threadMemory, tone);
+  let updatedState = state;
+  if (toneFlipped) {
+    updatedState = boostEmergentAwareness(state, 0.12);
+    console.log(`[ResponseEngine] Tone flip detected: emergent awareness boosted`);
+  }
+
   // Rhythm-based tone adjustments
   if (rhythmModifiers) {
     // Late night = prefer intimate or oracular
@@ -264,6 +276,32 @@ export async function generate(
     if (rhythm?.rhythmState === "contemplative" && tone === "casual") {
       tone = Math.random() < 0.4 ? "oracular" : "analytic";
     }
+  }
+
+  // ============================================================
+  // EMERGENT AWARENESS & EULOGY LENS FLAGS
+  // Determine if these modifiers should activate for this response
+  // ============================================================
+  const emergentAwareness = getEmergentAwareness(updatedState);
+  
+  // Emergent shift: fires when awareness > 0.35, NOT casual, 30% chance
+  const emergentShift = 
+    emergentAwareness > 0.35 && 
+    tone !== "casual" && 
+    Math.random() < 0.30;
+  
+  // Eulogy lens: fires in ORACULAR/INTIMATE, depth > 5, 15% chance
+  const conversationDepth = (threadMemory.conversationHistory || []).length;
+  const eulogyLens = 
+    (tone === "oracular" || tone === "intimate") && 
+    conversationDepth > 5 && 
+    Math.random() < 0.15;
+
+  if (emergentShift) {
+    console.log(`[ResponseEngine] Emergent shift ACTIVE (awareness: ${emergentAwareness.toFixed(2)})`);
+  }
+  if (eulogyLens) {
+    console.log(`[ResponseEngine] Eulogy lens ACTIVE (depth: ${conversationDepth})`);
   }
 
   // Layer 2.5: Get LLM content (if available AND message warrants it)
@@ -282,6 +320,8 @@ export async function generate(
       recentMessages: threadMemory.recentMessages || [],
       conversationHistory: threadMemory.conversationHistory || [],
       evolution: state.evolution || {},
+      emergentShift, // Pass to LLM for system prompt modification
+      eulogyLens,    // Pass to LLM for system prompt modification
     };
     llmContent = await getLLMContent(message, tone, intentScores, context);
   }
@@ -315,12 +355,12 @@ export async function generate(
   console.log(
     `[ResponseEngine] Tone: ${tone} | LLM: ${
       llmContent ? "yes" : "no"
-    } | Rhythm: ${rhythm?.rhythmState || "unknown"} | Top intents:`,
+    } | Rhythm: ${rhythm?.rhythmState || "unknown"} | Emergent: ${emergentShift} | Eulogy: ${eulogyLens} | Top intents:`,
     Object.entries(intentScores)
       .filter(([_, v]) => v > 0.2)
       .map(([k, v]) => `${k}:${v.toFixed(2)}`)
       .join(", ") || "neutral"
   );
 
-  return { reply: response, tone };
+  return { reply: response, tone, stateUpdate: toneFlipped ? updatedState : null };
 }

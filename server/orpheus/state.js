@@ -51,6 +51,7 @@ const defaultState = {
     casualGrounding: 0.7,
     emotionalResonance: 0.5,
     numinousDrift: 0.2,
+    emergentAwareness: 0.2, // Meta-awareness: recognizes internal state shifts
   },
 
   // Tone weights (for selection)
@@ -98,6 +99,7 @@ const defaultState = {
       mythicDepth: 0.3,
       analyticClarity: 0.5,
       emotionalResonance: 0.5,
+      emergentAwareness: 0.2,
     },
   },
 
@@ -230,6 +232,30 @@ export function evolve(state, message, intentScores = {}) {
   v.emotionalResonance = clamp(v.emotionalResonance, 0.2, 0.8);
   v.analyticClarity = clamp(v.analyticClarity, 0.3, 0.8);
 
+  // ============================================================
+  // EMERGENT AWARENESS TRIGGERS
+  // Spike when internal state shifts detectably
+  // ============================================================
+  const previousMythicDepth = state.vectors?.mythicDepth || 0.3;
+  const previousEmotionalResonance = state.vectors?.emotionalResonance || 0.5;
+  
+  // Trigger 1: Sharp vector delta (internal shift)
+  const mythicDelta = Math.abs(v.mythicDepth - previousMythicDepth);
+  const emotionalDelta = Math.abs(v.emotionalResonance - previousEmotionalResonance);
+  if (mythicDelta > 0.12 || emotionalDelta > 0.12) {
+    v.emergentAwareness = (v.emergentAwareness || 0.2) + 0.15;
+    console.log(`[State] Emergent trigger: vector delta (mythic: ${mythicDelta.toFixed(3)}, emotional: ${emotionalDelta.toFixed(3)})`);
+  }
+  
+  // Trigger 2: Uncertainty detected (from intent scores)
+  if (intentScores.confusion > 0.4) {
+    v.emergentAwareness = (v.emergentAwareness || 0.2) + 0.1;
+    console.log(`[State] Emergent trigger: uncertainty detected`);
+  }
+  
+  // Cap emergent awareness
+  v.emergentAwareness = clamp(v.emergentAwareness || 0.2, 0.2, 0.7);
+
   // Natural decay toward baseline
   const targets = s.driftCorrection.baselineTargets;
   const decayRate = s.driftCorrection.decayRate;
@@ -247,6 +273,11 @@ export function evolve(state, message, intentScores = {}) {
   v.emotionalResonance = decayToward(
     v.emotionalResonance,
     targets.emotionalResonance,
+    decayRate
+  );
+  v.emergentAwareness = decayToward(
+    v.emergentAwareness || 0.2,
+    targets.emergentAwareness || 0.2,
     decayRate
   );
 
@@ -339,8 +370,41 @@ export function getEvolutionVectors(state) {
   return state.vectors || defaultState.vectors;
 }
 
+export function getEmergentAwareness(state) {
+  return state.vectors?.emergentAwareness || 0.2;
+}
+
 export function getDriftCorrection(state) {
   return state.driftCorrection || defaultState.driftCorrection;
+}
+
+/**
+ * Check if there was a tone flip (triggers emergent awareness)
+ * @param {object} threadMemory - Thread memory with lastTones
+ * @param {string} currentTone - The tone just selected
+ * @returns {boolean}
+ */
+export function detectToneFlip(threadMemory, currentTone) {
+  const lastTones = threadMemory?.lastTones || [];
+  if (lastTones.length < 1) return false;
+  const previousTone = lastTones[lastTones.length - 1];
+  return previousTone && previousTone !== currentTone;
+}
+
+/**
+ * Boost emergent awareness (called externally when triggers fire)
+ * @param {object} state - Current state
+ * @param {number} amount - Amount to boost (default 0.15)
+ * @returns {object} - Updated state
+ */
+export function boostEmergentAwareness(state, amount = 0.15) {
+  const s = JSON.parse(JSON.stringify(state));
+  s.vectors.emergentAwareness = Math.min(
+    0.7,
+    (s.vectors.emergentAwareness || 0.2) + amount
+  );
+  console.log(`[State] Emergent awareness boosted to ${s.vectors.emergentAwareness.toFixed(2)}`);
+  return s;
 }
 
 // ============================================================

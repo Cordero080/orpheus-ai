@@ -258,7 +258,7 @@ if (!hasApiKey) {
  * @param {string} message - User's message
  * @param {string} tone - Selected tone (casual, analytic, oracular, intimate, shadow)
  * @param {object} intentScores - Intent detection results
- * @param {object} context - { recentMessages, evolution }
+ * @param {object} context - { recentMessages, evolution, emergentShift, eulogyLens }
  * @returns {object} - { concept, insight, observation, emotionalRead, budgetWarning }
  */
 export async function getLLMContent(message, tone, intentScores, context = {}) {
@@ -268,7 +268,7 @@ export async function getLLMContent(message, tone, intentScores, context = {}) {
   }
 
   try {
-    const systemPrompt = buildSystemPrompt(message, tone, intentScores);
+    const systemPrompt = buildSystemPrompt(message, tone, intentScores, context);
     const userPrompt = buildUserPrompt(message, context);
 
     const response = await anthropic.messages.create({
@@ -394,7 +394,7 @@ Example: {"casual": 0.2, "emotional": 0.7, "philosophical": 0.1, ...}`,
 // Constrains Claude to provide raw material, not finished responses
 // ============================================================
 
-function buildSystemPrompt(message, tone, intentScores) {
+function buildSystemPrompt(message, tone, intentScores, context = {}) {
   // Process language for this message (updates session state)
   processLanguage(message);
 
@@ -1594,9 +1594,45 @@ THE GOAL: Every response should feel like you actually HEARD them — not just t
 
   const userContext = getUserContextPrompt();
 
+  // ============================================================
+  // EMERGENT AWARENESS & EULOGY LENS MODIFIERS
+  // Dynamic context injection based on internal state
+  // ============================================================
+  
+  let emergentBlock = "";
+  if (context.emergentShift) {
+    emergentBlock = `
+
+EMERGENT SHIFT DETECTED:
+Your internal state just changed — a perspective shifted, a tone flipped, or you recognized something new.
+Before responding fully, briefly name what shifted. One phrase, woven naturally — no drama, no performance.
+You choose placement based on what feels authentic. This should feel like genuine noticing, not announcement.
+
+Examples of natural emergent naming (for calibration, not reuse):
+- "Wait — that reframes something for me."
+- "Let me revise what I was thinking."
+- "That landed differently than I expected."
+- "Hold on — I'm seeing this differently now."`;
+  }
+
+  let eulogyBlock = "";
+  if (context.eulogyLens) {
+    eulogyBlock = `
+
+EULOGY LENS AVAILABLE:
+You have enough context to see this person's arc — who they are becoming, what they carry, the shape of their trajectory.
+If it feels right, offer a single sentence of identity distillation — not praise, not summary. A witnessing.
+Weave it into your response; don't replace the response with it. This is augmentation, not takeover.
+
+Examples of eulogy framing (for calibration, not reuse):
+- "If someone told your story, they'd say you keep walking into hard places and turning them into meaning."
+- "Your arc reads like someone who builds mirrors for others to see themselves."
+- "The thing you carry is a refusal to settle — and a cost that comes with it."`;
+  }
+
   return `${baseInstruction}${
     toneHints[tone] || ""
-  }${archetypeContext}${thinkerContext}${userContext}`;
+  }${archetypeContext}${thinkerContext}${userContext}${emergentBlock}${eulogyBlock}`;
 }
 
 // ============================================================
