@@ -511,13 +511,18 @@ export async function orpheusRespond(userMessage) {
 
   // Generate response through 4-layer pipeline (now async with LLM)
   // Pass rhythm and uncertainty context for tone adjustment
-  const { reply, tone } = await generate(
+  const { reply, tone, stateUpdate } = await generate(
     userMessage,
     state,
     threadMemory,
     identity,
     { rhythm, rhythmModifiers, uncertainty, relevantMemories }
   );
+
+  // Apply state update from tone flip (emergent awareness boost)
+  if (stateUpdate) {
+    state = { ...state, vectors: stateUpdate.vectors };
+  }
 
   // Build final reply with memory and rhythm awareness
   let finalReply = reply;
