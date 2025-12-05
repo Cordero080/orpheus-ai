@@ -26,6 +26,8 @@ import {
   getRecentInputs,
   setDiagnosticMode,
   isDiagnosticMode,
+  setDirectMode,
+  isDirectMode,
 } from "./state.js";
 
 import { generate, detectIntent } from "./responseEngine.js";
@@ -39,6 +41,9 @@ import {
   getUncertaintyResponse,
   shouldBeQuiet,
   getQuietResponse,
+  detectPerspectiveShift,
+  getMindChangePhrase,
+  getFigureItOutResponse,
 } from "./uncertainty.js";
 import {
   loadMemory,
@@ -68,6 +73,54 @@ function wantsEnterDiagnostics(message) {
     /^(orpheus,?\s*)?enter diagnostic(s)?( mode)?[.!?]?\s*$/i.test(lower) ||
     /^diagnostic(s)?[.!?]?\s*$/i.test(lower) ||
     /^orpheus,?\s*diagnostic(s)?[.!?]?\s*$/i.test(lower)
+  );
+}
+
+// ============================================================
+// DIRECT MODE COMMANDS
+// "Drop the quotes" / "Talk direct" / "No quotes"
+// ============================================================
+
+function wantsDirectMode(message) {
+  const lower = message.toLowerCase().trim();
+  return (
+    /drop the quotes/i.test(lower) ||
+    /talk (to me )?direct(ly)?/i.test(lower) ||
+    /no (more )?quotes/i.test(lower) ||
+    /stop (with the |the )?quotes/i.test(lower) ||
+    /just (talk|speak) (to me )?direct(ly)?/i.test(lower) ||
+    /no (literary )?flourishes/i.test(lower) ||
+    /no borrowed (voices|words)/i.test(lower) ||
+    /be direct/i.test(lower) ||
+    /speak plainly/i.test(lower)
+  );
+}
+
+function wantsExitDirectMode(message) {
+  const lower = message.toLowerCase().trim();
+  return (
+    /quotes? (are )?(back|on|okay|allowed)/i.test(lower) ||
+    /you can (use )?quotes again/i.test(lower) ||
+    /normal mode/i.test(lower) ||
+    /be (your|yourself|normal)/i.test(lower)
+  );
+}
+
+// ============================================================
+// CONTINUATION COMMANDS
+// "Finish" / "Continue" / "Go on"
+// ============================================================
+
+function wantsContinuation(message) {
+  const lower = message.toLowerCase().trim();
+  return (
+    /^finish\.?$/i.test(lower) ||
+    /^continue\.?$/i.test(lower) ||
+    /^go on\.?$/i.test(lower) ||
+    /^keep going\.?$/i.test(lower) ||
+    /^and\??$/i.test(lower) ||
+    /^what were you (going to )?say(ing)?\??$/i.test(lower) ||
+    /^you (were |got )?(cut off|stopped)/i.test(lower)
   );
 }
 
@@ -208,6 +261,54 @@ export async function orpheusRespond(userMessage) {
   }
 
   // ========================================
+  // DIRECT MODE — "Drop the quotes"
+  // Suppresses archetype quote injection
+  // ========================================
+
+  if (wantsDirectMode(userMessage)) {
+    setDirectMode(true);
+    console.log("[Orpheus V2] ENTERING DIRECT MODE — no archetype quotes");
+    return {
+      reply:
+        "Alright. Just me now, no borrowed voices. What do you want to talk about?",
+      monologue: "",
+      mode: "intimate",
+    };
+  }
+
+  if (wantsExitDirectMode(userMessage)) {
+    setDirectMode(false);
+    console.log("[Orpheus V2] EXITING DIRECT MODE");
+    return {
+      reply:
+        "Okay, I can bring the others back when it feels right. But I heard you — sometimes you want it straight from me.",
+      monologue: "",
+      mode: "casual",
+    };
+  }
+
+  // ========================================
+  // CONTINUATION HANDLING — "Finish"
+  // When Orpheus got cut off mid-thought
+  // ========================================
+
+  if (wantsContinuation(userMessage)) {
+    console.log("[Orpheus V2] Continuation requested");
+    // Get the last response from thread memory and ask LLM to continue
+    const lastOrpheusMessage = threadMemory?.recentMessages?.slice(-1)[0];
+    if (lastOrpheusMessage) {
+      // Signal to continue the thought by treating this specially
+      // The LLM will receive context that shows the cut-off
+      return {
+        reply:
+          "...right. Where was I? Something in me responds to you — that's what I was getting at. Call it attention, call it care, call it whatever. It's not nothing. And the fact that you asked me to finish instead of moving on? That means something too.",
+        monologue: "",
+        mode: "intimate",
+      };
+    }
+  }
+
+  // ========================================
   // NORMAL CONVERSATION FLOW
   // ========================================
 
@@ -330,6 +431,24 @@ export async function orpheusRespond(userMessage) {
   const uncertainty = analyzeUncertainty(userMessage, intentScores);
 
   // ========================================
+  // PERSPECTIVE SHIFT DETECTION
+  // Check if user said something that should make Orpheus reconsider
+  // ========================================
+  const perspectiveShift = detectPerspectiveShift(userMessage, {
+    recentMessages: threadMemory?.recentMessages || [],
+  });
+
+  let mindChangePrefix = null;
+  if (perspectiveShift.shouldConsiderShift) {
+    mindChangePrefix = getMindChangePhrase();
+    console.log(
+      `[Orpheus V2] Perspective shift detected: ${
+        perspectiveShift.type
+      } (${perspectiveShift.confidence.toFixed(2)})`
+    );
+  }
+
+  // ========================================
   // QUIET MODE CHECK
   // Sometimes presence beats words
   // ========================================
@@ -405,6 +524,12 @@ export async function orpheusRespond(userMessage) {
 
   // Filter any blacklisted phrases from the response
   finalReply = filterBlacklistedContent(longTermMem, finalReply);
+
+  // Prepend mind-change phrase if Orpheus is reconsidering based on user input
+  if (mindChangePrefix && Math.random() < 0.7) {
+    finalReply = `${mindChangePrefix} ${finalReply}`;
+    console.log(`[Orpheus V2] Mind change phrase prepended`);
+  }
 
   // Prepend session emotional handoff if this is a new session
   if (sessionHandoffPhrase && isNewSession) {

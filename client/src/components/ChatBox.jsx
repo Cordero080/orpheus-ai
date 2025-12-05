@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";          // Used to send requests to the backend
 import "./ChatBox.css";
+import { API_ENDPOINTS } from "../config/api";
+import SoundWave from "./SoundWave";
 
 // User text color options
 const USER_COLORS = {
@@ -91,7 +93,7 @@ function ChatBox({ onProcessingChange, onEngineChange }) {
     try {
       setPlayingMessageIndex(index);
       
-      const response = await fetch('http://localhost:3000/tts', {
+      const response = await fetch(API_ENDPOINTS.tts, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text }),
@@ -195,7 +197,7 @@ function ChatBox({ onProcessingChange, onEngineChange }) {
       }, 200);
 
       // STEP 4 — Send message to backend (POST request)
-      const response = await axios.post("http://localhost:3000/chat", {
+      const response = await axios.post(API_ENDPOINTS.chat, {
         message: messageText,
       });
 
@@ -289,20 +291,23 @@ function ChatBox({ onProcessingChange, onEngineChange }) {
           {messages.map((msg, index) => (
             <div
               key={index}
-              className={`message-bubble ${msg.sender === "user" ? "user" : "ai"}`}
+              className={`message-bubble ${msg.sender === "user" ? "user" : "ai"} ${playingMessageIndex === index ? 'speaking' : ''}`}
             >
               {/* Aurora shader for Orpheus messages */}
               {msg.sender === "ai" && <div className="aurora-shader"></div>}
               <span className="message-text">{msg.text}</span>
-              {/* Speaker button for AI messages */}
+              {/* Sound wave + Speaker button for AI messages */}
               {msg.sender === "ai" && (
-                <button 
-                  className={`speaker-btn ${playingMessageIndex === index ? 'playing' : ''}`}
-                  onClick={() => playMessage(msg.text, index)}
-                  title={playingMessageIndex === index ? "Stop" : "Listen"}
-                >
-                  <SpeakerIcon playing={playingMessageIndex === index} />
-                </button>
+                <div className="message-audio-controls">
+                  <SoundWave isPlaying={playingMessageIndex === index} barCount={5} />
+                  <button 
+                    className={`speaker-btn ${playingMessageIndex === index ? 'playing' : ''}`}
+                    onClick={() => playMessage(msg.text, index)}
+                    title={playingMessageIndex === index ? "Stop" : "Listen"}
+                  >
+                    <SpeakerIcon playing={playingMessageIndex === index} />
+                  </button>
+                </div>
               )}
             </div>
           ))}

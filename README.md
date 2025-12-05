@@ -168,7 +168,7 @@ Optimized ~40-50% vs naive implementation.
 
 ## Status
 
-**December 2025 (v4.0):**
+**December 2025 (v4.1):**
 
 - ✅ 31 archetypes (up from 23)
 - ✅ 4-layer daemon memory model
@@ -177,6 +177,11 @@ Optimized ~40-50% vs naive implementation.
 - ✅ Session restoration
 - ✅ Beck's CBT integration
 - ✅ Creator/partner recognition
+- ✅ **Sound wave TTS visualization** — animated waveform when Orpheus speaks
+- ✅ **Influence-not-quotation architecture** — archetypes shape thinking, not speech
+- ✅ **Mind-change system** — Orpheus can evolve his views mid-conversation
+- ✅ **Direct mode commands** — "drop the quotes", "talk direct" for raw responses
+- ✅ **Perspective shift detection** — recognizes when he's changing his mind
 
 ---
 
@@ -197,4 +202,4 @@ Derivative works must include attribution to the original author.
 ---
 
 _Built November 2025 · Updated December 2025_  
-_Version: Orpheus 4.0 (Daemon Memory Model)_
+_Version: Orpheus 4.1 (Influence Architecture)_

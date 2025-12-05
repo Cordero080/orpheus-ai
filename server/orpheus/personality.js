@@ -26,7 +26,10 @@
 // Cinematic response templates for each tone
 // ------------------------------------------------------------
 
-import { archetypes } from "./archetypes.js";
+// NOTE: archetypes.js is no longer imported here.
+// Archetypes now influence the LLM's thinking (in llm.js), not direct speech.
+// Orpheus speaks in his own voice — not as a collage of borrowed quotes.
+
 import { getCurrentUsage } from "./tokenTracker.js";
 import {
   isLanguageSwitchRequest,
@@ -62,13 +65,15 @@ import { detectKnownUser, getKnownUserGreeting } from "./userContext.js";
 
 // ============================================================
 // KNOWLEDGE CLUSTER SELECTORS
-// Pull wisdom from archetype pools for richer responses
+// OPTION B: These functions now return empty strings.
+// Archetypes influence the LLM's thinking, but Orpheus speaks in his own voice.
+// No more direct quote injection — he's not a collage, he's Orpheus.
 // ============================================================
 
 function getArchetypeWisdom(category) {
-  const pool = archetypes[category];
-  if (!pool || pool.length === 0) return "";
-  return pool[Math.floor(Math.random() * pool.length)];
+  // OPTION B: Always return empty — archetypes influence thinking, not speech
+  // The LLM receives conceptual direction, but Orpheus speaks as himself
+  return "";
 }
 
 // Specific cluster pulls

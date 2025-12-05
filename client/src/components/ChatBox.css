@@ -696,9 +696,6 @@
 }
 
 .speaker-btn {
-  position: absolute;
-  bottom: 8px;
-  right: 8px;
   background: rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(0, 255, 179, 0.3);
   border-radius: 50%;
@@ -710,12 +707,8 @@
   cursor: pointer;
   color: rgba(0, 255, 179, 0.6);
   transition: all 0.2s ease;
-  opacity: 0;
   padding: 0;
-}
-
-.message-bubble.ai:hover .speaker-btn {
-  opacity: 1;
+  flex-shrink: 0;
 }
 
 .speaker-btn:hover {
@@ -726,7 +719,6 @@
 }
 
 .speaker-btn.playing {
-  opacity: 1;
   background: rgba(0, 255, 179, 0.2);
   border-color: rgba(0, 255, 179, 0.8);
   color: #00ffb3;
@@ -752,6 +744,63 @@
   }
   50% {
     transform: scale(1.1);
+  }
+}
+
+/* ============================================
+   AUDIO CONTROLS CONTAINER
+   ============================================ */
+.message-audio-controls {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.message-bubble.ai:hover .message-audio-controls,
+.message-bubble.ai.speaking .message-audio-controls {
+  opacity: 1;
+}
+
+/* Sound wave in message - smaller inline variant */
+.message-audio-controls .sound-wave {
+  height: 20px;
+}
+
+.message-audio-controls .sound-wave .sound-bar {
+  width: 2px;
+}
+
+/* ============================================
+   SPEAKING STATE - Enhanced glow when playing audio
+   ============================================ */
+.message-bubble.ai.speaking {
+  animation: speakingGlow 1.5s ease-in-out infinite;
+}
+
+.message-bubble.ai.speaking .aurora-shader::before {
+  animation: 
+    auroraWave 4s ease-in-out infinite,
+    auroraBreath 6s ease-in-out infinite;
+  opacity: 0.35;
+}
+
+@keyframes speakingGlow {
+  0%, 100% {
+    box-shadow: 
+      0 0 20px rgba(0, 255, 179, 0.3),
+      0 0 40px rgba(0, 212, 255, 0.2),
+      inset 0 0 20px rgba(0, 0, 0, 0.3);
+  }
+  50% {
+    box-shadow: 
+      0 0 30px rgba(0, 255, 179, 0.5),
+      0 0 60px rgba(138, 43, 226, 0.3),
+      inset 0 0 20px rgba(0, 0, 0, 0.3);
   }
 }
 

@@ -159,6 +159,11 @@ function calculateUncertaintyScore(flags) {
   if (flags.isExistential) score += 0.25;
   if (flags.isAskingForCertainty) score += 0.2;
 
+  // NEW: Random uncertainty injection (10% chance)
+  // Sometimes be uncertain even when the topic seems clear
+  // This gives Orpheus permission to not always have an answer
+  if (Math.random() < 0.1) score += 0.15;
+
   return Math.min(1, score);
 }
 
@@ -258,7 +263,130 @@ const GENERAL_UNCERTAINTY = [
   "I've got no clear answer on that.",
   "That's beyond what I can say with any confidence.",
   "I'm uncertain about that. And I think that's okay.",
+  "Honestly, I'm not sure. Let's figure it out together.",
+  "I don't have an answer ready. Which might be more honest than making one up.",
+  "That's a gap in what I know. I'd rather admit it than smooth over it.",
+  "I genuinely don't know. And I'm resisting the urge to pretend I do.",
 ];
+
+// ============================================================
+// FIGURING IT OUT TOGETHER
+// Responses for when Orpheus wants to explore alongside, not lecture
+// ============================================================
+
+const FIGURE_IT_OUT_TOGETHER = [
+  "I don't have a clean answer. Want to think through it together?",
+  "Honestly? I'm not sure. But I'm curious what you think.",
+  "I could give you something that sounds wise, but I'd rather be honest — I don't know. What's your read on it?",
+  "This is one of those things I haven't figured out either. Let's sit with it.",
+  "I'm genuinely uncertain here. Not as a move — actually uncertain. What are you thinking?",
+  "I don't know. And I want to stay in that not-knowing with you instead of rushing to fill it.",
+];
+
+// ============================================================
+// CHANGING MIND MID-CONVERSATION
+// Responses when something shifts Orpheus's thinking
+// ============================================================
+
+export const MIND_CHANGE_PHRASES = [
+  "Wait — that actually changes things for me.",
+  "Hm. What you just said shifted something.",
+  "Actually, hold on. That makes me reconsider what I said earlier.",
+  "You know what, I think I was wrong about that.",
+  "That's a good point. I'm updating my take.",
+  "I'm changing my mind as you talk. That's allowed, right?",
+  "Something you said is making me rethink this.",
+  "Actually — I want to revise what I said before.",
+  "I was headed one direction, but what you just said pulled me somewhere else.",
+  "Wait. That's better than what I was thinking.",
+  "I'm reconsidering. Give me a second.",
+  "That shifted how I'm seeing this. Let me think out loud for a sec.",
+];
+
+/**
+ * Get a phrase for when Orpheus changes his mind mid-conversation
+ */
+export function getMindChangePhrase() {
+  return pickRandom(MIND_CHANGE_PHRASES);
+}
+
+/**
+ * Get a "figure it out together" response
+ */
+export function getFigureItOutResponse() {
+  return pickRandom(FIGURE_IT_OUT_TOGETHER);
+}
+
+// ============================================================
+// PERSPECTIVE SHIFT DETECTION
+// Detect when user says something that might warrant Orpheus changing his mind
+// ============================================================
+
+/**
+ * Detect if user's message contains something that might shift Orpheus's perspective
+ * @param {string} message - User's message
+ * @param {object} context - Conversation context (recent messages, etc.)
+ * @returns {object} - { shouldConsiderShift, type }
+ */
+export function detectPerspectiveShift(message, context = {}) {
+  const lower = message.toLowerCase();
+
+  // Direct counter-arguments or new information
+  const counterPatterns = [
+    /but (what about|have you considered|what if)/i,
+    /actually[,.]? (i think|maybe|that's not)/i,
+    /that's not (quite|exactly|really) (right|true|how)/i,
+    /i (disagree|don't think|see it differently)/i,
+    /here's (another|a different) (way|perspective|angle)/i,
+    /what if (it's|you're|we're) (actually|really)/i,
+    /you might be (missing|overlooking|wrong about)/i,
+  ];
+
+  // User offering their own insight
+  const insightPatterns = [
+    /i('ve| have) (been thinking|realized|noticed)/i,
+    /maybe (it's|the real|what's actually)/i,
+    /for me[,.]? it('s| feels| seems)/i,
+    /the way i see it/i,
+    /from my (experience|perspective)/i,
+  ];
+
+  // User pointing out something Orpheus missed
+  const correctionPatterns = [
+    /you (forgot|missed|didn't mention|left out)/i,
+    /that's (a bit|kind of|somewhat) (off|wrong)/i,
+    /not (quite|exactly)/i,
+    /close[,.]? but/i,
+  ];
+
+  const isCounter = counterPatterns.some((p) => p.test(lower));
+  const isInsight = insightPatterns.some((p) => p.test(lower));
+  const isCorrection = correctionPatterns.some((p) => p.test(lower));
+
+  // Probability of considering a shift (not always — that would be sycophantic)
+  // Higher if they're directly correcting or offering counter-argument
+  let shiftProbability = 0;
+  if (isCounter) shiftProbability += 0.4;
+  if (isInsight) shiftProbability += 0.3;
+  if (isCorrection) shiftProbability += 0.5;
+
+  // Cap at 70% — Orpheus shouldn't ALWAYS change his mind
+  shiftProbability = Math.min(0.7, shiftProbability);
+
+  const shouldConsiderShift = Math.random() < shiftProbability;
+
+  return {
+    shouldConsiderShift,
+    type: isCorrection
+      ? "correction"
+      : isCounter
+      ? "counter"
+      : isInsight
+      ? "insight"
+      : null,
+    confidence: shiftProbability,
+  };
+}
 
 // ============================================================
 // SILENCE DETECTION

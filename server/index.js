@@ -17,7 +17,7 @@ import { textToSpeech } from "./orpheus/tts.js";
 
 // ------------------------- APP CONFIG -------------------------------
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(cors()); // allow frontend → backend communication
 app.use(express.json({ limit: "10mb" })); // parse JSON request bodies with larger limit

@@ -21,6 +21,21 @@ const statePath = path.join(__dirname, "../../data/orpheus_state.json");
 // ============================================================
 let recentInputs = [];
 let diagnosticMode = false;
+let directMode = false; // When true, suppresses archetype quotes
+
+// ============================================================
+// DIRECT MODE CONTROL
+// Allows Orpheus to speak without borrowed voices
+// ============================================================
+
+export function setDirectMode(value) {
+  directMode = value;
+  console.log(`[State] Direct mode: ${value ? "ON" : "OFF"}`);
+}
+
+export function isDirectMode() {
+  return directMode;
+}
 
 // ============================================================
 // DEFAULT STATE STRUCTURE
