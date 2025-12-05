@@ -112,9 +112,18 @@ export function loadHistory() {
 
 export function saveHistory(history) {
   try {
+    // Ensure data directory exists
+    const dataDir = path.dirname(historyPath);
+    if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir, { recursive: true });
+    }
     fs.writeFileSync(historyPath, JSON.stringify(history, null, 2), "utf8");
   } catch (err) {
-    console.error("[ConversationHistory] Failed to save:", err.message);
+    // Graceful degradation: conversations work but don't persist
+    console.warn("[ConversationHistory] Persistence disabled:", err.message);
+    console.warn(
+      "[ConversationHistory] Conversations will not be saved between sessions."
+    );
   }
 }
 
