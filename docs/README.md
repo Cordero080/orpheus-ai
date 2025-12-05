@@ -66,6 +66,8 @@ docs/
 - **[study-plan.md](./development/study-plan.md)** — 4-day reading order to understand the codebase. Includes landmarks for personality.js.
 - **[contributing.md](./development/contributing.md)** — Guidelines for contributing to Orpheus.
 - **[milestones/](./development/milestones/)** — Historical snapshots of development progress.
+  - [2025-11-30](./development/milestones/2025-11-30.md) — First complete version (23 archetypes, 5 modes)
+  - [2025-12-05](./development/milestones/2025-12-05.md) — v4.1: Influence architecture, emergent awareness, eulogy lens
 
 ---
 

@@ -268,7 +268,12 @@ export async function getLLMContent(message, tone, intentScores, context = {}) {
   }
 
   try {
-    const systemPrompt = buildSystemPrompt(message, tone, intentScores, context);
+    const systemPrompt = buildSystemPrompt(
+      message,
+      tone,
+      intentScores,
+      context
+    );
     const userPrompt = buildUserPrompt(message, context);
 
     const response = await anthropic.messages.create({
@@ -1598,7 +1603,7 @@ THE GOAL: Every response should feel like you actually HEARD them — not just t
   // EMERGENT AWARENESS & EULOGY LENS MODIFIERS
   // Dynamic context injection based on internal state
   // ============================================================
-  
+
   let emergentBlock = "";
   if (context.emergentShift) {
     emergentBlock = `
