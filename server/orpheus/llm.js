@@ -1705,6 +1705,19 @@ function parseLLMOutput(text) {
     result.answer = null;
   }
 
+  // If parsing failed to get an ANSWER, use the raw text as the answer
+  // This ensures the LLM response is actually used instead of falling back to templates
+  if (!result.answer && text.length > 10) {
+    // Clean up any leftover labels from the raw text
+    let cleanText = text
+      .replace(/^(ANSWER|CONCEPT|EMOTIONAL_READ):\s*/gim, "")
+      .trim();
+    // Take first meaningful chunk (up to first double newline or 500 chars)
+    const firstParagraph = cleanText.split(/\n\n/)[0];
+    result.answer = firstParagraph.slice(0, 500).trim();
+    console.log("[LLM] Using raw text as answer (parsing failed)");
+  }
+
   // If parsing failed, try to use the raw text as insight
   if (!result.concept && !result.insight && !result.observation) {
     result.insight = text.slice(0, 200); // Fallback: use first 200 chars

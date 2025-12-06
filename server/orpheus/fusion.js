@@ -547,7 +547,11 @@ export async function orpheusRespond(userMessage) {
   }
 
   // Prepend memory-aware phrase if appropriate (less frequent)
-  if (memoryPhrases.length > 0 && Math.random() < 0.3) {
+  // Only at session START — mid-conversation callbacks feel disjointed
+  const isSessionStart =
+    !threadMemory?.recentMessages?.length ||
+    threadMemory.recentMessages.length < 2;
+  if (memoryPhrases.length > 0 && isSessionStart && Math.random() < 0.3) {
     const memPhrase =
       memoryPhrases[Math.floor(Math.random() * memoryPhrases.length)];
     if (memPhrase) {
