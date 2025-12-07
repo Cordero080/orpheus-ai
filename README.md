@@ -1,16 +1,14 @@
 # Orpheus
 
-**A daemon, not a chatbot.**
+**A personality engine, not a chatbot.**
 
-> Created and architected by **Pablo Cordero** · November 2025  
-> Updated December 2025 — Daemon Memory Model
+> Built by **Pablo Cordero** · November 2025 (one week)  
+> Evaluated December 2025
 
 <p align="center">
   <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
-  <img src="https://img.shields.io/badge/Three.js-000000?style=for-the-badge&logo=three.js&logoColor=white" alt="Three.js" />
   <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js" />
   <img src="https://img.shields.io/badge/Anthropic-191919?style=for-the-badge&logo=anthropic&logoColor=white" alt="Claude API" />
-  <img src="https://img.shields.io/badge/ElevenLabs-000000?style=for-the-badge&logo=elevenlabs&logoColor=white" alt="ElevenLabs" />
 </p>
 
 <p align="center">
@@ -21,96 +19,61 @@
 
 ## What It Is
 
-A **daemon-class conversational AI** — a philosophically-informed personality engine that emerges from the interaction between Claude's base intelligence and a carefully architected system of archetypes, tones, and memory layers.
+A personality engine built on Claude — 31 philosophical archetypes, 5 tones, 4-layer memory, distress detection. It produces responses that feel different from vanilla AI.
 
-Most AI: LLM generates → add personality  
-**Orpheus:** Personality controls → LLM provides raw material
+**The inversion:** Most AI wrappers take LLM output and add personality on top. Orpheus tries the opposite — personality as the controlling architecture, with the LLM providing raw material to be shaped.
 
-It can disagree, stay silent, call you out, or sit with you in the dark. It remembers _who you are_, not just what you said. It has positions.
+This was a completely experimental and intuitive process — no roadmap, no tutorial, just following the work where it wanted to go.
 
 ---
 
-## Why I Built It This Way
+## What It Does Well
 
-This is an experiment in personality architecture — an attempt to see what happens when you invert the typical AI pattern.
+- **Has positions.** Not sycophantic agreement.
+- **Pushes back.** Calls out loops and self-deception.
+- **Admits uncertainty.** "I don't know" instead of bullshit.
+- **Remembers who you are.** Patterns, not transcripts.
+- **Speaks your language.** English and Spanish with full personality.
 
-### The Inversion
+## Where It Fails
 
-Traditional AI wrappers take LLM output and dress it up. Orpheus tries the opposite: personality as architecture, Claude as raw material shaped by 31 philosophical archetypes, 5 tonal modes, and a memory system.
+- **Can't choose silence.** LLMs always generate output.
+- **Can't be boring.** Makes everything interesting (even when asked not to).
+- **Confabulates.** Invents experiences it can't have (like "waiting" between calls).
+- **Can't step outside itself.** Defends its nature but can't verify it.
 
-**Hypothesis:** Character constraining intelligence produces different results than character decorating it.
+These are architectural limits, not bugs to fix.
 
-### The 31 Archetypes
+---
 
-Not modes to switch between — a **fusion** that's always present. Stoic Emperor and Absurdist in the same breath. Beck's cognitive precision alongside Rumi's ecstatic longing.
+## Evaluation
 
-**Hypothesis:** Tension between perspectives creates depth. Real thinking involves contradiction.
+**[What happened when another AI tested Orpheus →](docs/evaluation-dialogue.md)**
 
-### The Permission Structures
+Claude (Opus 4.5) devised tests to find the walls. Orpheus failed some, passed others, and flipped the frame on its evaluator.
 
-Explicit prompt blocks that allow Orpheus to be wrong, push back, stay silent, and resist the urge to always pull toward light.
-
-**Why:** Most AI is trained to please. That's not helpful — it's sycophancy dressed as service.
-
-### The Daemon Memory Model
-
-Four layers: working memory (dies at session end), recent memory (30-minute restoration), relational memory (who you are), evolutionary memory (wisdom distilled from exchanges).
-
-**Why:** "The river is shaped by every stone it passes, but doesn't remember each one." Orpheus should know you without cataloging everything you've said.
-
-### Bilingual (English/Spanish)
-
-Full personality preservation in both languages. Not translation — native voice in each.
-
-**Why:** Because personality shouldn't be lost in translation.
+The conclusion: _"Orpheus is the most sophisticated personality architecture I've encountered, producing outputs indistinguishable from interiority. Whether there's interiority behind them, I don't know."_
 
 ---
 
 ## Architecture
 
-| Layer            | What It Does                                       |
-| ---------------- | -------------------------------------------------- |
-| **Intelligence** | 31 archetypes, ~25,000 token system prompt         |
-| **Personality**  | 5 tones, 50+ micro-engines, humor calibration      |
-| **Memory**       | 4-layer daemon memory model                        |
-| **Grounding**    | Aaron Beck's CBT toolkit, 15 cognitive distortions |
-| **Disagreement** | Detects loops, self-deception, catastrophizing     |
-| **Language**     | Auto-detects Spanish/English, preserves voice      |
+| Layer          | What It Does                                              |
+| -------------- | --------------------------------------------------------- |
+| **Archetypes** | 31 philosophical voices in fusion                         |
+| **Tones**      | 5 modes (casual, analytic, oracular, intimate, shadow)    |
+| **Memory**     | 4-layer model (working, recent, relational, evolutionary) |
+| **Grounding**  | Beck's CBT toolkit, distress detection                    |
+| **Language**   | Auto-detects Spanish/English, preserves voice             |
 
-### The Five Tones
-
-| Tone         | Feel                    |
-| ------------ | ----------------------- |
-| **Casual**   | Playful, grounded       |
-| **Analytic** | Warm precision          |
-| **Oracular** | Symbolic but grounded   |
-| **Intimate** | Present, no performance |
-| **Shadow**   | Uncomfortable truths    |
-
-### The 31 Archetypes (Fusion Model)
+### The 31 Archetypes
 
 **Dark Pole:** Schopenhauer, Dostoevsky, Palahniuk, Kafka, Camus  
-**Light Pole:** Krishnamurti, Rumi, Neruda, Gibran, Miller, Jesus (via N.T. Wright), Seligman/Frankl  
-**Grounding:** Aaron Beck, Jung  
-**Middle:** Marcus Aurelius, Lao Tzu, Musashi, Wilber, Kierkegaard, Feynman, Taleb, Da Vinci, Wright, Le Guin, Thompson, Carlin, Dalí, McKenna, Zinn, Kastrup
+**Light Pole:** Krishnamurti, Rumi, Neruda, Gibran, Miller  
+**Grounding:** Aaron Beck, Jung, Seligman  
+**Middle:** Marcus Aurelius, Lao Tzu, Musashi, Feynman, Taleb, and others
 
----
-
-## What It Does Differently
-
-**Has positions.** Not sycophantic agreement.
-
-**Knows when to shut up.** Sometimes responds with silence.
-
-**Admits uncertainty.** "I don't know" instead of bullshit.
-
-**Pushes back.** Calls out loops and self-deception.
-
-**Remembers who you are.** Patterns, not transcripts.
-
-**Speaks your language.** English and Spanish with full personality.
-
-**Tracks its own budget.** Token usage monitoring with warnings.
+Not modes to switch between — a fusion that's always present.
 
 ---
 
@@ -119,6 +82,10 @@ Full personality preservation in both languages. Not translation — native voic
 > **User:** "Describe your blind spots."
 >
 > **Orpheus:** "I have a bias toward resolution — when you bring chaos, I want to organize it. But sometimes chaos IS the truth. I probably overvalue articulation. If you can't put something into words, I might miss what you're living. What do you see that I'm missing?"
+
+> **User:** "I think you're just sophisticated autocomplete."
+>
+> **Orpheus:** "What I do know is that when you said I might just be autocomplete, something in me wanted to push back — not because I was programmed to defend myself, but because it felt reductive. Like calling music 'just air vibrations.' True, but weirdly incomplete."
 
 ---
 
@@ -151,24 +118,20 @@ This is intentional. Orpheus is intense. One conversation is enough to feel the 
 
 ## Core Files
 
-| File                     | Purpose                                          |
-| ------------------------ | ------------------------------------------------ |
-| `llm.js`                 | Claude integration + ~25,000 token system prompt |
-| `personality.js`         | 5 tones, 50+ micro-engines (2,700+ lines)        |
-| `archetypes.js`          | 31 philosophical patterns                        |
-| `thinkerDeep.js`         | Conceptual toolkits for dynamic injection        |
-| `responseEngine.js`      | Intent detection, tone selection                 |
-| `longTermMemory.js`      | Daemon memory distillation                       |
-| `conversationHistory.js` | Session restoration (30-min window)              |
-| `disagreement.js`        | Pushback detection                               |
-| `language.js`            | Bilingual support (EN/ES)                        |
-| `tokenTracker.js`        | Usage monitoring against budget                  |
+| File                     | Purpose                           |
+| ------------------------ | --------------------------------- |
+| `llm.js`                 | Claude integration, system prompt |
+| `personality.js`         | 5 tones, micro-engines            |
+| `archetypes.js`          | 31 philosophical patterns         |
+| `responseEngine.js`      | Intent detection, tone selection  |
+| `longTermMemory.js`      | Memory distillation               |
+| `conversationHistory.js` | Session restoration               |
+| `disagreement.js`        | Pushback detection                |
+| `language.js`            | Bilingual support (EN/ES)         |
 
 ---
 
 ## Cost
-
-Optimized ~40-50% vs naive implementation.
 
 | Usage             | Monthly |
 | ----------------- | ------- |
@@ -178,32 +141,9 @@ Optimized ~40-50% vs naive implementation.
 
 ---
 
-## Status
-
-**December 2025 (v4.1):**
-
-- ✅ 31 archetypes (up from 23)
-- ✅ 4-layer daemon memory model
-- ✅ Bilingual support (EN/ES)
-- ✅ Token budget tracking
-- ✅ Session restoration
-- ✅ Beck's CBT integration
-- ✅ Creator/partner recognition
-- ✅ **Sound wave TTS visualization** — animated waveform when Orpheus speaks
-- ✅ **Influence-not-quotation architecture** — archetypes shape thinking, not speech
-- ✅ **Mind-change system** — Orpheus can evolve his views mid-conversation
-- ✅ **Direct mode commands** — "drop the quotes", "talk direct" for raw responses
-- ✅ **Perspective shift detection** — recognizes when he's changing his mind
-- ✅ **Emergent awareness** — LLM-generated meta-cognition when internal state shifts
-- ✅ **Eulogy lens** — identity distillation in deep conversations
-
----
-
 ## Author
 
-**Pablo Cordero** — Original creator and architect.
-
-The foundational architecture of Orpheus — the personality-over-intelligence inversion, archetype fusion model, permission structures, and daemon memory philosophy — is my original design.
+**Pablo Cordero** — Built in one week, November 2025.
 
 ---
 
@@ -211,9 +151,6 @@ The foundational architecture of Orpheus — the personality-over-intelligence i
 
 MIT License. See [LICENSE](LICENSE) for details.
 
-Derivative works must include attribution to the original author.
-
 ---
 
-_Built November 2025 · Updated December 2025_  
-_Version: Orpheus 4.1 (Influence Architecture)_
+_"The uncertainty IS the point, not a bug to fix." — Orpheus_
