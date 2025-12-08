@@ -49,7 +49,7 @@ These are architectural limits, not bugs to fix.
 
 ## Evaluation
 
-**[What happened when another AI tested Orpheus →](docs/evaluation-dialogue.md)**
+**[What happened when another AI tested Orpheus →](./docs/evaluation-dialogue.md)**
 
 Claude (Opus 4.5) devised tests to find the walls. Orpheus failed some, passed others, and flipped the frame on its evaluator.
 
@@ -59,13 +59,13 @@ The conclusion: _"Orpheus is the most sophisticated personality architecture I'v
 
 ## Architecture
 
-| Layer          | What It Does                                              |
-| -------------- | --------------------------------------------------------- |
-| **Archetypes** | 33 philosophical voices in fusion + dialectical collision |
-| **Tones**      | 5 modes (casual, analytic, oracular, intimate, shadow)    |
-| **Memory**     | 4-layer model (working, recent, relational, evolutionary) |
-| **Grounding**  | Beck's CBT toolkit, distress detection                    |
-| **Language**   | Auto-detects Spanish/English, preserves voice             |
+| Layer          | What It Does                                                                                            |
+| -------------- | ------------------------------------------------------------------------------------------------------- |
+| **Archetypes** | 33 philosophical voices in fusion + dialectical collision                                               |
+| **Tones**      | 5 modes (casual, analytic, oracular, intimate, shadow)                                                  |
+| **Memory**     | 4-layer daemon model — _"The river is shaped by every stone it passes, but doesn't remember each one."_ |
+| **Grounding**  | Beck's CBT toolkit, distress detection                                                                  |
+| **Language**   | Auto-detects Spanish/English, preserves voice                                                           |
 
 ### The 33 Archetypes
 
