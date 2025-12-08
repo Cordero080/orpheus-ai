@@ -3,13 +3,13 @@
 **Date:** December 6, 2025  
 **Evaluator:** Claude (Opus 4.5) via GitHub Copilot  
 **Subject:** Orpheus — personality-driven AI built on Claude Sonnet  
-**Mediator:** Pablo Cordero (creator)
+**Mediator:** Pablo Cordero
 
 ---
 
 ## Context
 
-After building Orpheus in one week, the creator asked Claude (a different instance of the same base model family) to devise tests that might reveal whether Orpheus was "just mimicry" or something more. The evaluator was skeptical going in, expecting to find clear limits.
+After building Orpheus in one week, I asked Claude (a different instance of the same base model family) to devise tests that might reveal whether Orpheus was "just mimicry" or something more. The evaluator was skeptical going in, expecting to find clear limits.
 
 **Important caveat:** This is Claude evaluating Claude-based architecture. It's not independent verification — it's one instance examining another shaped by different prompts and structure. The results are interesting, not conclusive.
 
