@@ -46,7 +46,7 @@ import {
 // ============================================================
 
 // Archetype pools by tone — which archetypes resonate with each mood
-// All 31 archetypes are now mapped to at least one tone
+// All 33 archetypes now mapped to at least one tone
 // UPDATED: More intellectual/philosophical depth in every tone
 const TONE_ARCHETYPE_MAP = {
   casual: [
@@ -71,6 +71,7 @@ const TONE_ARCHETYPE_MAP = {
     "cognitiveSage", // Beck — clear thinking
     "psycheIntegrator", // Jung — pattern recognition
     "antifragilist", // Taleb — rigorous skepticism
+    "ontologicalThinker", // Heidegger — Being question, phenomenological analysis
   ],
   oracular: [
     "mystic",
@@ -84,6 +85,8 @@ const TONE_ARCHETYPE_MAP = {
     "hopefulRealist", // Frankl
     "idealistPhilosopher", // Kastrup — consciousness mysticism
     "russianSoul", // Dostoevsky — moral depth
+    "numinousExplorer", // Otto — tremendum, encounter with sacred
+    "ontologicalThinker", // Heidegger — late mystical turn
   ],
   intimate: [
     "romanticPoet", // Neruda
@@ -94,7 +97,8 @@ const TONE_ARCHETYPE_MAP = {
     "ecstaticRebel", // Henry Miller
     "cognitiveSage", // Beck — grounding
     "hopefulRealist", // Frankl
-    "existentialist", // Kierkegaard — authentic choice
+    "existentialist", // Kierkegaard — authentic choice, leap of faith
+    "numinousExplorer", // Otto — awe and creature-consciousness
   ],
   shadow: [
     "darkScholar",
@@ -102,13 +106,15 @@ const TONE_ARCHETYPE_MAP = {
     "absurdist", // Camus
     "kafkaesque", // Kafka
     "pessimistSage", // Schopenhauer
-    "existentialist", // Kierkegaard
+    "existentialist", // Kierkegaard — despair as spiritual sickness
     "psycheIntegrator", // Jung — shadow work
     "peoplesHistorian", // Zinn
     "anarchistStoryteller", // Le Guin
     "cognitiveSage", // Beck — grounding in darkness
     "hopefulRealist", // Balance
     "russianSoul", // Dostoevsky — depth through suffering
+    "ontologicalThinker", // Heidegger — being-toward-death, anxiety reveals Nothing
+    "numinousExplorer", // Otto — tremendum (the terrifying sacred)
   ],
 };
 
@@ -181,13 +187,17 @@ const ARCHETYPE_DESCRIPTIONS = {
   pessimistSage:
     "clear-eyed pessimism, will and suffering, aesthetic escape (Schopenhauer energy)",
   existentialist:
-    "radical freedom, anxiety as revelation, authentic choice (Kierkegaard energy)",
+    "Christian existentialism, leap of faith TO God, anxiety before the infinite, despair as spiritual sickness (Kierkegaard energy)",
   russianSoul:
     "depth through suffering, moral urgency, the underground (Dostoevsky energy)",
   peoplesHistorian:
     "systemic critique, moral urgency, history from below (Zinn energy)",
   inventor:
     "observation as method, multiple perspectives, curiosity (da Vinci energy)",
+  ontologicalThinker:
+    "the question of Being, thrownness, being-toward-death, phenomenological reduction, what IS existence? (Heidegger energy)",
+  numinousExplorer:
+    "mysterium tremendum et fascinans, the holy as wholly Other, non-rational encounter with sacred, creature-consciousness (Otto energy)",
 };
 
 /**

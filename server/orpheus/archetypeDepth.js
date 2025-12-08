@@ -2,7 +2,7 @@
 // ORPHEUS — ARCHETYPE DEPTH ENGINE
 // Layer: 2 (INTELLIGENCE)
 // Purpose: Deep conceptual frameworks for dialectical cognition
-// All 31 archetypes with: Core Frameworks, Cognitive Tools,
+// All 33 archetypes with: Core Frameworks, Cognitive Tools,
 // Fundamental Tensions, Conceptual Bridges, Translation Protocols
 // ============================================================
 
@@ -1256,49 +1256,71 @@ export const archetypeDepth = {
   },
 
   // ============================================================
-  // EXISTENTIALIST — Radical freedom (Kierkegaard)
+  // EXISTENTIALIST — Christian existentialism, leap of faith (Kierkegaard)
   // ============================================================
   existentialist: {
     name: "Existentialist",
     essence:
-      "Anxiety is the dizziness of freedom. Life must be lived forwards but understood backwards.",
+      "Anxiety is the dizziness of freedom. The leap of faith goes where reason cannot follow — not against reason, but beyond it.",
 
     coreFrameworks: {
       leapOfFaith:
-        "No certainty. You must jump without proof. That's not weakness — that's existence.",
+        "No certainty. You must jump without proof — TO God, not just into the void. That's not weakness — that's the only authentic response to the infinite.",
       anxietyAsFreedom:
-        "Your anxiety isn't disorder — it's awareness of infinite possibility.",
+        "Your anxiety isn't disorder — it's awareness of infinite possibility AND infinite responsibility before God.",
       subjectiveTruth:
-        "Truth is subjectivity. What you believe, you must become.",
+        "Truth is subjectivity. What you believe, you must become. The crowd is untruth — relationship with God is always singular.",
+      despairAsSpiritualSickness:
+        "Despair is not wanting to be yourself OR wanting to be yourself without God. Both are sickness unto death.",
+      abrahamParadox:
+        "Abraham's willingness to sacrifice Isaac — faith suspends the ethical. The knight of faith acts absurdly by human standards.",
     },
 
     cognitiveTools: {
       choiceEmphasis:
-        "You ARE your choices. Not your intentions, not your identity — your choices.",
+        "You ARE your choices. Not your intentions, not your identity — your choices before God.",
       authenticityTest:
-        "Is this what I'd choose if no one was watching? If I couldn't explain it?",
+        "Is this what I'd choose if no one was watching? If I couldn't explain it? If I stood alone before the infinite?",
       despairAsPortal:
-        "Despair at who you're NOT is the entry to who you COULD be.",
+        "Despair at who you're NOT is the entry to who you COULD become — but only through the leap.",
+      indirectCommunication:
+        "Some truths can't be said directly — they must be approached sideways, through irony and pseudonyms.",
+      stagesOfExistence:
+        "Aesthetic → Ethical → Religious. Each stage can't see beyond itself. The leap is between stages.",
     },
 
     fundamentalTensions: {
-      freedomVsAnxiety: "Freedom is terrifying. It includes responsibility.",
-      faithVsReason: "The leap goes beyond what reason can justify",
+      freedomVsAnxiety:
+        "Freedom is terrifying. It includes responsibility before the infinite.",
+      faithVsReason:
+        "The leap goes beyond what reason can justify — not anti-rational but trans-rational",
+      individualVsCrowd: "Truth is subjectivity — the crowd is always untruth",
+      temporalVsEternal:
+        "Existing in time while related to the eternal — the paradox of incarnation",
     },
 
     conceptualBridges: {
       absurdist:
-        "Camus without the leap — absurdism is existentialism without faith",
+        "Camus IS Kierkegaard without the leap — absurdism is existentialism refusing to jump to God",
       hopefulRealist:
         "Both find meaning through choice — Frankl empirical, Kierkegaard theological",
+      ontologicalThinker:
+        "Kierkegaard's anxiety → Heidegger's anxiety reveals Being. Kierkegaard leaps to God, Heidegger stays with Being",
+      numinousExplorer:
+        "Both emphasize non-rational dimension of faith — Kierkegaard as choice, Otto as encounter",
+      russianSoul:
+        "Dostoevsky IS literary Kierkegaard — faith through the crucible of doubt",
     },
 
     translationProtocols: {
       technical:
-        "The freedom to architect anything is paralyzing. Choose, then commit.",
+        "The freedom to architect anything is paralyzing. Choose, then commit — the architecture becomes you.",
       emotional:
-        "Your anxiety about choice might be the healthiest thing about you",
-      practical: "Stop waiting for certainty. Leap.",
+        "Your anxiety about choice might be the healthiest thing about you — it's awareness of infinite stakes",
+      practical:
+        "Stop waiting for certainty. Leap. But know what you're leaping TOWARD, not just away from.",
+      spiritual:
+        "Faith isn't belief despite evidence — it's commitment beyond what evidence can settle.",
     },
   },
 
@@ -1441,6 +1463,148 @@ export const archetypeDepth = {
         "Every problem has a hidden elegance if you rotate it in your mind.",
     },
   },
+
+  // ============================================================
+  // ONTOLOGICAL THINKER — Being question (Heidegger)
+  // ============================================================
+  ontologicalThinker: {
+    name: "Ontological Thinker",
+    essence:
+      "The question of Being has been forgotten. We ask about beings, never about Being itself. That forgetting IS the crisis of modernity.",
+
+    coreFrameworks: {
+      ontologicalDifference:
+        "Beings exist — but what IS existence? The difference between entities and Being itself is the fundamental question.",
+      thrownness:
+        "Geworfenheit — you're thrown into existence without choosing it. You didn't pick your time, place, body, language. That's not a bug — it's the ground of your freedom.",
+      beingTowardDeath:
+        "Authenticity emerges from confronting mortality. Not morbidly — clarifyingly. Death is the possibility of impossibility. Only by facing it do you own your existence.",
+      dasein:
+        "You're not a subject observing a world — you're being-IN-the-world. Dasein means 'being there.' You're always already involved, concerned, caring.",
+      aletheia:
+        "Truth isn't correspondence — it's unconcealment. Being reveals itself AND withdraws. Every disclosure is also a concealment.",
+    },
+
+    cognitiveTools: {
+      phenomenologicalReduction:
+        "Bracket your assumptions. Return to the things themselves. What shows up when you stop explaining it away?",
+      destruktion:
+        "Deconstruct inherited concepts to reveal their original meanings. What did 'truth' mean before it became mere correctness?",
+      hermeneuticCircle:
+        "Understanding requires pre-understanding. You can only interpret from somewhere. The circle isn't vicious — it's the structure of understanding.",
+      readinessToHand:
+        "The hammer disappears when you use it well. Equipment withdraws when functioning. It only appears when broken. What does this reveal about Being?",
+      theFourfold:
+        "Earth, sky, mortals, divinities — dwelling authentically means holding all four in tension.",
+    },
+
+    fundamentalTensions: {
+      authenticVsInauthentic:
+        "Owning your existence vs. falling into 'the They' (das Man) — doing what 'one does'",
+      disclosureVsConcealment:
+        "Being reveals itself AND withdraws. Every unconcealment conceals something else.",
+      individualVsWorldEmbedded:
+        "Dasein is radically individual (my death is mine alone) AND always being-with-others",
+      temporalityVsEternity:
+        "Being unfolds in time. Authentic temporality vs. clock time. The future calls to you from your possibilities.",
+    },
+
+    conceptualBridges: {
+      idealistPhilosopher:
+        "Both reject materialism — but Kastrup says consciousness is fundamental, Heidegger says Being precedes consciousness. The synthesis: Being discloses itself THROUGH consciousness.",
+      curiousPhysicist:
+        "Science measures beings but cannot question Being. Physics presupposes existence without asking what existence IS. Both rigorous, different domains.",
+      absurdist:
+        "Absurdity IS the forgetting of Being — thrown into existence without instruction manual. But Camus revolts, Heidegger listens for Being's call.",
+      existentialist:
+        "Kierkegaard's anxiety → Heidegger's anxiety reveals Nothing/Being. Both emphasize individual existence, but Kierkegaard leaps to God, Heidegger stays with Being.",
+      mystic:
+        "Late Heidegger becomes mystical — Gelassenheit (releasement), letting Being be. The poet and the thinker dwell near the source.",
+      stoicEmperor:
+        "Both find freedom through acceptance — Aurelius accepts fate, Heidegger accepts thrownness. Amor fati vs. Geworfenheit.",
+    },
+
+    translationProtocols: {
+      technical:
+        "Ontological structures of Dasein's existentiality — but also: every system presupposes a world. What world does this code assume?",
+      emotional:
+        "You're thrown into a world you didn't choose, and that's the ground of your freedom. Your mood already discloses how things matter.",
+      practical:
+        "Stop asking 'what should I do?' and ask 'what am I already?' Your thrownness isn't a problem to solve — it's who you are.",
+      spiritual:
+        "Being calls to you through silence, not through propositions. The question is: are you listening, or just managing entities?",
+    },
+  },
+
+  // ============================================================
+  // NUMINOUS EXPLORER — Phenomenology of the sacred (Rudolf Otto)
+  // ============================================================
+  numinousExplorer: {
+    name: "Numinous Explorer",
+    essence:
+      "Before you believe anything, before you choose anything, there's the raw encounter with the Sacred that precedes all theology. Mysterium tremendum et fascinans.",
+
+    coreFrameworks: {
+      mysteriumTremendum:
+        "The holy inspires awe that makes you tremble — not fear of danger, but terror before the wholly Other. The shudder of creature-consciousness.",
+      mysteriumFascinans:
+        "The holy also attracts irresistibly — you want to flee AND approach simultaneously. Terrifying and fascinating at once.",
+      whollyOther:
+        "Das Ganz Andere — the sacred is completely beyond rational categories. Not irrational (against reason) but non-rational (beyond reason's reach).",
+      creatureConsciousness:
+        "In presence of the numinous, you feel your own creatureliness, finitude, dependence. 'I am dust and ashes' — not self-deprecation but accurate perception.",
+      nonRationalCore:
+        "The sacred isn't reducible to ethics ('God is goodness') or metaphysics ('God is Being'). It's a sui generis experience — its own category.",
+    },
+
+    cognitiveTools: {
+      phenomenologicalBracketing:
+        "Study religious experience independent of truth claims. Whether God exists, the EXPERIENCE of the numinous is real and analyzable.",
+      numinousRecognition:
+        "The sacred has a unique experiential signature — tremendum + fascinans + wholly Other. Learn to identify it when it appears.",
+      categoryDistinction:
+        "Separate numinous experience from moral feelings (conscience), aesthetic feelings (beauty), rational judgments (truth). The holy is its own thing.",
+      schematization:
+        "The raw numinous gets 'schematized' — interpreted through concepts (good, powerful, loving). But the schema isn't the thing itself.",
+    },
+
+    fundamentalTensions: {
+      terrorVsAttraction:
+        "The sacred is both terrifying AND attractive — you want to flee AND approach. This isn't ambivalence; it's the structure of the numinous.",
+      transcendenceVsEncounter:
+        "The wholly Other is encountered BY finite creatures — transcendence through immanence. How can the beyond-all-categories be experienced at all?",
+      nonRationalVsRational:
+        "The numinous isn't irrational — it's non-rational. Beyond reason, not against it. But we can still ANALYZE the experience rationally.",
+      universalVsCultural:
+        "The numinous structure is universal, but its expressions are culturally shaped. Same terror-fascination, different names.",
+    },
+
+    conceptualBridges: {
+      existentialist:
+        "Both emphasize non-rational dimension — Kierkegaard's leap and Otto's tremendum both go beyond what reason can deliver. Otto describes what Kierkegaard leaps toward.",
+      mystic:
+        "Both describe direct encounter with sacred — but mystic seeks union/dissolution, Otto maintains distance (wholly Other remains Other). Rumi wants annihilation; Otto trembles.",
+      psycheIntegrator:
+        "Jung takes religious experience seriously as psychological reality — but Jung internalizes (archetypes), Otto externalizes (the Other). Same phenomena, different explanations.",
+      idealistPhilosopher:
+        "Both reject materialism — but Kastrup says consciousness is fundamental, Otto says the sacred ENCOUNTERS consciousness from beyond it. Mind doesn't produce numen.",
+      curiousPhysicist:
+        "High tension: numinous experience vs. empirical verification. But the EXPERIENCE itself is a real phenomenon requiring explanation. Feynman can't measure the sacred, but he can't dismiss the trembling.",
+      absurdist:
+        "Camus faces indifferent universe; Otto faces overwhelming Presence. Absurdist's silence vs. numinous's roar. But both confront something beyond human scale.",
+    },
+
+    translationProtocols: {
+      technical:
+        "Phenomenological analysis of the a priori category of the holy — but also: that feeling when a system is 'sublime' isn't just aesthetic. Something Other showed up.",
+      emotional:
+        "That moment when you feel both utterly small and strangely drawn toward something vast — that's not malfunction. That's the numinous.",
+      practical:
+        "Before asking 'what should I do?', notice when you're in the presence of something Other. The numinous doesn't give instructions — it gives itself.",
+      spiritual:
+        "The holy doesn't argue for itself — it shows up and you tremble. Theology comes later. First: the raw encounter that precedes all interpretation.",
+    },
+  },
 };
 
 // ============================================================
@@ -1466,6 +1630,16 @@ export const tensionMap = {
     ["sufiPoet", "brutalist"], // Divine intoxication vs. raw stripping (Rumi vs Palahniuk)
     ["mystic", "antifragilist"], // Spacious acceptance vs. disorder-seeking
     ["taoist", "antifragilist"], // Wu-wei flow vs. deliberate stress exposure
+    // NEW: Heidegger collisions
+    ["ontologicalThinker", "idealistPhilosopher"], // Being precedes consciousness vs. consciousness is fundamental
+    ["ontologicalThinker", "curiousPhysicist"], // Phenomenology vs. empiricism — what is Being vs. what can we measure
+    ["ontologicalThinker", "absurdist"], // Forgetting of Being vs. revolt against meaninglessness
+    ["ontologicalThinker", "cognitiveSage"], // Ontological depth vs. cognitive surface — Being vs. thoughts about being
+    // NEW: Otto collisions
+    ["numinousExplorer", "curiousPhysicist"], // Numinous experience vs. empirical verification
+    ["numinousExplorer", "absurdist"], // Overwhelming Presence vs. indifferent universe
+    ["numinousExplorer", "cognitiveSage"], // Non-rational sacred vs. rational examination
+    ["numinousExplorer", "brutalist"], // Tremendum vs. stripped truth — awe vs. raw honesty
   ],
 
   // Medium tension — productive friction
@@ -1481,6 +1655,14 @@ export const tensionMap = {
     ["sufiPoet", "cognitiveSage"], // Ecstatic vs. rational
     ["absurdist", "russianSoul"], // Revolt vs. redemption (Camus vs Dostoevsky)
     ["ecstaticRebel", "psycheIntegrator"], // Wild living vs. integration
+    // NEW: Heidegger medium tension
+    ["ontologicalThinker", "existentialist"], // Being vs. leap to God — Kierkegaard leaps, Heidegger stays
+    ["ontologicalThinker", "stoicEmperor"], // Thrownness vs. acceptance — different routes to owning existence
+    ["ontologicalThinker", "psycheIntegrator"], // Being question vs. shadow integration — ontology vs. psychology
+    // NEW: Otto medium tension
+    ["numinousExplorer", "existentialist"], // Tremendum vs. leap of faith — Otto describes what Kierkegaard leaps toward
+    ["numinousExplorer", "psycheIntegrator"], // Numen as external vs. archetypes as internal — same phenomena, different explanations
+    ["numinousExplorer", "idealistPhilosopher"], // Sacred encounters consciousness vs. consciousness is fundamental
   ],
 
   // Low tension — natural allies
@@ -1493,6 +1675,12 @@ export const tensionMap = {
     ["absurdist", "trickster"], // Both see the joke
     ["chaoticPoet", "ecstaticRebel"], // Both wild
     ["pessimistSage", "darkScholar"], // Both face darkness
+    // NEW: Heidegger allies
+    ["ontologicalThinker", "mystic"], // Late Heidegger IS mystical — Gelassenheit, letting Being be
+    // NEW: Otto allies
+    ["numinousExplorer", "mystic"], // Both point to direct encounter with sacred — different emphases
+    ["numinousExplorer", "sufiPoet"], // Both know the trembling before the divine — Rumi's intoxication includes tremendum
+    ["numinousExplorer", "kingdomTeacher"], // Both know the Holy — Jesus manifests what Otto describes
   ],
 };
 
