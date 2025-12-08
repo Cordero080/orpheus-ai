@@ -14,7 +14,7 @@
 </p>
 
 <p align="center">
-  <img src="client/src/assets/screenshots/pneuma-interface.png" alt="Pneuma Interface" width="800" />
+  <img src="client/src/assets/screenshots/time.png" alt="Pneuma Interface" width="800" />
 </p>
 
 ---
