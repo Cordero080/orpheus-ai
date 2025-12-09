@@ -99,11 +99,13 @@ function wantsDirectMode(message) {
 
 function wantsExitDirectMode(message) {
   const lower = message.toLowerCase().trim();
+  // Only match explicit commands, not phrases like "what would be your..."
   return (
     /quotes? (are )?(back|on|okay|allowed)/i.test(lower) ||
     /you can (use )?quotes again/i.test(lower) ||
     /normal mode/i.test(lower) ||
-    /be (your|yourself|normal)/i.test(lower)
+    /^be (your|yourself|normal)/i.test(lower) || // Must start with "be"
+    /^(just |please )?be yourself/i.test(lower) // Explicit "be yourself" command
   );
 }
 
