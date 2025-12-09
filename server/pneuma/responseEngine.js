@@ -20,6 +20,7 @@ import {
   boostEmergentAwareness,
   getEmergentAwareness,
 } from "./state.js";
+import { detectUserCorrection, logMismatch } from "./mismatchLogger.js";
 
 // ============================================================
 // LAYER 1: INTENT DETECTION
@@ -246,6 +247,22 @@ export async function generate(
 ) {
   const { rhythm, rhythmModifiers, uncertainty } = extraContext;
 
+  // ============================================================
+  // MISMATCH DETECTION: Check if user is correcting us
+  // Log it for future heuristic improvement
+  // ============================================================
+  const correction = detectUserCorrection(message);
+  if (correction.detected && threadMemory.lastMessage) {
+    logMismatch({
+      originalMessage: threadMemory.lastMessage,
+      detectedIntent: threadMemory.lastIntent || "unknown",
+      detectedEmotion: threadMemory.lastEmotion || "unknown",
+      selectedMode: threadMemory.lastTone || "unknown",
+      userCorrection: message,
+      correctionType: correction.type,
+    });
+  }
+
   // Layer 1: Detect intent (LLM-powered with fallback)
   let intentScores;
   if (isLLMAvailable()) {
@@ -381,9 +398,17 @@ export async function generate(
       .join(", ") || "neutral"
   );
 
+  // Return response with metadata for mismatch tracking
   return {
     reply: response,
     tone,
     stateUpdate: toneFlipped ? updatedState : null,
+    // Metadata for mismatch logging (stored in threadMemory by caller)
+    _meta: {
+      lastMessage: message,
+      lastIntent: Object.entries(intentScores).reduce((a, b) => a[1] > b[1] ? a : b)[0],
+      lastEmotion: intentScores.emotional > 0.3 ? "emotional" : "neutral",
+      lastTone: tone,
+    },
   };
 }

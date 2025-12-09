@@ -43,76 +43,127 @@ function detectForceCasual(message) {
 }
 
 /**
- * Detect the intent/vibe of a user message
+ * Detect the intent/vibe of a user message with confidence scoring
  * @param {string} message - User's message
- * @returns {string} - Detected intent
+ * @returns {string} - Detected intent (highest scoring)
  */
 function detectIntent(message) {
   const lower = message.toLowerCase();
 
-  // Short messages are almost always casual
-  if (message.length < 15) {
-    return "casual";
+  // Initialize confidence scores for each intent
+  let scores = {
+    casual: 0,
+    emotional: 0,
+    deep: 0,
+    playful: 0,
+    numinous: 0,
+  };
+
+  // ============================================================
+  // LENGTH-BASED SCORING
+  // ============================================================
+  if (message.length < 10) scores.casual += 0.6;
+  else if (message.length < 20) scores.casual += 0.4;
+  else if (message.length < 40) scores.casual += 0.2;
+  else if (message.length > 100) {
+    scores.emotional += 0.2;
+    scores.deep += 0.2;
   }
 
-  // Casual greetings and fillers
-  if (
-    /^(hey|hi|hello|sup|yo|what'?s up|how are you|how'?s it going|what's good)\b/i.test(
-      lower
-    )
-  ) {
-    return "casual";
+  // ============================================================
+  // CASUAL SIGNALS
+  // ============================================================
+  // Greetings
+  if (/^(hey|hi|hello|sup|yo|what'?s up|how are you|how'?s it going|what's good)\b/i.test(lower)) {
+    scores.casual += 0.7;
   }
 
-  // Casual acknowledgments and reactions
-  if (
-    /^(lol|lmao|haha|hehe|nice|cool|thanks|thx|ok|okay|sure|yeah|yep|nope|word|bet|facts|true|right|same|mood|fr|nah|bruh|damn|wow|oh|ah|hmm|mhm|gotcha|alright)\b/i.test(
-      lower
-    )
-  ) {
-    return "casual";
+  // Acknowledgments and reactions
+  if (/^(lol|lmao|haha|hehe|nice|cool|thanks|thx|ok|okay|sure|yeah|yep|nope|word|bet|facts|true|right|same|mood|fr|nah|bruh|damn|wow|oh|ah|hmm|mhm|gotcha|alright)\b/i.test(lower)) {
+    scores.casual += 0.6;
   }
 
-  // General casual conversation patterns
+  // Casual conversation patterns
   if (/\b(lol|lmao|haha|hehe|nice one|that's funny|good one)\b/i.test(lower)) {
-    return "casual";
+    scores.casual += 0.4;
   }
 
-  // Emotional detection - requires deeper engagement
-  if (
-    /\b(feel|sad|happy|love|hate|afraid|scared|anxious|worried|hurt|pain|joy|lonely|alone|broken|depressed|hopeless)\b/i.test(
-      lower
-    ) &&
-    message.length > 30 // Must be substantive
-  ) {
-    return "emotional";
+  // Slang and informal markers
+  if (/\b(gonna|wanna|gotta|kinda|sorta|ya|u |ur |rn|tbh|imo|idk|ngl)\b/i.test(lower)) {
+    scores.casual += 0.3;
   }
 
-  // Deep/Philosophical detection - must be explicit questions
-  if (
-    /\b(what is|why do|explain|tell me about)\b.*\b(purpose|truth|reality|consciousness|mind|meaning|existence|soul|god|universe|death|life)\b/i.test(
-      lower
-    )
-  ) {
-    return "deep";
+  // ============================================================
+  // EMOTIONAL SIGNALS (with negation awareness)
+  // ============================================================
+  const emotionalKeywords = lower.match(/\b(feel|feeling|felt|sad|happy|love|hate|afraid|scared|anxious|worried|hurt|pain|joy|lonely|alone|broken|depressed|hopeless|overwhelmed|frustrated|angry|grief|grieving|lost|confused|empty|numb)\b/g) || [];
+  
+  // Check for negation patterns
+  const hasNegation = /\b(not|don't|doesn't|isn't|aren't|wasn't|never|no longer|not really)\b/i.test(lower);
+  
+  if (emotionalKeywords.length > 0) {
+    // Reduce score if negation is present
+    const negationMultiplier = hasNegation ? 0.3 : 1;
+    scores.emotional += (emotionalKeywords.length * 0.25) * negationMultiplier;
+    
+    // Substantive emotional messages get bonus
+    if (message.length > 50) scores.emotional += 0.2;
+    if (message.length > 100) scores.emotional += 0.2;
   }
 
-  // Playful detection
-  if (/\b(joke|funny|silly|weird|random|play|game|fun)\b/i.test(lower)) {
-    return "playful";
+  // Emotional phrase patterns (harder to negate)
+  if (/\b(feel(ing)? like (giving up|nothing matters|i can't))\b/i.test(lower)) scores.emotional += 0.5;
+  if (/\b(can't (take|handle|do) this)\b/i.test(lower)) scores.emotional += 0.5;
+  if (/\b(sick of|tired of|had enough)\b/i.test(lower)) scores.emotional += 0.4;
+  if (/\b(what('s| is) wrong with me)\b/i.test(lower)) scores.emotional += 0.5;
+
+  // ============================================================
+  // DEEP/PHILOSOPHICAL SIGNALS
+  // ============================================================
+  // Explicit philosophical questions
+  if (/\b(what is|why do|explain|tell me about)\b.*\b(purpose|truth|reality|consciousness|mind|meaning|existence|soul|god|universe|death|life)\b/i.test(lower)) {
+    scores.deep += 0.6;
   }
 
-  // Numinous/Cosmic detection - explicit cosmic questions only
-  if (
-    /\b(what is|explain|tell me about)\b.*\b(god|universe|cosmic|divine|spirit|infinite|eternal|sacred|transcend)\b/i.test(
-      lower
-    )
-  ) {
-    return "numinous";
+  // Philosophical keywords
+  const deepKeywords = lower.match(/\b(meaning|existence|truth|consciousness|reality|purpose|philosophy|existential|metaphysics|epistemology|ontology|ethics|morality)\b/g) || [];
+  scores.deep += deepKeywords.length * 0.2;
+
+  // "Why" questions about big topics
+  if (/\bwhy\b.*\b(exist|live|die|matter|care|try|bother)\b/i.test(lower)) {
+    scores.deep += 0.4;
   }
 
-  // Default to casual for everything else
-  return "casual";
+  // ============================================================
+  // PLAYFUL SIGNALS
+  // ============================================================
+  if (/\b(joke|funny|silly|weird|random|play|game|fun|lmao|haha)\b/i.test(lower)) {
+    scores.playful += 0.4;
+  }
+  if (/\b(tell me a|make me laugh|entertain me|something fun)\b/i.test(lower)) {
+    scores.playful += 0.5;
+  }
+
+  // ============================================================
+  // NUMINOUS/COSMIC SIGNALS
+  // ============================================================
+  if (/\b(what is|explain|tell me about)\b.*\b(god|universe|cosmic|divine|spirit|infinite|eternal|sacred|transcend)\b/i.test(lower)) {
+    scores.numinous += 0.5;
+  }
+  const cosmicKeywords = lower.match(/\b(god|divine|sacred|transcend|infinite|eternal|cosmos|universe|spiritual|mystical|enlightenment|awakening)\b/g) || [];
+  scores.numinous += cosmicKeywords.length * 0.2;
+
+  // ============================================================
+  // RETURN HIGHEST SCORING INTENT
+  // ============================================================
+  // Add small casual baseline (casual-first design)
+  scores.casual += 0.15;
+
+  const highestIntent = Object.entries(scores).reduce((a, b) => 
+    a[1] > b[1] ? a : b
+  )[0];
+
+  return highestIntent;
 }
 
 /**

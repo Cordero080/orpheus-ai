@@ -516,13 +516,21 @@ export async function pneumaRespond(userMessage) {
 
   // Generate response through 4-layer pipeline (now async with LLM)
   // Pass rhythm and uncertainty context for tone adjustment
-  const { reply, tone, stateUpdate } = await generate(
+  const { reply, tone, stateUpdate, _meta } = await generate(
     userMessage,
     state,
     threadMemory,
     identity,
     { rhythm, rhythmModifiers, uncertainty, relevantMemories }
   );
+
+  // Store metadata for mismatch logging on next message
+  if (_meta) {
+    threadMemory.lastMessage = _meta.lastMessage;
+    threadMemory.lastIntent = _meta.lastIntent;
+    threadMemory.lastEmotion = _meta.lastEmotion;
+    threadMemory.lastTone = _meta.lastTone;
+  }
 
   // Apply state update from tone flip (emergent awareness boost)
   if (stateUpdate) {
