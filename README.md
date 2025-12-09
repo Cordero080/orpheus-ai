@@ -5,8 +5,8 @@
 > Built by **Pablo Cordero** · November 2025 (one week)  
 > Evaluated December 2025
 
+_Originally named Orpheus. Renamed to Pneuma (Greek for "breath" / "spirit") to avoid confusion with existing AI products using that name._
 
-*Originally named Orpheus. Renamed to Pneuma (Greek for "breath" / "spirit") to avoid confusion with existing AI products using that name.*
 <p align="center">
   <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
   <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js" />
@@ -14,8 +14,7 @@
 </p>
 
 <p align="center">
-  <img src="client/src/assets/screenshots/time
-  .png" alt="Pneuma Interface" width="800" />
+  <img src="client/src/assets/screenshots/time.png" alt="Pneuma Interface" width="800" />
 </p>
 
 ---
