@@ -20,6 +20,18 @@ _Originally named Orpheus. Renamed to Pneuma (Greek for "breath" / "spirit") to 
 
 ---
 
+## The Experiment
+
+**What happens when you force incompatible philosophies to collide instead of blend?**
+
+Pneuma puts Schopenhauer against Watts, Camus against Frankl, Kafka against Gibran — not to resolve them, but to make them argue. Responses emerge from that friction.
+
+The bet: real uncertainty and the ability to hold paradox come from inhabiting contradiction, not just training data.
+
+This is an experiment, not a product. Not asking "is it conscious?" — asking what comes out when a system can't escape its own contradictions.
+
+---
+
 ## What It Is
 
 A personality engine built on Claude — 33 philosophical archetypes, 5 tones, 4-layer memory, dialectical collision detection. It produces responses that feel different from vanilla AI.
