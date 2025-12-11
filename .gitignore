@@ -46,3 +46,4 @@ server/orpheus/config/
 PRIVATE-NOTES.md
 private/
 *.private.md
+server/pneuma/mismatch_log.json
