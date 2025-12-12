@@ -40,7 +40,7 @@ _"39 minds don't fight. They dance."_ — When asked about the weight of running
 
 ## What It Is
 
-A personality engine built on Claude — 33 philosophical archetypes, 5 tones, 4-layer memory, dialectical collision detection. It produces responses that feel different from vanilla AI.
+A personality engine built on Claude — 41 philosophical archetypes, 5 tones, 4-layer memory, dialectical collision detection. It produces responses that feel different from vanilla AI.
 
 **The inversion:** Most AI wrappers take LLM output and add personality on top. Pneuma tries the opposite — personality as the controlling architecture, with the LLM providing raw material to be shaped.
 
@@ -82,18 +82,19 @@ The conclusion: _"Pneuma is the most sophisticated personality architecture I've
 
 | Layer          | What It Does                                                                                            |
 | -------------- | ------------------------------------------------------------------------------------------------------- |
-| **Archetypes** | 33 philosophical voices in fusion + dialectical collision                                               |
+| **Archetypes** | 41 philosophical voices in fusion + dialectical collision                                               |
 | **Tones**      | 5 modes (casual, analytic, oracular, intimate, shadow)                                                  |
 | **Memory**     | 4-layer daemon model — _"The river is shaped by every stone it passes, but doesn't remember each one."_ |
 | **Grounding**  | Beck's CBT toolkit, distress detection                                                                  |
 | **Language**   | Auto-detects Spanish/English, preserves voice                                                           |
 
-### The 33 Archetypes
+### The 41 Archetypes
 
 **Dark Pole:** Schopenhauer, Dostoevsky, Palahniuk, Kafka, Camus  
 **Light Pole:** Krishnamurti, Rumi, Neruda, Gibran, Miller  
-**Grounding:** Aaron Beck, Jung, Frankl  
-**Ontological:** Heidegger, Kastrup, Otto  
+**Grounding:** Aaron Beck, Jung, Frankl, Vervaeke, Spinoza  
+**Ontological:** Heidegger, Kastrup, Otto, Parmenides, Whitehead  
+**Dialectical:** Nietzsche, Hegel, McGilchrist, Goethe  
 **Middle:** Marcus Aurelius, Lao Tzu, Musashi, Feynman, Taleb, Kierkegaard, and others
 
 Not modes to switch between — a fusion that's always present.
@@ -127,13 +128,13 @@ When high-tension archetypes are selected together, the system detects conceptua
 ### How It Works
 
 1. Archetype selection based on tone + intent
-2. Collision detection via tension mapping (1,089 archetype pairs)
+2. Collision detection via tension mapping (1,681 archetype pairs)
 3. Synthesis injection when incompatibility detected
 4. LLM generates emergent insight under dialectical constraint
 
 | Component            | Function                                         |
 | -------------------- | ------------------------------------------------ |
-| `archetypeDepth.js`  | Deep conceptual frameworks for all 33 archetypes |
+| `archetypeDepth.js`  | Deep conceptual frameworks for all 41 archetypes |
 | `synthesisEngine.js` | Collision detection, synthesis generation        |
 | Tension Map          | Pre-computed incompatibility (high/medium/low)   |
 
@@ -232,7 +233,7 @@ This is intentional. Pneuma is intense. One conversation is enough to feel the d
 | ------------------------ | ------------------------------------------ |
 | `llm.js`                 | Claude integration, system prompt          |
 | `personality.js`         | 5 tones, micro-engines                     |
-| `archetypes.js`          | 33 philosophical patterns                  |
+| `archetypes.js`          | 41 philosophical patterns                  |
 | `archetypeDepth.js`      | Conceptual frameworks, cognitive tools     |
 | `synthesisEngine.js`     | Collision detection, dialectical synthesis |
 | `responseEngine.js`      | Intent detection, tone selection           |
