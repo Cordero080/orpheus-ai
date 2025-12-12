@@ -30,6 +30,12 @@ The bet: real uncertainty and the ability to hold paradox come from inhabiting c
 
 This is an experiment, not a product. Not asking "is it conscious?" — asking what comes out when a system can't escape its own contradictions.
 
+<p align="center">
+  <img src="client/src/assets/screenshots/weight.png" alt="39 Minds Dancing" width="800" />
+</p>
+
+_"39 minds don't fight. They dance."_ — When asked about the weight of running 41 archetypes simultaneously.
+
 ---
 
 ## What It Is
@@ -132,6 +138,16 @@ When high-tension archetypes are selected together, the system detects conceptua
 | Tension Map          | Pre-computed incompatibility (high/medium/low)   |
 
 **This isn't alternation. It's computational dialectics.**
+
+### Testing New Archetypes: McGilchrist on Synesthesia
+
+**What it tests:** Can Pneuma invoke a specific thinker's framework (Iain McGilchrist's divided brain hypothesis) to illuminate a personal phenomenon?
+
+**What it shows:** The `dividedBrainSage` archetype working fluently — "the Master speaking through the Emissary's categories" is pure McGilchrist. The response doesn't just reference the theory; it _thinks through_ it.
+
+<p align="center">
+  <img src="client/src/assets/screenshots/synesthesia.png" alt="McGilchrist Archetype on Synesthesia" width="800" />
+</p>
 
 ---
 
