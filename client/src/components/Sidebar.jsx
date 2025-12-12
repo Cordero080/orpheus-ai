@@ -6,6 +6,8 @@ function Sidebar({ conversations, activeId, onSelect, onNewChat, onDelete }) {
   const [selectedIds, setSelectedIds] = useState(new Set());
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const lastClickedIndex = useRef(null);
+  // Sort conversations by date, most recent first
+  const sortedConversations = [...conversations].sort((a, b) => new Date(b.date) -  new Date(a.date)) 
 
   // Handle click with shift for multi-select
   const handleItemClick = (e, convId, index) => {
@@ -15,7 +17,7 @@ function Sidebar({ conversations, activeId, onSelect, onNewChat, onDelete }) {
       const end = Math.max(lastClickedIndex.current, index);
       const newSelected = new Set(selectedIds);
       for (let i = start; i <= end; i++) {
-        newSelected.add(conversations[i].id);
+        newSelected.add(sortedConversations[i].id);
       }
       setSelectedIds(newSelected);
     } else if (e.ctrlKey || e.metaKey) {
@@ -107,10 +109,10 @@ function Sidebar({ conversations, activeId, onSelect, onNewChat, onDelete }) {
                   <span className="selection-count">({selectedIds.size} selected)</span>
                 )}
               </div>
-              {conversations.length === 0 ? (
+              {sortedConversations.length === 0 ? (
                 <div className="empty-state">// awaiting input</div>
               ) : (
-                conversations.map((conv, index) => (
+                sortedConversations.map((conv, index) => (
                   <button
                     key={conv.id}
                     className={`conversation-item ${activeId === conv.id ? 'active' : ''} ${selectedIds.has(conv.id) ? 'selected' : ''}`}

@@ -24,8 +24,12 @@ function App() {
         const res = await fetch("http://localhost:3000/conversations");
         const data = await res.json();
         if (data.conversations?.length > 0) {
+          //Sort by date to find most recent
+          const sorted = [...data.conversations].sort((a, b) =>
+            new Date(b.date) - new Date(a.date)
+          );
           setConversations(data.conversations);
-          setActiveConversationId(data.conversations[0].id);
+          setActiveConversationId(sorted[0].id);// Select most recent
         }
       } catch (error) {
         console.error("Failed to fetch conversations:", error);
@@ -42,7 +46,7 @@ function App() {
     ]);
     setActiveConversationId(newId);
   };
-
+// CHANGED: After deletion, select MOST RECENT conversation
   const handleDeleteChat = async (convId) => {
     // Try to delete from backend
     try {
@@ -60,7 +64,11 @@ function App() {
       // If we deleted the active conversation, switch to first available
       if (activeConversationId === convId) {
         if (remaining.length > 0) {
-          setActiveConversationId(remaining[0].id);
+           // Sort remaining to find most recent
+           const sorted = [...remaining].sort((a, b) =>
+            new Date(b.date) - new Date(a.date)
+          );
+          setActiveConversationId(sorted[0].id);// Select most recent
         } else {
           setActiveConversationId(null);
         }
