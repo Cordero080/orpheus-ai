@@ -185,10 +185,8 @@ export function recordExchange(userMessage, pneumaReply, metadata = {}) {
   currentConversation.messageCount++;
   lastActivityTime = Date.now();
 
-  // Auto-save every 5 exchanges
-  if (currentConversation.messageCount % 5 === 0) {
-    saveCurrentConversation();
-  }
+  // Save after EVERY exchange — don't risk losing conversations
+  saveCurrentConversation();
 
   return exchange;
 }

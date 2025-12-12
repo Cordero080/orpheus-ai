@@ -423,10 +423,8 @@ export function shouldBeQuiet(message, intentScores, rhythm) {
     return { quiet: true, type: "processing" };
   }
 
-  // Stream of consciousness / venting (long, rapid)
-  if (rhythm?.rhythmState === "venting" && Math.random() < 0.25) {
-    return { quiet: true, type: "venting" };
-  }
+  // REMOVED: Venting quiet mode — people come here to talk, not to get silence
+  // Pneuma can't "listen" — that's a human thing. Always engage.
 
   // Explicit request for space
   if (
