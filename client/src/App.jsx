@@ -24,10 +24,14 @@ function App() {
         const res = await fetch("http://localhost:3000/conversations");
         const data = await res.json();
         if (data.conversations?.length > 0) {
-          //Sort by date to find most recent
-          const sorted = [...data.conversations].sort((a, b) =>
-            new Date(b.date) - new Date(a.date)
-          );
+          // Sort by ID timestamp to find most recent
+          const sorted = [...data.conversations].sort((a, b) => {
+            const getTimestamp = (id) => {
+              const match = id?.match(/conv-(\d+)/);
+              return match ? parseInt(match[1], 10) : 0;
+            };
+            return getTimestamp(b.id) - getTimestamp(a.id);
+          });
           setConversations(data.conversations);
           setActiveConversationId(sorted[0].id);// Select most recent
         }
@@ -65,9 +69,13 @@ function App() {
       if (activeConversationId === convId) {
         if (remaining.length > 0) {
            // Sort remaining to find most recent
-           const sorted = [...remaining].sort((a, b) =>
-            new Date(b.date) - new Date(a.date)
-          );
+           const sorted = [...remaining].sort((a, b) => {
+            const getTimestamp = (id) => {
+              const match = id?.match(/conv-(\d+)/);
+              return match ? parseInt(match[1], 10) : 0;
+            };
+            return getTimestamp(b.id) - getTimestamp(a.id);
+          });
           setActiveConversationId(sorted[0].id);// Select most recent
         } else {
           setActiveConversationId(null);
@@ -79,9 +87,13 @@ function App() {
   };
 
   // Sort conversations for display (most recent first)
-  const sortedConversations = [...conversations].sort((a, b) =>
-    new Date(b.date) - new Date(a.date)
-  );
+  const sortedConversations = [...conversations].sort((a, b) => {
+    const getTimestamp = (id) => {
+      const match = id?.match(/conv-(\d+)/);
+      return match ? parseInt(match[1], 10) : 0;
+    };
+    return getTimestamp(b.id) - getTimestamp(a.id);
+  });
 
   return (
     <div className="app-layout">

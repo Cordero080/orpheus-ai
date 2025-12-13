@@ -6,8 +6,15 @@ function Sidebar({ conversations, activeId, onSelect, onNewChat, onDelete }) {
   const [selectedIds, setSelectedIds] = useState(new Set());
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const lastClickedIndex = useRef(null);
-  // Sort conversations by date, most recent first
-  const sortedConversations = [...conversations].sort((a, b) => new Date(b.date) -  new Date(a.date)) 
+  // Sort conversations by ID (contains timestamp), most recent first
+    const sortedConversations = [...conversations].sort((a, b) => {
+    // Extract timestamp from ID format: conv-TIMESTAMP-random
+    const getTimestamp = (id) => {
+      const match = id?.match(/conv-(\d+)/);
+      return match ? parseInt(match[1], 10) : 0;
+    };
+    return getTimestamp(b.id) - getTimestamp(a.id);
+  }); 
 
   // Handle click with shift for multi-select
   const handleItemClick = (e, convId, index) => {
