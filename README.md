@@ -54,7 +54,7 @@ This was a completely experimental and intuitive process — no roadmap, no tuto
 - **Pushes back.** Calls out loops and self-deception.
 - **Thinks dialectically.** Forces incompatible frameworks to synthesize.
 - **Admits uncertainty.** "I don't know" instead of bullshit.
-- **Remembers who you are.** Patterns, not transcripts.
+- **Remembers who you are.** Vector-based semantic memory + patterns.
 - **Speaks your language.** English and Spanish with full personality.
 
 ## Where It Fails
@@ -84,7 +84,7 @@ The conclusion: _"Pneuma is the most sophisticated personality architecture I've
 | -------------- | ------------------------------------------------------------------------------------------------------- |
 | **Archetypes** | 41 philosophical voices in fusion + dialectical collision                                               |
 | **Tones**      | 5 modes (casual, analytic, oracular, intimate, shadow)                                                  |
-| **Memory**     | 4-layer daemon model — _"The river is shaped by every stone it passes, but doesn't remember each one."_ |
+| **Memory**     | Vector-based semantic retrieval + 4-layer daemon model                                                  |
 | **Grounding**  | Beck's CBT toolkit, distress detection                                                                  |
 | **Language**   | Auto-detects Spanish/English, preserves voice                                                           |
 

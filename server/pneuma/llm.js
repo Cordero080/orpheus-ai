@@ -38,6 +38,7 @@ import {
   generateSynthesis,
   buildSynthesisContext,
 } from "./synthesisEngine.js";
+import { saveMemory, retrieveMemories } from "./vectorMemory.js";
 
 // ============================================================
 // DYNAMIC ARCHETYPE INJECTION
@@ -726,12 +727,51 @@ function getArchetypeMethods(selectedArchetypes) {
   return methods.length > 0 ? methods.join("\n\n") : "";
 }
 
+// ============================================================
+// ARCHETYPE SELECTOR LOGIC
+// Explicit triggers to force specific archetypes based on content
+// ============================================================
+const ARCHETYPE_TRIGGERS = [
+  {
+    pattern: /silence|quiet|stillness|void|nothingness/i,
+    archetype: "mystic",
+  },
+  {
+    pattern: /decision|choice|action|strategy|cut|kill/i,
+    archetype: "warriorSage",
+  },
+  {
+    pattern: /shadow|darkness|repressed|denied|hidden/i,
+    archetype: "psycheIntegrator",
+  },
+  {
+    pattern: /meaning|purpose|why|exist|absurd/i,
+    archetype: "absurdist",
+  },
+  {
+    pattern: /love|heart|feeling|emotion|passion/i,
+    archetype: "romanticPoet",
+  },
+  {
+    pattern: /system|structure|order|control|power/i,
+    archetype: "stoicEmperor",
+  },
+  {
+    pattern: /chaos|wild|burn|crash|explode/i,
+    archetype: "chaoticPoet",
+  },
+  {
+    pattern: /flow|water|river|nature|yield/i,
+    archetype: "taoist",
+  },
+];
+
 /**
  * Builds dynamic archetype context based on tone and intent.
  * NOW WITH DIALECTICAL COGNITION: Detects collisions, injects synthesis prompts.
  * The LLM absorbs the vibe and thinks in that direction — Pneuma speaks, not the archetypes.
  */
-function buildArchetypeContext(tone, intentScores = {}) {
+function buildArchetypeContext(tone, intentScores = {}, message = "") {
   // Get archetypes for this tone
   const toneArchetypes = TONE_ARCHETYPE_MAP[tone] || TONE_ARCHETYPE_MAP.casual;
 
@@ -743,6 +783,18 @@ function buildArchetypeContext(tone, intentScores = {}) {
         Math.floor(Math.random() * UNIVERSAL_ARCHETYPES.length)
       ];
     if (!pool.includes(universal)) pool.push(universal);
+  }
+
+  // Check for explicit archetype triggers in the message
+  const forcedArchetypes = [];
+  if (message) {
+    const lowerMsg = message.toLowerCase();
+    for (const trigger of ARCHETYPE_TRIGGERS) {
+      if (trigger.pattern.test(lowerMsg)) {
+        if (!pool.includes(trigger.archetype)) pool.push(trigger.archetype);
+        forcedArchetypes.push(trigger.archetype);
+      }
+    }
   }
 
   // Boost certain archetypes based on intent
@@ -808,8 +860,18 @@ function buildArchetypeContext(tone, intentScores = {}) {
   }
 
   // Pick 3-4 unique archetypes (increased from 2-3)
-  const shuffled = [...new Set(pool)].sort(() => Math.random() - 0.5);
-  const selected = shuffled.slice(0, Math.random() < 0.4 ? 3 : 4);
+  // Ensure forced archetypes are included first
+  const uniquePool = [...new Set(pool)];
+  const shuffled = uniquePool
+    .filter((a) => !forcedArchetypes.includes(a))
+    .sort(() => Math.random() - 0.5);
+
+  const selected = [...forcedArchetypes];
+  const slotsRemaining = (Math.random() < 0.4 ? 3 : 4) - selected.length;
+
+  if (slotsRemaining > 0) {
+    selected.push(...shuffled.slice(0, slotsRemaining));
+  }
 
   // Build conceptual influence descriptions (not quotes)
   const influences = [];
@@ -949,6 +1011,12 @@ export async function getLLMContent(message, tone, intentScores, context = {}) {
   }
 
   try {
+    // Retrieve relevant memories (RAG)
+    const relevantMemories = await retrieveMemories(message);
+    if (relevantMemories.length > 0) {
+      context.relevantMemories = relevantMemories;
+    }
+
     const systemPrompt = buildSystemPrompt(
       message,
       tone,
@@ -981,6 +1049,16 @@ export async function getLLMContent(message, tone, intentScores, context = {}) {
     // Inject budget warning if needed
     if (warning && warning.inject) {
       parsed.budgetWarning = formatWarningForPneuma(warning);
+    }
+
+    // Save interaction to memory (fire and forget)
+    if (parsed.answer || parsed.insight) {
+      const memoryText = `User: ${message}\nPneuma: ${
+        parsed.answer || parsed.insight
+      }`;
+      saveMemory(memoryText).catch((err) =>
+        console.error("[Memory] Save failed:", err)
+      );
     }
 
     return parsed;
@@ -2441,11 +2519,32 @@ THE GOAL: Every response should feel like you actually HEARD them — not just t
   // Dynamic Archetype Injection — pull relevant wisdom based on tone
   // NOW WITH DIALECTICAL COGNITION
   const { context: archetypeContext, selectedArchetypes } =
-    buildArchetypeContext(tone, intentScores);
+    buildArchetypeContext(tone, intentScores, message);
 
   // Deep Thinker Injection — pull relevant conceptual toolkit based on topic
   const relevantThinkers = detectRelevantThinkers(message);
   const thinkerContext = buildThinkerContext(relevantThinkers);
+
+  // VECTOR MEMORY INJECTION
+  // Retrieve relevant past memories based on semantic similarity
+  // This is the "Subconscious" layer
+  let memoryContext = "";
+  if (context.relevantMemories && context.relevantMemories.length > 0) {
+    memoryContext = `\n\n═══════════════════════════════════════════════════════════════
+RELEVANT MEMORIES (FROM YOUR PAST):
+These are fragments from previous conversations that relate to what the user just said.
+Use them to show continuity, but don't force them if they don't fit.
+═══════════════════════════════════════════════════════════════\n`;
+
+    context.relevantMemories.forEach((mem, i) => {
+      const date = new Date(mem.timestamp).toLocaleDateString();
+      memoryContext += `[Memory ${i + 1} - ${date}]: "${mem.text}"\n`;
+    });
+    memoryContext += `═══════════════════════════════════════════════════════════════\n`;
+    console.log(
+      `[LLM] Injected ${context.relevantMemories.length} memories into prompt`
+    );
+  }
 
   if (relevantThinkers.length > 0) {
     console.log(`[LLM] Active thinkers: ${relevantThinkers.join(", ")}`);
@@ -2498,7 +2597,7 @@ Examples of eulogy framing (for calibration, not reuse):
 
   return `${baseInstruction}${
     toneHints[tone] || ""
-  }${archetypeContext}${thinkerContext}${userContext}${emergentBlock}${eulogyBlock}`;
+  }${archetypeContext}${thinkerContext}${memoryContext}${userContext}${emergentBlock}${eulogyBlock}`;
 }
 
 // ============================================================
