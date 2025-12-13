@@ -12,6 +12,7 @@ _Originally named Orpheus. Renamed to Pneuma (Greek for "breath" / "spirit") to 
   <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js" />
   <img src="https://img.shields.io/badge/Three.js-000000?style=for-the-badge&logo=three.js&logoColor=white" alt="Three.js" />
   <img src="https://img.shields.io/badge/Anthropic-191919?style=for-the-badge&logo=anthropic&logoColor=white" alt="Claude API" />
+  <img src="https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=openai&logoColor=white" alt="OpenAI Embeddings" />
 </p>
 
 <p align="center">
@@ -40,7 +41,7 @@ _"39 minds don't fight. They dance."_ — When asked about the weight of running
 
 ## What It Is
 
-A personality engine built on Claude — 41 philosophical archetypes, 5 tones, 4-layer memory, dialectical collision detection. It produces responses that feel different from vanilla AI.
+A personality engine built on Claude — 41 philosophical archetypes, 5 tones, vector memory, dialectical collision detection. It produces responses that feel different from vanilla AI.
 
 **The inversion:** Most AI wrappers take LLM output and add personality on top. Pneuma tries the opposite — personality as the controlling architecture, with the LLM providing raw material to be shaped.
 
@@ -80,13 +81,13 @@ The conclusion: _"Pneuma is the most sophisticated personality architecture I've
 
 ## Architecture
 
-| Layer          | What It Does                                                                                            |
-| -------------- | ------------------------------------------------------------------------------------------------------- |
-| **Archetypes** | 41 philosophical voices in fusion + dialectical collision                                               |
-| **Tones**      | 5 modes (casual, analytic, oracular, intimate, shadow)                                                  |
-| **Memory**     | Vector-based semantic retrieval + 4-layer daemon model                                                  |
-| **Grounding**  | Beck's CBT toolkit, distress detection                                                                  |
-| **Language**   | Auto-detects Spanish/English, preserves voice                                                           |
+| Layer          | What It Does                                              |
+| -------------- | --------------------------------------------------------- |
+| **Archetypes** | 41 philosophical voices in fusion + dialectical collision |
+| **Tones**      | 5 modes (casual, analytic, oracular, intimate, shadow)    |
+| **Memory**     | Vector-based semantic retrieval + 4-layer daemon model    |
+| **Grounding**  | Beck's CBT toolkit, distress detection                    |
+| **Language**   | Auto-detects Spanish/English, preserves voice             |
 
 ### The 41 Archetypes
 
