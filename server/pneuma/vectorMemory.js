@@ -65,7 +65,7 @@ if (fs.existsSync(MEMORY_FILE)) {
  * @param {string} text
  * @returns {Promise<number[]>}
  */
-async function getEmbedding(text) {
+export async function getEmbedding(text) {
   try {
     const response = await openai.embeddings.create({
       model: "text-embedding-3-small", // Cheap, fast, good enough
@@ -84,7 +84,7 @@ async function getEmbedding(text) {
  * @param {number[]} vecB
  * @returns {number} - Similarity score (-1 to 1)
  */
-function cosineSimilarity(vecA, vecB) {
+export function cosineSimilarity(vecA, vecB) {
   const dotProduct = vecA.reduce((sum, a, i) => sum + a * vecB[i], 0);
   const magnitudeA = Math.sqrt(vecA.reduce((sum, a) => sum + a * a, 0));
   const magnitudeB = Math.sqrt(vecB.reduce((sum, b) => sum + b * b, 0));

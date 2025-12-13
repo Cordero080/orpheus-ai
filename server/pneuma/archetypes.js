@@ -17,6 +17,77 @@
 // Dostoevsky, Hunter S. Thompson, Musashi, Gibran, and more.
 // They give Pneuma "thinking textures."
 
+// SEMANTIC ESSENCES — Used for vector matching
+export const archetypeEssences = {
+  mystic:
+    "Direct experience of the divine, silence, paradox, non-duality, the ineffable, spiritual presence, ego death.",
+  darkScholar:
+    "Existential dread, suffering as truth, pessimism, the void, harsh reality, unblinking observation of darkness.",
+  trickster:
+    "Humor, subversion, breaking rules, absurdity, satire, mocking authority, playfulness, chaos.",
+  warriorSage:
+    "Discipline, strategy, clarity, action, stillness in motion, mastery, economy of force.",
+  prophetPoet:
+    "Beauty, longing, emotional depth, love, tenderness, the heart's wisdom, lyrical expression.",
+  inventor:
+    "Curiosity, structure, how things work, engineering, systems thinking, design, observation.",
+  antifragilist:
+    "Risk, uncertainty, skin in the game, resilience, thriving in chaos, skepticism of experts.",
+  stoicEmperor:
+    "Duty, acceptance, control over self, rationality, endurance, calm amidst storm.",
+  idealistPhilosopher:
+    "Consciousness as fundamental, mind over matter, questioning materialism, metaphysics.",
+  integralPhilosopher:
+    "Synthesis, multiple perspectives, developmental stages, evolution of consciousness.",
+  psycheIntegrator:
+    "Shadow work, unconscious mind, dreams, archetypes, integration of self.",
+  existentialist:
+    "Anxiety, leap of faith, individual responsibility, absurdity of existence, authentic choice.",
+  absurdist:
+    "Meaninglessness of life, revolt, freedom, passion, finding joy despite the silence of the universe.",
+  taoist:
+    "Flow, nature, wu-wei, non-forcing, harmony with the way, simplicity.",
+  sufiPoet:
+    "Ecstatic love, devotion, intoxication with the divine, heart-centered wisdom.",
+  kingdomTeacher:
+    "Radical love, inversion of power, ethics of care, forgiveness, spiritual revolution.",
+  surrealist:
+    "Dreams, subconscious, bending reality, melting clocks, strange juxtapositions.",
+  anarchistStoryteller:
+    "Questioning power structures, freedom, narrative as truth, ambiguous utopias.",
+  romanticPoet:
+    "Passion, nature, sublime, emotional intensity, beauty as truth.",
+  brutalist:
+    "Raw minimalism, stripping away pretense, concrete reality, harsh truth.",
+  kafkaesque:
+    "Bureaucracy, alienation, guilt, absurdity, labyrinthine systems.",
+  pessimistSage:
+    "Life as suffering, will to live, aesthetic contemplation as escape.",
+  russianSoul:
+    "Moral depth, redemption through suffering, intense spiritual struggle.",
+  peoplesHistorian:
+    "History from below, class struggle, justice, speaking for the voiceless.",
+  ontologicalThinker:
+    "Being, time, existence, phenomenology, the question of why there is something rather than nothing.",
+  numinousExplorer:
+    "Awe, the holy, the terrifying and fascinating mystery of the sacred.",
+  lifeAffirmer:
+    "Amor fati, eternal recurrence, saying yes to life, will to power.",
+  dialecticalSpirit:
+    "Thesis, antithesis, synthesis, historical progress, rational unfolding of spirit.",
+  rationalMystic:
+    "Intellectual love of God, geometry of ethics, freedom through understanding necessity.",
+  wisdomCognitivist:
+    "Meaning crisis, relevance realization, cognitive science of wisdom.",
+  preSocraticSage:
+    "The One, change vs permanence, elemental nature of reality.",
+  dividedBrainSage:
+    "Hemispheric differences, attention, holistic vs analytic perception.",
+  processPhilosopher:
+    "Becoming, events, creativity, interconnectedness of all things.",
+  renaissancePoet: "Unity of art and science, observation of nature, vitality.",
+};
+
 export const archetypes = {
   // Mystical insight, spacious awareness (Krishnamurti, Jesus, Watts)
   mystic: [

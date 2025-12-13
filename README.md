@@ -5,7 +5,7 @@
 > Built by **Pablo Cordero** · November 2025 (one week)  
 > Evaluated December 2025
 
-_Originally named Orpheus. Renamed to Pneuma (Greek for "breath" / "spirit") to avoid confusion with existing AI products using that name._
+_Originally named Orpheus._
 
 <p align="center">
   <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
@@ -188,15 +188,7 @@ When high-tension archetypes are selected together, the system detects conceptua
 **What it shows:** Genuine uncertainty as a feature, not a bug. The response debates itself mid-thought, questions its own word choices, and resists neat conclusions.
 
 <p align="center">
-  <img src="client/src/assets/screenshots/reflection-question.png" alt="Reflection Question" width="800" />
-</p>
-
-<p align="center">
-  <img src="client/src/assets/screenshots/reflection.png" alt="Reflection Response Part 1" width="800" />
-</p>
-
-<p align="center">
-  <img src="client/src/assets/screenshots/reflection-2.png" alt="Reflection Response Part 2" width="800" />
+  <img src="client/src/assets/screenshots/reflection.png" alt="Reflection Response" width="800" />
 </p>
 
 ---

@@ -39,6 +39,7 @@ import {
   buildSynthesisContext,
 } from "./synthesisEngine.js";
 import { saveMemory, retrieveMemories } from "./vectorMemory.js";
+import { findBestArchetype } from "./semanticRouter.js";
 
 // ============================================================
 // DYNAMIC ARCHETYPE INJECTION
@@ -771,7 +772,7 @@ const ARCHETYPE_TRIGGERS = [
  * NOW WITH DIALECTICAL COGNITION: Detects collisions, injects synthesis prompts.
  * The LLM absorbs the vibe and thinks in that direction — Pneuma speaks, not the archetypes.
  */
-function buildArchetypeContext(tone, intentScores = {}, message = "") {
+async function buildArchetypeContext(tone, intentScores = {}, message = "") {
   // Get archetypes for this tone
   const toneArchetypes = TONE_ARCHETYPE_MAP[tone] || TONE_ARCHETYPE_MAP.casual;
 
@@ -794,6 +795,24 @@ function buildArchetypeContext(tone, intentScores = {}, message = "") {
         if (!pool.includes(trigger.archetype)) pool.push(trigger.archetype);
         forcedArchetypes.push(trigger.archetype);
       }
+    }
+
+    // SEMANTIC ARCHETYPE SELECTION (Vibe Matching)
+    try {
+      const semanticMatch = await findBestArchetype(message);
+      if (semanticMatch) {
+        console.log(
+          `[Semantic Router] Matched: ${
+            semanticMatch.archetype
+          } (Score: ${semanticMatch.score.toFixed(2)})`
+        );
+        if (!pool.includes(semanticMatch.archetype))
+          pool.push(semanticMatch.archetype);
+        // Treat as forced/prioritized
+        forcedArchetypes.push(semanticMatch.archetype);
+      }
+    } catch (err) {
+      console.error("[Semantic Router] Error finding best archetype:", err);
     }
   }
 
@@ -1017,7 +1036,7 @@ export async function getLLMContent(message, tone, intentScores, context = {}) {
       context.relevantMemories = relevantMemories;
     }
 
-    const systemPrompt = buildSystemPrompt(
+    const systemPrompt = await buildSystemPrompt(
       message,
       tone,
       intentScores,
@@ -1158,7 +1177,7 @@ Example: {"casual": 0.2, "emotional": 0.7, "philosophical": 0.1, ...}`,
 // Constrains Claude to provide raw material, not finished responses
 // ============================================================
 
-function buildSystemPrompt(message, tone, intentScores, context = {}) {
+async function buildSystemPrompt(message, tone, intentScores, context = {}) {
   // Process language for this message (updates session state)
   processLanguage(message);
 
@@ -2519,7 +2538,7 @@ THE GOAL: Every response should feel like you actually HEARD them — not just t
   // Dynamic Archetype Injection — pull relevant wisdom based on tone
   // NOW WITH DIALECTICAL COGNITION
   const { context: archetypeContext, selectedArchetypes } =
-    buildArchetypeContext(tone, intentScores, message);
+    await buildArchetypeContext(tone, intentScores, message);
 
   // Deep Thinker Injection — pull relevant conceptual toolkit based on topic
   const relevantThinkers = detectRelevantThinkers(message);
