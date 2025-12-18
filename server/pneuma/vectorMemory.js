@@ -144,3 +144,20 @@ export async function retrieveMemories(query, limit = 3) {
     timestamp: r.metadata.timestamp,
   }));
 }
+
+/**
+ * Checks the health of the memory system.
+ * Returns stats and a warning if it's time to upgrade to a DB.
+ */
+export function getMemoryStats() {
+  const count = memoryStore.length;
+  // Threshold: 500 memories is a good point to start thinking about a DB
+  // (JSON parsing gets slower, file gets bigger)
+  const threshold = 500;
+
+  return {
+    count,
+    threshold,
+    isOverloaded: count > threshold,
+  };
+}

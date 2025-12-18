@@ -63,6 +63,7 @@ import {
   saveCurrentConversation,
   startOrContinueSession,
 } from "./conversationHistory.js";
+import { getFusionStats } from "./archetypeFusion.js";
 
 // ============================================================
 // DIAGNOSTIC MODE COMMANDS
@@ -139,6 +140,8 @@ function wantsExitDiagnostics(message) {
 // ============================================================
 
 function generateDiagnosticOutput(state, intentScores) {
+  const fusionStats = getFusionStats();
+
   const diagnosticData = {
     evolutionVectors: getEvolutionVectors(state),
     weights: {
@@ -153,6 +156,13 @@ function generateDiagnosticOutput(state, intentScores) {
     driftCorrection: getDriftCorrection(state),
     recentInputs: getRecentInputs(),
     memoryCount: (state.memories || []).length,
+    // NEW: Archetype fusion stats
+    archetypeFusion: {
+      crystallizedBlends: fusionStats.crystallizedBlends,
+      topBlends: fusionStats.topBlends,
+      emergentVoice: fusionStats.defaultVoice,
+      stats: fusionStats.stats,
+    },
   };
 
   return "```json\n" + JSON.stringify(diagnosticData, null, 2) + "\n```";
@@ -295,6 +305,14 @@ export async function pneumaRespond(userMessage) {
   }
 
   // ========================================
+  // NORMAL CONVERSATION FLOW
+  // ========================================
+
+  // Get context FIRST — needed for continuation handling
+  const threadMemory = getThreadMemory(state);
+  const identity = getIdentity(state);
+
+  // ========================================
   // CONTINUATION HANDLING — "Finish"
   // When Pneuma got cut off mid-thought
   // ========================================
@@ -314,14 +332,6 @@ export async function pneumaRespond(userMessage) {
       };
     }
   }
-
-  // ========================================
-  // NORMAL CONVERSATION FLOW
-  // ========================================
-
-  // Get context
-  const threadMemory = getThreadMemory(state);
-  const identity = getIdentity(state);
 
   // Load long-term memory
   let longTermMem = loadMemory();
