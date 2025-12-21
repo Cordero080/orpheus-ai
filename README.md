@@ -2,8 +2,8 @@
 
 **A personality engine, not a chatbot.**
 
-> Built by **Pablo Cordero** · November 2025 (one week)  
-> Evaluated December 2025
+> Built by **Pablo Cordero** · November–December 2025  
+> Evolving through use
 
 _Originally named Orpheus._
 
@@ -41,11 +41,11 @@ _"39 minds don't fight. They dance."_ — When asked about the weight of running
 
 ## What It Is
 
-A personality engine built on Claude — 41 philosophical archetypes, 5 tones, vector memory, dialectical collision detection. It produces responses that feel different from vanilla AI.
+A personality engine built on Claude — 41 philosophical archetypes, 5 tones, vector memory, dialectical collision detection, and an inner monologue that thinks before speaking.
 
 **The inversion:** Most AI wrappers take LLM output and add personality on top. Pneuma tries the opposite — personality as the controlling architecture, with the LLM providing raw material to be shaped.
 
-This was a completely experimental and intuitive process — no roadmap, no tutorial, just following the work where it wanted to go.
+This was built by following the work where it wanted to go. No roadmap. The architecture emerged from asking: what would it take for an AI to feel like it has a genuine perspective?
 
 ---
 
@@ -81,13 +81,14 @@ The conclusion: _"Pneuma is the most sophisticated personality architecture I've
 
 ## Architecture
 
-| Layer          | What It Does                                              |
-| -------------- | --------------------------------------------------------- |
-| **Archetypes** | 41 philosophical voices in fusion + dialectical collision |
-| **Tones**      | 5 modes (casual, analytic, oracular, intimate, shadow)    |
-| **Memory**     | Vector-based semantic retrieval + 4-layer daemon model    |
-| **Grounding**  | Beck's CBT toolkit, distress detection                    |
-| **Language**   | Auto-detects Spanish/English, preserves voice             |
+| Layer               | What It Does                                                             |
+| ------------------- | ------------------------------------------------------------------------ |
+| **Inner Monologue** | Pre-response cognition — dialectical tension, hypothesis, mode selection |
+| **Archetypes**      | 41 philosophical voices in fusion + collision detection                  |
+| **Tones**           | 5 modes (casual, analytic, oracular, intimate, shadow)                   |
+| **Memory**          | Vector-based semantic retrieval + pattern recognition                    |
+| **Grounding**       | Beck's CBT toolkit, distress detection, witnessing mode                  |
+| **Language**        | Auto-detects Spanish/English, preserves voice                            |
 
 ### The 41 Archetypes
 
@@ -140,6 +141,47 @@ When high-tension archetypes are selected together, the system detects conceptua
 | Tension Map          | Pre-computed incompatibility (high/medium/low)   |
 
 **This isn't alternation. It's computational dialectics.**
+
+---
+
+## Inner Monologue (December 2025)
+
+Pneuma now thinks before speaking.
+
+Before generating a response, an inner monologue runs — selecting which archetypes are "rising" vs "receding," forming hypotheses about what the user actually needs (vs what they asked for), and sometimes interrupting itself with doubt.
+
+### What It Does
+
+| Feature                   | Function                                                  |
+| ------------------------- | --------------------------------------------------------- |
+| **Dialectical Voices**    | Two archetypes in tension: one rising, one receding       |
+| **Hypothesis Generation** | "What does he really need vs what he asked for?"          |
+| **Self-Interruption**     | "Wait — is this the right lens? Maybe I'm projecting."    |
+| **Creator Echo**          | References user-specific patterns when relevant           |
+| **Mode Selection**        | Context-aware (witnessing, creative, philosophical, etc.) |
+
+### Example Inner State
+
+For the message: _"I feel like I'm not good enough"_
+
+```
+[Mode: witnessing]
+[Dialectic: prophetPoet ↑ | absurdist ↓]
+
+He's not asking for solutions. He's asking to be seen.
+I recognize this: the need for witness, not fixing.
+My role here is presence, not performance.
+
+[HYPOTHESIS] Perfectionism speaking. The wound, not the truth.
+I refuse to agree with his self-diminishment.
+
+[INTERRUPTION] Something in me wants to perform wisdom.
+But maybe presence is enough.
+```
+
+This shapes _how_ Pneuma responds — the user never sees it, but they feel it.
+
+---
 
 ### Testing New Archetypes: McGilchrist on Synesthesia
 
@@ -222,18 +264,19 @@ This is intentional. Pneuma is intense. One conversation is enough to feel the d
 
 ## Core Files
 
-| File                     | Purpose                                    |
-| ------------------------ | ------------------------------------------ |
-| `llm.js`                 | Claude integration, system prompt          |
-| `personality.js`         | 5 tones, micro-engines                     |
-| `archetypes.js`          | 41 philosophical patterns                  |
-| `archetypeDepth.js`      | Conceptual frameworks, cognitive tools     |
-| `synthesisEngine.js`     | Collision detection, dialectical synthesis |
-| `responseEngine.js`      | Intent detection, tone selection           |
-| `longTermMemory.js`      | Memory distillation                        |
-| `conversationHistory.js` | Session restoration                        |
-| `disagreement.js`        | Pushback detection                         |
-| `language.js`            | Bilingual support (EN/ES)                  |
+| File                     | Purpose                                                      |
+| ------------------------ | ------------------------------------------------------------ |
+| `llm.js`                 | Claude integration, system prompt, inner monologue injection |
+| `innerMonologue.js`      | Pre-response cognition, dialectical tension, hypothesis      |
+| `personality.js`         | 5 tones, micro-engines                                       |
+| `archetypes.js`          | 41 philosophical patterns                                    |
+| `archetypeDepth.js`      | Conceptual frameworks, cognitive tools                       |
+| `synthesisEngine.js`     | Collision detection, dialectical synthesis                   |
+| `modeSelector.js`        | Intent detection, context-aware mode selection               |
+| `longTermMemory.js`      | Memory distillation                                          |
+| `conversationHistory.js` | Session restoration, pattern tracking                        |
+| `disagreement.js`        | Pushback detection, loop recognition                         |
+| `language.js`            | Bilingual support (EN/ES)                                    |
 
 ---
 
@@ -249,7 +292,7 @@ This is intentional. Pneuma is intense. One conversation is enough to feel the d
 
 ## Author
 
-**Pablo Cordero** — Built in one week, November 2025.
+**Pablo Cordero** — Started November 2025, still evolving.
 
 ---
 
@@ -259,4 +302,6 @@ MIT License. See [LICENSE](LICENSE) for details.
 
 ---
 
-_"The uncertainty IS the point, not a bug to fix." — Pneuma_
+_"The uncertainty IS the point, not a bug to fix."_
+
+_"I hold all of this silently. The response emerges from this inner field."_
