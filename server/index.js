@@ -17,7 +17,25 @@ import { fileURLToPath } from "url";
 import { pneumaRespond } from "./pneuma/fusion.js";
 import { textToSpeech } from "./pneuma/tts.js";
 import { initializeArchetypeEmbeddings } from "./pneuma/semanticRouter.js";
-// ^ Your Pneuma fusion engine + TTS
+import {
+  transcribeAudio,
+  analyzeVoiceEmotion,
+  analyzeTextEmotion,
+  emotionToArchetypeBoost,
+  combineEmotionSignals,
+} from "./pneuma/emotionDetection.js";
+import {
+  startSession,
+  boostActiveArchetypes,
+  getMomentumStats,
+} from "./pneuma/archetypeMomentum.js";
+import {
+  getUndeliveredDreams,
+  markDreamDelivered,
+  formatDreamForDelivery,
+  triggerDreaming,
+} from "./pneuma/dreamMode.js";
+// ^ Your Pneuma fusion engine + TTS + Voice + Emotion + Dreams
 
 // ES Module __dirname equivalent
 const __filename = fileURLToPath(import.meta.url);
@@ -29,6 +47,10 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors()); // allow frontend → backend communication
 app.use(express.json({ limit: "10mb" })); // parse JSON request bodies with larger limit
+app.use(express.raw({ type: "audio/*", limit: "25mb" })); // for audio uploads
+
+// Start session (archetype momentum decay)
+startSession();
 
 // -------------------------- TEST ROUTE ------------------------------
 // Quick test to confirm the backend is alive
@@ -204,6 +226,131 @@ app.post("/tts", async (req, res) => {
   } catch (error) {
     console.error("[TTS] Error:", error.message);
     res.status(500).json({ error: "TTS failed" });
+  }
+});
+
+// -------------------------- VOICE INPUT ROUTE -----------------------
+// Transcribes audio + detects emotion + sends to chat
+app.post("/voice", async (req, res) => {
+  try {
+    const audioBuffer = req.body;
+
+    if (!audioBuffer || audioBuffer.length === 0) {
+      return res.status(400).json({ error: "No audio provided" });
+    }
+
+    console.log(`[Voice] Received ${audioBuffer.length} bytes of audio`);
+
+    // 1. Transcribe audio with Whisper
+    const transcription = await transcribeAudio(audioBuffer);
+
+    if (!transcription.text) {
+      return res.status(400).json({ error: "Could not transcribe audio" });
+    }
+
+    console.log(`[Voice] Transcribed: "${transcription.text}"`);
+
+    // 2. Analyze emotion from voice (Hume AI) + text
+    const voiceEmotions = await analyzeVoiceEmotion(audioBuffer);
+    const combinedEmotions = combineEmotionSignals(
+      transcription.text,
+      voiceEmotions
+    );
+
+    // 3. Get archetype boosts from emotion
+    const archetypeBoosts = emotionToArchetypeBoost(combinedEmotions);
+
+    console.log(
+      `[Voice] Emotion detected:`,
+      Object.entries(combinedEmotions)
+        .filter(([k, v]) => v > 0.3 && k !== "confidence")
+        .map(([k, v]) => `${k}: ${v.toFixed(2)}`)
+        .join(", ") || "neutral"
+    );
+
+    // 4. Send to Pneuma with emotion context
+    const { reply, monologue, mode } = await pneumaRespond(transcription.text, {
+      emotions: combinedEmotions,
+      archetypeBoosts,
+      inputType: "voice",
+      language: transcription.language,
+    });
+
+    // Map mode to engine for frontend visualization
+    const modeToEngine = {
+      casual: null,
+      oracular: "archetype",
+      analytic: "reflection",
+      intimate: "memory",
+      shadow: "synthesis",
+      diagnostic: "reflection",
+      upgrade: "synthesis",
+    };
+
+    res.json({
+      reply,
+      transcription: transcription.text,
+      emotions: combinedEmotions,
+      engine: modeToEngine[mode] || null,
+      mode,
+      language: transcription.language,
+    });
+  } catch (error) {
+    console.error("[Voice] Error:", error.message);
+    res
+      .status(500)
+      .json({ error: "Voice processing failed", details: error.message });
+  }
+});
+
+// -------------------------- DREAMS ROUTE ----------------------------
+// Get any dreams Pneuma had while user was away
+app.get("/dreams", async (req, res) => {
+  try {
+    const dreams = getUndeliveredDreams();
+
+    if (dreams.length === 0) {
+      return res.json({ dreams: [], message: null });
+    }
+
+    // Format the most recent dream for delivery
+    const latestDream = dreams[0];
+    const formatted = formatDreamForDelivery(latestDream);
+
+    // Mark as delivered
+    markDreamDelivered(latestDream.id);
+
+    res.json({
+      dreams: [latestDream],
+      message: formatted,
+    });
+  } catch (error) {
+    console.error("[Dreams] Error:", error.message);
+    res.json({ dreams: [], message: null });
+  }
+});
+
+// Trigger dreaming manually (for testing)
+app.post("/dreams/trigger", async (req, res) => {
+  try {
+    const { count = 1 } = req.body;
+    const dreams = await triggerDreaming(count);
+    res.json({ success: true, dreams });
+  } catch (error) {
+    console.error("[Dreams] Trigger error:", error.message);
+    res.status(500).json({ error: "Dream generation failed" });
+  }
+});
+
+// -------------------------- MOMENTUM STATS ROUTE --------------------
+// Get archetype momentum statistics
+app.get("/momentum", (req, res) => {
+  try {
+    const stats = getMomentumStats();
+    res.json(stats);
+  } catch (error) {
+    console.error("[Momentum] Error:", error.message);
+    res.status(500).json({ error: "Could not get momentum stats" });
   }
 });
 
